@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:08 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/11 23:12:48 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/12 00:09:11 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,24 @@ void scan_input(char *input){
 	
 }
 
-int main()
+int main(int argc, char **argv, char **env)
 {
+	int i;
 	char *receiver;
 	char *input_command = "\033[1;31m➜ \033[1;32mminishell: \033[0m";
-		
+	char **path;
+
+	i = 0;
+	while (env[i] != NULL && ft_strcmp(env[i], "PATH=") != 0)
+		i++;
+	path = ft_split(env[i], ':');
 	while (true)
 	{
 		receiver = readline(input_command);
 		if(receiver == NULL)
 			break;
-		if (ft_strlen(receiver) > 0) add_history(receiver);
-		
+		if (ft_strlen(receiver) > 0) 
+			add_history(receiver);
 		scan_input(receiver);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:36 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/11 23:15:26 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/12 00:07:37 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ typedef struct t_input_holder
 	
 } t_input_holder;
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	struct s_env *next;
+} t_env;
+
 
 // MESSAGES
 # define ERROR_MSG_QUOTE "\033[1;31mError: quotations not closed.\n"
@@ -44,5 +51,6 @@ void				ft_lstclear(t_input_holder **lst);
 // functions
 void	out_error(char *error_message);
 void	handle_quotes(char* input);
+char	**ft_split(char const *s, char c);
 
 #endif
