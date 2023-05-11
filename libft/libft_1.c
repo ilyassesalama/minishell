@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:20:25 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/07 16:31:01 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/11 22:30:38 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,20 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	index;
+
+	index = 0;
+	while (s1[index] != '\0' && s2[index] != '\0')
+	{
+		if (s1[index] != s2[index])
+		{
+			return (s1[index] - s2[index]);
+		}
+		index++;
+	}
+	return (0);
+}
+
