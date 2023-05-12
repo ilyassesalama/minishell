@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 23:50:33 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/11 23:53:49 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/12 15:51:54 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static	char	**ft_wrdcrtt(char const *s, char **ptr, char c)
 {
 	int		j;
 	int		start;
-	size_t	end;
+	int		end;
 
 	j = 0;
 	start = -1;

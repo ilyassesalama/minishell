@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   libft_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:30:34 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/11 22:31:38 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/12 21:41:58 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_lstadd_back(t_input_holder **alst, t_input_holder *new)
+void	ft_lstadd_back(t_data **alst, t_data *new)
 {
-	t_input_holder	*last;
+	t_data	*last;
 
 	if (!alst || !new)
 		return ;
@@ -29,21 +29,21 @@ void	ft_lstadd_back(t_input_holder **alst, t_input_holder *new)
 	last->next = new;
 }
 
-t_input_holder	*ft_lstnew(char *input_command)
+t_data	*ft_lstnew(char *path)
 {
-	t_input_holder	*new;
+	t_data	*new;
 
-	new = (t_input_holder *)malloc(sizeof(t_input_holder));
+	new = (t_data *)malloc(sizeof(t_data));
 	if (!new)
 		return (NULL);
-	new->input_command = input_command;
+	new->env_path = path;
 	new->next = NULL;
 	return (new);
 }
 
-void	ft_lstclear(t_input_holder **lst)
+void	ft_lstclear(t_data **lst)
 {
-	t_input_holder	*tmp;
+	t_data	*tmp;
 
 	if (!lst)
 		return ;
@@ -53,4 +53,20 @@ void	ft_lstclear(t_input_holder **lst)
 		free(*lst);
 		*lst = tmp;
 	}
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*p;
+
+	p = malloc(count * size);
+	if (!p)
+		return (NULL);
+	ft_bzero (p, count * size);
+	return (p);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, 0, n);
 }
