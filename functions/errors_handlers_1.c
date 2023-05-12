@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   errors_handlers_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/11 23:16:04 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/12 19:11:26 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_quotes(char *input)
+bool	handle_quotes(char *input)
 {
 	int i;
 	
@@ -27,7 +27,7 @@ void	handle_quotes(char *input)
 			if (input[i] == '\'')
 				i++;
 			else
-				out_error(ERROR_MSG_QUOTE);
+				return(out_error(ERROR_MSG_QUOTE), false);
 		}
 		if (input[i] == '\"')
 		{
@@ -37,9 +37,11 @@ void	handle_quotes(char *input)
 			if (input[i] == '\"')
 				i++;
 			else 
-				out_error(ERROR_MSG_QUOTE);
+				return(out_error(ERROR_MSG_QUOTE), false);
 		}
 		if (input[i] != '\'' && input[i] != '\"')
 			i++;
 	}
+	
+	return true;
 }
