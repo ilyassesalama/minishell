@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:36 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/12 22:07:24 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/13 18:36:46 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -72,6 +73,7 @@ char				*ft_substr(char const *s, int start, size_t len);
 char				**ft_split(char const *s, char c);
 char				*ft_strjoin(char *s1, char *s2, int flag);
 char				*ft_strchr(char *s, int c);
+char				*ft_strrchr(const char *s, int c);
 
 // TOKENS_FUNCTIONS
 t_token				*tokens_creation(char *input);
