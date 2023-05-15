@@ -6,15 +6,15 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:30:34 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/12 21:41:58 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/14 22:54:36 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_lstadd_back(t_data **alst, t_data *new)
+void	ft_lstadd_back(t_env **alst, t_env *new)
 {
-	t_data	*last;
+	t_env	*last;
 
 	if (!alst || !new)
 		return ;
@@ -29,21 +29,22 @@ void	ft_lstadd_back(t_data **alst, t_data *new)
 	last->next = new;
 }
 
-t_data	*ft_lstnew(char *path)
+t_env	*ft_envlstnew(char *key, char *value)
 {
-	t_data	*new;
+	t_env	*new;
 
-	new = (t_data *)malloc(sizeof(t_data));
+	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
-	new->env_path = path;
+	new->key = key;
+	new->value = value;
 	new->next = NULL;
 	return (new);
 }
 
-void	ft_lstclear(t_data **lst)
+void	ft_lstclear(t_env **lst)
 {
-	t_data	*tmp;
+	t_env	*tmp;
 
 	if (!lst)
 		return ;

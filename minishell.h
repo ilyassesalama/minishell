@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:36 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/13 18:36:46 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/15 00:24:21 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -33,11 +34,6 @@
 # define DOUBLE_QUOTE 9
 
 // STRUCTURES
-typedef struct s_data
-{
-	char			*env_path;
-	struct s_data	*next;
-}	t_data;
 
 typedef struct s_token
 {
@@ -62,9 +58,10 @@ void				ft_putstr_fd(char *s, int fd);
 int					ft_strlen(const char *s);
 int					ft_isdigit(int c);
 int					ft_strcmp(char *s1, char *s2);
-void				ft_lstadd_back(t_data **alst, t_data *new);
-t_data				*ft_lstnew(char *input_command);
-void				ft_lstclear(t_data **lst);
+int					ft_strncmp(char *s1, char *s2, int n);
+void				ft_lstadd_back(t_env **alst, t_env *new);
+t_env				*ft_envlstnew(char *key, char *value);
+void				ft_lstclear(t_env **lst);
 void				*ft_calloc(size_t count, size_t size);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memset(void *b, int c, size_t len);
@@ -77,10 +74,12 @@ char				*ft_strrchr(const char *s, int c);
 
 // TOKENS_FUNCTIONS
 t_token				*tokens_creation(char *input);
-void				tokens_execution(t_token *tokens, t_data *data);
+void				tokens_execution(t_token *tokens, t_env *data);
 t_token				*ft_t_lstnew(char *content, int type);
 void				ft_t_lstadd_back(t_token **alst, t_token *new);
 void				ft_t_lstclear(t_token **lst);
+void				ft_t_delone(t_token **token);
+
 
 // FUNCTIONS
 void				out_error(char *error_message);

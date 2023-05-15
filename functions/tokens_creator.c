@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:54:19 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/12 19:44:59 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/15 00:50:39 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ void	ft_t_lstadd_back(t_token **alst, t_token *new)
 	last -> next = new;
 }	
 
+void	ft_t_delone(t_token **token)
+{
+	if (!token)
+		return ;
+	free(*token);
+	*token = NULL;
+}
+
 void	ft_t_lstclear(t_token **lst)
 {
 	t_token	*tmp;
@@ -54,6 +62,24 @@ void	ft_t_lstclear(t_token **lst)
 		free(*lst);
 		*lst = tmp;
 	}
+}
+
+t_token		*ft_t_blstlast(t_token *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst -> next -> next)
+		lst = lst -> next;
+	return (lst);
+}
+
+t_token *ft_t_lstlast(t_token *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst -> next)
+		lst = lst -> next;
+	return (lst);
 }
 
 t_token		*tokens_creation(char *input)
@@ -122,6 +148,20 @@ t_token		*tokens_creation(char *input)
 				i++;
 			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), WORD));
 		}
+	}
+	if (tokens && tokens -> type == SPACE)
+	{
+		t_token *tmp = tokens->next;
+		free(tokens);
+		tokens = tmp;
+	}
+	if (tokens && ft_t_lstlast(tokens) -> type == SPACE)
+	{
+		t_token *tmp = ft_t_lstlast(tokens);
+		free(tmp);
+		tmp = NULL;
+		tmp = ft_t_blstlast(tokens);
+		tmp -> next = NULL;
 	}
 	return (tokens);
 }

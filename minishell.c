@@ -6,19 +6,21 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:08 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/12 22:06:02 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/15 00:44:30 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void scan_input(char *input, t_data *data)
+void scan_input(char *input, t_env *data)
 {
 	if(!handle_quotes(input)){
 		return;
 	}
 	t_token *tokens;
 	tokens = tokens_creation(input);
+	if (tokens == NULL)
+		return ;
 
 	tokens_execution(tokens, data);
 	
@@ -29,23 +31,20 @@ int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	t_data *data;
+	t_env *env_list;
 	int i;
 	char *receiver;
 	char *input_command = "\033[1;31m➜ \033[1;32mminishell: \033[0m";
-	char **path;
 
 	i = 0;
-	while (env[i] != NULL && ft_strcmp(env[i], "PATH=") != 0)
+	while (env[i] != NULL && ft_strncmp(env[i], "PATH=", 5) != 0)
 		i++;
 	
-	path = ft_split(ft_strchr(env[i], '='), ':');
-
-
 	i = 0;
-	while (path[i] != NULL)
+	while (env[i] != NULL)
 	{
-		ft_lstadd_back(&data, ft_lstnew(path[i]));
+		char **temp = ft_split(env[i], '=');
+		ft_lstadd_back(&env_list, ft_envlstnew(ft_strdup(temp[0]), ft_strdup(temp[1])));
 		i++;
 	}
 	
@@ -56,6 +55,6 @@ int main(int argc, char **argv, char **env)
 			break;
 		if (ft_strlen(receiver) > 0) 
 			add_history(receiver);
-		scan_input(receiver, data);
+		scan_input(receiver, env_list);
 	}
 }
