@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 20:05:38 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 20:18:18 by isalama          ###   ########.fr       */
+/*   Created: 2023/05/19 21:44:36 by tajjid            #+#    #+#             */
+/*   Updated: 2023/05/19 21:44:38 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -105,8 +104,9 @@ void				ft_echo(t_token *tokens);
 void				ft_cd(t_token *tokens, t_env *env);
 void				ft_exit();
 
-// FUNCTIONS
+// ERROR HANDLERS
 void				out_error(char *error_message);
+void				syntax_error(t_token *tokens);
 bool				handle_quotes(char *input);
 
 #endif
