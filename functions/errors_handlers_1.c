@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_handlers_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 21:41:33 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/19 21:47:41 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	out_error(char *error_message)
 
 void	syntax_error(t_token *tokens)
 {
-	
+	(void)tokens;
 }
 
 bool	handle_quotes(char *input)

@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:08 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 21:04:17 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/19 21:47:54 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void scan_input(char *input, t_env *env)
 	}
 	
 	t_token *tokens;
-	tokens = tokens_creation(input);
+	tokens = tokens_creation(input, env);
 	if (tokens == NULL)
 		return ;
-	//t_token *temp = tokens;
-	tokens_execution(tokens, env);
-	// while (temp != NULL)
-	// {
-	// 	printf("token: %s type: %d\n ", temp->content, temp->type);
-	// 	temp = temp->next;
-	// }
-	// ft_t_lstclear(&tokens);
+	//tokens_execution(tokens, env);
+	t_token *temp = tokens;
+	while (temp != NULL)
+	{
+		printf("token: %s type: %d\n ", temp->content, temp->type);
+		temp = temp->next;
+	}
+	ft_t_lstclear(&tokens);
 }
 
 int main(int argc, char **argv, char **env)

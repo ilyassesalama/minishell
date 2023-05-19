@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 21:38:45 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/19 21:47:27 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,9 @@ void ft_cd(t_token *tokens, t_env *env) {
 	
 	home = get_env_value("HOME", env);
 	if(!home){
-		printf("envirement error: HOME not set\n", 2);
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return;
 	}
-	
 	//printf("cd right now..\n");
 	int i = 0;
 	while(tokens)

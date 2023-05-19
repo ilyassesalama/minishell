@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:44:36 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/19 21:44:38 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/19 21:47:02 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void				ft_putstr_fd(char *s, int fd);
 int					ft_strlen(const char *s);
 int					ft_isdigit(int c);
 int					ft_strcmp(char *s1, char *s2);
-int					ft_strncmp(char *s1, char *s2, int n);
+int					ft_strncmp(char *s1, char *s2, int n);	
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 void				*ft_memset(void *b, int c, size_t len);
@@ -80,7 +80,7 @@ void				ft_lstadd_back(t_env **alst, t_env *new);
 void				ft_lstclear(t_env **lst);
 
 // TOKENS_FUNCTIONS
-t_token				*tokens_creation(char *input);
+t_token				*tokens_creation(char *input, t_env *data);
 t_token				*tokens_joiner(t_token *tokens);
 t_token				*ft_t_lstnew(char *content, int type);
 t_token				*ft_t_blstlast(t_token *lst);
