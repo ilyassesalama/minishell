@@ -6,83 +6,13 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:54:19 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/15 00:50:39 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/19 21:38:47 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token		*ft_t_lstnew(char *content, int type)
-{
-	t_token *new;
-	
-	new = (t_token *)malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new -> content = content;
-	new -> type = type;
-	new -> next = NULL;
-	return (new);
-}
-
-void	ft_t_lstadd_back(t_token **alst, t_token *new)
-{
-	t_token	*last;
-	
-	if (!alst || !new)
-		return ;
-	if (!*alst)
-	{
-		*alst = new;
-		return ;
-	}
-	last = *alst;
-	while (last -> next)
-		last = last -> next;
-	last -> next = new;
-}	
-
-void	ft_t_delone(t_token **token)
-{
-	if (!token)
-		return ;
-	free(*token);
-	*token = NULL;
-}
-
-void	ft_t_lstclear(t_token **lst)
-{
-	t_token	*tmp;
-	
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		tmp = (*lst) -> next;
-		free(*lst);
-		*lst = tmp;
-	}
-}
-
-t_token		*ft_t_blstlast(t_token *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst -> next -> next)
-		lst = lst -> next;
-	return (lst);
-}
-
-t_token *ft_t_lstlast(t_token *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst -> next)
-		lst = lst -> next;
-	return (lst);
-}
-
-t_token		*tokens_creation(char *input)
+t_token		*tokens_creation(char *input, t_env *data)
 {
 	int 	i;
 	int 	start;
@@ -141,10 +71,22 @@ t_token		*tokens_creation(char *input)
 			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_strdup("<"), DREDIR));
 			i++;
 		}
+		else if (input[i] && input[i] == '$')
+		{
+			start = i;
+			i++;
+			while (input[i] && input[i] != ' ' && input[i] != '|' 
+				&& input[i] != '>' && input[i] != '<' && input[i] != '$'
+				&& input[i] != '\'' && input[i] != '\"')
+				i++;
+			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), DOLLAR));
+		}
 		else 
 		{
 			start = i;
-			while(input[i] && input[i] != ' ' && input[i] != '|' && input[i] != '>' && input[i] != '<')
+			while(input[i] && input[i] != ' ' && input[i] != '|' 
+				&& input[i] != '>' && input[i] != '<' && input[i] != '$'
+				&& input[i] != '\'' && input[i] != '\"')
 				i++;
 			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), WORD));
 		}
@@ -163,5 +105,7 @@ t_token		*tokens_creation(char *input)
 		tmp = ft_t_blstlast(tokens);
 		tmp -> next = NULL;
 	}
+	tokens = tokens_expander(tokens, data);
+	syntax_error(tokens);
 	return (tokens);
 }
