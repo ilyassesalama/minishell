@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/07 16:10:36 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 03:52:44 by tajjid           ###   ########.fr       */
+/*   Created: 2023/05/19 20:05:38 by isalama           #+#    #+#             */
+/*   Updated: 2023/05/19 20:18:18 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -80,10 +81,8 @@ void				ft_lstadd_back(t_env **alst, t_env *new);
 void				ft_lstclear(t_env **lst);
 
 // TOKENS_FUNCTIONS
-t_token				*tokens_creation(char *input, t_env *data);
+t_token				*tokens_creation(char *input);
 t_token				*tokens_joiner(t_token *tokens);
-
-// TOKENS_LIST_UTILS
 t_token				*ft_t_lstnew(char *content, int type);
 t_token				*ft_t_blstlast(t_token *lst);
 t_token 			*ft_t_lstlast(t_token *lst);
@@ -97,11 +96,14 @@ char 				*d_quote_expander(char *str, t_env *data);
 char 				*word_expander(char *str, t_env *data);
 char				*check_expand(char *str, t_env *data);
 
-// EXECUTION
-// void				tokens_execution(t_token *tokens, t_env *data);
+// EXECUTION_FUNCTIONS
+void				tokens_execution(t_token *tokens, t_env *env);
 
-
-
+// --> EXECUTION_FUNCTIONS --> BUILT_INS
+void				ft_pwd();
+void				ft_echo(t_token *tokens);
+void				ft_cd(t_token *tokens, t_env *env);
+void				ft_exit();
 
 // FUNCTIONS
 void				out_error(char *error_message);

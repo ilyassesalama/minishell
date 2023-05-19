@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   writers.c                                          :+:      :+:    :+:   */
+/*   built_ins_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 23:03:43 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/11 23:04:13 by isalama          ###   ########.fr       */
+/*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
+/*   Updated: 2023/05/19 19:45:04 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-void	out_error(char *error_message)
+void	ft_exit()
 {
-	ft_putstr_fd(error_message, 2);
+	exit(0);
 }
