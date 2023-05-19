@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:20:25 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/14 22:37:11 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/19 02:51:33 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,3 @@ int	ft_strncmp(char *s1, char *s2, int n)
 	}
 	return (0);
 }
-
-
-char	*ft_strrchr(const char *s, int c)
-{
-	int	i;
-
-	i = ft_strlen(s);
-	while (i >= 0)
-	{
-		if (s[i] == (char) c)
-		{
-			return ((char *) &s[i]);
-		}
-		i--;
-	}
-	return (NULL);
-}
-
-

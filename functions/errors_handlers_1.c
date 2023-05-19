@@ -6,11 +6,16 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/12 19:11:26 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/19 04:34:54 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	out_error(char *error_message)
+{
+	ft_putstr_fd(error_message, 2);
+}
 
 bool	handle_quotes(char *input)
 {
@@ -42,6 +47,5 @@ bool	handle_quotes(char *input)
 		if (input[i] != '\'' && input[i] != '\"')
 			i++;
 	}
-	
 	return true;
 }

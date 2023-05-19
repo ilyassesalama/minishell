@@ -6,27 +6,11 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:50:03 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/12 21:01:50 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/19 02:52:30 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*ft_strchr(char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i + 1] && s[i] == (char) c)
-			return ((char *) &s[i + 1]);
-		i++;
-	}
-	if (s[i] == (char) c)
-		return ((char *) &s[i]);
-	return (NULL);
-}
 
 void	*ft_memset(void *b, int c, size_t len)
 {

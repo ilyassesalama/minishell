@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:08 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/15 00:44:30 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/18 20:50:15 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ void scan_input(char *input, t_env *data)
 		return;
 	}
 	t_token *tokens;
-	tokens = tokens_creation(input);
+	tokens = tokens_creation(input, data);
 	if (tokens == NULL)
 		return ;
-
-	tokens_execution(tokens, data);
-	
+	t_token *temp = tokens;
+	while (temp != NULL)
+	{
+		printf("token: %s type: %d\n ", temp->content, temp->type);
+		temp = temp->next;
+	}
 	ft_t_lstclear(&tokens);
 }
 
@@ -34,7 +37,7 @@ int main(int argc, char **argv, char **env)
 	t_env *env_list;
 	int i;
 	char *receiver;
-	char *input_command = "\033[1;31m➜ \033[1;32mminishell: \033[0m";
+	char *input_command = "\033[1;31m➜ \033[1;32m minishell: \033[0m";
 
 	i = 0;
 	while (env[i] != NULL && ft_strncmp(env[i], "PATH=", 5) != 0)

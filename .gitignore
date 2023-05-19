@@ -2,3 +2,5 @@
 .DS_Store
 .tldr
 /vscode
+.vscode/settings.json
+.vscode/c_cpp_properties.json
