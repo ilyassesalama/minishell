@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:44:36 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/20 03:05:04 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 03:08:19 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void				command_add_back(t_command **alst, t_command *new);
 
 // ERROR HANDLERS
 void				out_error(char *error_message);
-void				syntax_error(t_token *tokens);
+bool				syntax_error(t_token *tokens);
 bool				handle_quotes(char *input);
 
 // UTILS

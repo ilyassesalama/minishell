@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_creator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:42:28 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 21:42:29 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/19 22:34:37 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ t_token		*tokens_creation(char *input, t_env *data)
 				i++;
 			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), WORD));
 		}
-
-		// pwd
-		// ls
 	}
 	if (tokens && tokens -> type == SPACE)
 	{
@@ -108,7 +105,8 @@ t_token		*tokens_creation(char *input, t_env *data)
 		tmp = ft_t_blstlast(tokens);
 		tmp -> next = NULL;
 	}
+	if (!syntax_error(tokens))
+		return (NULL);
 	tokens = tokens_expander(tokens, data);
-	syntax_error(tokens);
 	return (tokens);
 }

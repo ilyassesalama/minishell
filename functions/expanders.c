@@ -6,15 +6,14 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:10:00 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/19 20:29:13 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/19 22:05:44 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-FIXME: "'$USER'" -> "'tajjid'" // FIXED
-35 37 42 -> 47
+
 */
 char *check_expand(char *str, t_env *data)
 {
