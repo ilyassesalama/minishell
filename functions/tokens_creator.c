@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:42:28 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 22:34:37 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/20 04:39:38 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,7 @@ t_token		*tokens_creation(char *input, t_env *data)
 			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), WORD));
 		}
 	}
-	if (tokens && tokens -> type == SPACE)
-	{
-		t_token *tmp = tokens->next;
-		free(tokens);
-		tokens = tmp;
-	}
-	if (tokens && ft_t_lstlast(tokens) -> type == SPACE)
-	{
-		t_token *tmp = ft_t_lstlast(tokens);
-		free(tmp);
-		tmp = NULL;
-		tmp = ft_t_blstlast(tokens);
-		tmp -> next = NULL;
-	}
+	tokens = ft_t_spaces_deleter(tokens);
 	if (!syntax_error(tokens))
 		return (NULL);
 	tokens = tokens_expander(tokens, data);
