@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 02:01:09 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/20 19:53:58 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,22 @@ bool	syntax_error(t_token *tokens)
 			return (out_error(ERROR_MSG_SYNTAX), false);
 		else if ((tokens -> type == APPEND || tokens -> type == HEREDOC) && tokens -> next == NULL)
 				return (out_error(ERROR_MSG_SYNTAX), false);
+		else if (tokens -> next && tokens -> type == APPEND)
+		{
+			if (tokens -> next -> type == APPEND || tokens -> next -> type == PIPE)
+				return (out_error(ERROR_MSG_SYNTAX), false);
+			else if (tokens -> next -> type == SPACE 
+			&& (tokens -> next -> next -> type == HEREDOC || tokens -> next -> next -> type == APPEND))
+				return (out_error(ERROR_MSG_SYNTAX), false);
+		}
+		else if (tokens -> next && tokens -> type == HEREDOC)
+		{
+			if (tokens -> next -> type == HEREDOC || tokens -> next -> type == PIPE)
+				return (out_error(ERROR_MSG_SYNTAX), false);
+			else if (tokens -> next -> type == SPACE 
+			&& (tokens -> next -> next -> type == HEREDOC || tokens -> next -> next -> type == APPEND))
+				return (out_error(ERROR_MSG_SYNTAX), false);
+		}
 		else if (tokens -> next && tokens -> type == REDIR)
 		{
 			if (tokens -> next -> type == DREDIR || tokens -> next -> type == PIPE)
