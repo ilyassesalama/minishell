@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:44:36 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/19 21:47:02 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 00:52:35 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_command
+{
+	char			*command;
+	char			**args;
+	int				output;
+	int				input;
+	struct s_command	*next;
+}	t_command;
+
 // MESSAGES
 # define ERROR_MSG_QUOTE "\033[1;31mError: quotations not closed.\n"
 
@@ -72,7 +81,7 @@ char				*ft_substr(char const *s, int start, size_t len);
 char				**ft_split(char const *s, char c);
 char				*ft_strjoin(char *s1, char *s2, int flag);
 char				*ft_strchr(char *s, int c);
-char				*ft_strrchr(const char *s, int c);
+char				*ft_strrchr(char *s, int c);
 
 // ENVIRONMENT_UTILS
 t_env				*ft_envlstnew(char *key, char *value);
@@ -96,17 +105,28 @@ char 				*word_expander(char *str, t_env *data);
 char				*check_expand(char *str, t_env *data);
 
 // EXECUTION_FUNCTIONS
-void				tokens_execution(t_token *tokens, t_env *env);
+void				tokens_execution(t_env *env);
 
 // --> EXECUTION_FUNCTIONS --> BUILT_INS
 void				ft_pwd();
 void				ft_echo(t_token *tokens);
-void				ft_cd(t_token *tokens, t_env *env);
+void				ft_cd(t_command *commands, t_env *env);
 void				ft_exit();
+void				ft_env();
+
+// --> EXECUTION_FUNCTIONS --> TESTING
+t_command			*command_lstnew(char *command, char **args, int input, int output);
+void				command_add_back(t_command **alst, t_command *new);
+
+
 
 // ERROR HANDLERS
 void				out_error(char *error_message);
 void				syntax_error(t_token *tokens);
 bool				handle_quotes(char *input);
+
+// UTILS
+char				*get_current_dir(char* path);
+char				*get_env_value(char *key, t_env *env);
 
 #endif

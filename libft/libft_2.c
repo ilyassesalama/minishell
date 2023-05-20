@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:30:34 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 02:52:52 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/19 23:31:01 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strrchr(char *s, int c)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 21:47:27 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 02:16:17 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void ft_pwd()
 		printf("%s\n", path);
 }
 
+void ft_env(){
+	
+}
+
 void ft_echo(t_token *tokens)
 {
 	while (tokens)
@@ -29,62 +33,81 @@ void ft_echo(t_token *tokens)
 	printf("\n");
 }
 
-char *get_env_value(char *key, t_env *env)
+void	ft_cd(t_command *commands, t_env *env)
 {
-	while (env)
-	{
-		if (ft_strcmp(env->key, key) == 0)
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-
-
-void ft_cd(t_token *tokens, t_env *env) {
-	char *home;
+	char	*home;
+	char	*current_path = NULL;
 	
-	home = get_env_value("HOME", env);
-	if(!home){
-		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+	current_path = getcwd(current_path, sizeof(current_path));
+	
+	printf("current path: %s\n", current_path);
+	if(ft_strcmp(current_path, "/") == 0){
+		printf("Can't go anywhere, we're in the root directory\n");
 		return;
 	}
-	//printf("cd right now..\n");
-	int i = 0;
-	while(tokens)
-	{
-		printf("%d ->", i++);
-		printf("%s\n", tokens->content);
-		tokens = tokens->next;
+	
+	if (commands->args[1] == NULL || (commands->args[1] && ft_strcmp(commands->args[1], "~") == 0)){
+		printf("Going to home directory\n");
+		home = get_env_value("HOME", env);
+		if(!home){
+			ft_putstr_fd("envirement error: HOME not set\n", 2);
+			return;
+		}
+		if(chdir(home) == -1){
+			ft_putstr_fd("No such file or directory\n", 2);
+			return;
+		}
+		return;
 	}
-	(void)env;
-	// char *home;
+	
+	if (commands->args[1] == NULL || (commands->args[1] && ft_strcmp(commands->args[1], "-") == 0)){
+		printf("Going to old directory\n");
+		home = get_env_value("OLDPWD", env);
+		if(!home){
+			ft_putstr_fd("envirement error: HOME not set\n", 2);
+			return;
+		}
+		if(chdir(home) == -1){
+			ft_putstr_fd("No such file or directory\n", 2);
+			return;
+		}
+		return;
+	}
+	
+	
+	if (commands->args[1] && ft_strcmp(commands->args[1], "..") == 0){
+		printf("Going to last directory\n");
+		char*	last_slash = strrchr(current_path, '/');
+		
+		int		slash_size = 0;
+		int		i = 0;
+		while (current_path[i++])
+			if (current_path[i] == '/')
+				slash_size++;
+		
+		if(slash_size == 1){
+			current_path = "/";
+		}
 
-	// if (tokens->next == NULL)
+		// if(ft_strlen(last_slash) == 6){
+		// 	last_slash = ft_strchr(current_path, '/');
+		// }
+        if (last_slash != NULL) {
+            *last_slash = '\0';
+        }
+		if (chdir(current_path) == -1)
+		{
+			ft_putstr_fd("No such file or directory\n", 2);
+			return;
+		}
+		return;
+	}
+	
+	printf("Going to specific directory\n");
+
+	// if (chdir(tokens->next->content) == -1)
 	// {
-	// 	if ((home = get_env_value("HOME", env)) == NULL)
-	// 	{
-	// 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-	// 		return ;
-	// 	}
-	// 	if (chdir(home) == -1)
-	// 	{
-	// 		ft_putstr_fd("minishell: cd: ", 2);
-	// 		ft_putstr_fd(home, 2);
-	// 		ft_putstr_fd(": ", 2);
-	// 		ft_putstr_fd("Error", 2);
-	// 		ft_putstr_fd("\n", 2);
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (chdir(tokens->next->content) == -1)
-	// 	{
-	// 		ft_putstr_fd("minishell: cd: ", 2);
-	// 		ft_putstr_fd(tokens->next->content, 2);
-	// 		ft_putstr_fd(": ", 2);
-	// 		ft_putstr_fd("", 2);
-	// 		ft_putstr_fd("\n", 2);
-	// 	}
+	// 	ft_putstr_fd("No such file or directory\n", 2);
+	// 	return;
 	// }
 }

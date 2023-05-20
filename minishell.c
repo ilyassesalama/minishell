@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:08 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 21:47:54 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 00:08:19 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void scan_input(char *input, t_env *env)
 	tokens = tokens_creation(input, env);
 	if (tokens == NULL)
 		return ;
-	//tokens_execution(tokens, env);
-	t_token *temp = tokens;
-	while (temp != NULL)
-	{
-		printf("token: %s type: %d\n ", temp->content, temp->type);
-		temp = temp->next;
-	}
+	tokens_execution(env);
+	// t_token *temp = tokens;
+	// while (temp != NULL)
+	// {
+	// 	printf("token: %s type: %d\n ", temp->content, temp->type);
+	// 	temp = temp->next;
+	// }
 	ft_t_lstclear(&tokens);
 }
 
@@ -52,7 +52,7 @@ int main(int argc, char **argv, char **env)
 		ft_lstadd_back(&env_list, ft_envlstnew(ft_strdup(temp[0]), ft_strdup(temp[1])));
 		i++;
 	}
-	
+		
 	while (true)
 	{
 		receiver = readline(input_command);
@@ -63,3 +63,7 @@ int main(int argc, char **argv, char **env)
 		scan_input(receiver, env_list);
 	}
 }
+
+
+
+// pwd cd | 

@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/19 21:05:59 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 02:14:03 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void execute(char *content, t_env *env)
 		{
 			working_path = ft_strjoin(exec_paths[i], content, 0);
 			pid_t pid = fork();
-			char *argv[] = {"ls", NULL};
+			char *argv[] = {"-la", NULL};
 			if (pid == 0)
 			{
 				execve(working_path, argv, NULL);
@@ -48,18 +48,24 @@ void execute(char *content, t_env *env)
 	return;
 }
 
-void tokens_execution(t_token *tokens, t_env *env)
+void tokens_execution(t_env *env)
 {
-	while (tokens)
+	t_command *commands = NULL;
+	command_add_back(&commands, command_lstnew("cd", (char*[]){"/bin/cd", "..", NULL}, 0, 0));
+	command_add_back(&commands, command_lstnew("cd", (char*[]){"/bin/cd", "-", NULL}, 0, 0));
+	command_add_back(&commands, command_lstnew("pwd", (char*[]){"/bin/pwd", NULL}, 0, 0));
+	//command_add_back(&commands, command_lstnew("env", (char*[]){"env", NULL}, 0, 0));
+	while (commands)
 	{
-		if (ft_strcmp(tokens->content, "cd") == 0)
-			ft_cd(tokens, env);
-		else if (ft_strcmp(tokens->content, "pwd") == 0)
+		if (ft_strcmp(commands->command, "cd") == 0)
+			ft_cd(commands, env);
+		else if (ft_strcmp(commands->command, "pwd") == 0)
 			ft_pwd();
-		else if (ft_strcmp(tokens->content, "exit") == 0)
+		else if (ft_strcmp(commands->command, "exit") == 0)
 			ft_exit();
-		else
-			execute(tokens->content, env);
-		tokens = tokens->next;
+		else if (ft_strcmp(commands->command, "env") == 0)
+			ft_env(commands->args);
+			execute(commands->command, env);
+		commands = commands->next;
 	}
 }
