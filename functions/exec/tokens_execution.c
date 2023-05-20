@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/20 02:14:03 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 03:05:36 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ void execute(char *content, t_env *env)
 void tokens_execution(t_env *env)
 {
 	t_command *commands = NULL;
-	command_add_back(&commands, command_lstnew("cd", (char*[]){"/bin/cd", "..", NULL}, 0, 0));
-	command_add_back(&commands, command_lstnew("cd", (char*[]){"/bin/cd", "-", NULL}, 0, 0));
-	command_add_back(&commands, command_lstnew("pwd", (char*[]){"/bin/pwd", NULL}, 0, 0));
-	//command_add_back(&commands, command_lstnew("env", (char*[]){"env", NULL}, 0, 0));
+	command_add_back(&commands, command_lstnew("env", (char*[]){"/usr/bin/env", NULL}, 0, 0));
 	while (commands)
 	{
 		if (ft_strcmp(commands->command, "cd") == 0)
@@ -63,8 +60,11 @@ void tokens_execution(t_env *env)
 			ft_pwd();
 		else if (ft_strcmp(commands->command, "exit") == 0)
 			ft_exit();
+		else if (ft_strcmp(commands->command, "echo") == 0)
+			ft_echo(commands);
 		else if (ft_strcmp(commands->command, "env") == 0)
-			ft_env(commands->args);
+			ft_env(env);
+		else
 			execute(commands->command, env);
 		commands = commands->next;
 	}
