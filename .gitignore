@@ -2,8 +2,5 @@
 .DS_Store
 .tldr
 /vscode
-.vscode/settings.json
-.vscode/c_cpp_properties.json
-.vscode/settings.json
+/.vscode/
 minishell
-.vscode/settings.json

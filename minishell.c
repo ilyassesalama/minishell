@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:08 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 00:08:19 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 02:59:17 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,3 @@ int main(int argc, char **argv, char **env)
 		scan_input(receiver, env_list);
 	}
 }
-
-
-
-// pwd cd | 
