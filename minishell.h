@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:44:36 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/20 03:43:27 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:27:20 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <string.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -98,7 +99,7 @@ t_token				*ft_t_lstnew(char *content, int type);
 t_token				*ft_t_blstlast(t_token *lst);
 t_token				*ft_t_lstlast(t_token *lst);
 void				ft_t_lstadd_back(t_token **alst, t_token *new);
-void				ft_t_delone(t_token **token);
+ t_token			*ft_t_spaces_deleter(t_token *tokens);
 void				ft_t_lstclear(t_token **lst);
 
 // TOKENS_EXPANSION
@@ -123,7 +124,12 @@ void				lets_unset(t_env **env, char **args);
 t_command			*command_lstnew(char *command, char **args, int input, int output);
 void				command_add_back(t_command **alst, t_command *new);
 
-
+// COMMANDS CREATION
+t_command			*command_creator(t_token *tokens);
+t_command			*ft_c_lstnew(char *command, int output, int input);
+void				ft_c_lstadd_back(t_command **list, t_command *new);
+void				ft_c_lstclear(t_command **list);
+int					fd_opener(char *file, int mode);
 
 // ERROR HANDLERS
 void				out_error(char *error_message);
