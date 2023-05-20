@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:44:36 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/20 03:08:19 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/20 03:43:27 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_command
 # define ERROR_MSG_QUOTE "\033[1;31mError: quotations not closed.\n"
 # define ERROR_MSG_ENV "\033[1;31mError: HOME not set.\n"
 # define ERROR_MSG_INV_PATH "\033[1;31mNo such file or directory.\n"
+# define ERROR_MSG_SYNTAX "\033[1;31mError: syntax error.\n"
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
@@ -110,11 +111,13 @@ char				*check_expand(char *str, t_env *data);
 void				tokens_execution(t_env *env);
 
 // --> EXECUTION_FUNCTIONS --> BUILT_INS
-void				ft_pwd(void);
-void				ft_echo(t_command *commands);
-void				ft_cd(t_command *commands, t_env *env);
-void				ft_exit(void);
-void				ft_env(t_env *env);
+void				lets_pwd(void);
+void				lets_echo(t_command *commands);
+void				lets_cd(t_command *commands, t_env *env);
+void				lets_exit(void);
+void				lets_env(t_env *env);
+void				lets_export(t_env *env, char **args);
+void				lets_unset(t_env **env, char **args);
 
 // --> EXECUTION_FUNCTIONS --> TESTING
 t_command			*command_lstnew(char *command, char **args, int input, int output);

@@ -6,13 +6,13 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 02:58:16 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 03:15:09 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_pwd(void)
+void	lets_pwd(void)
 {
 	char	path[PATH_MAX];
 
@@ -20,7 +20,7 @@ void	ft_pwd(void)
 		printf("%s\n", path);
 }
 
-void	ft_echo(t_command *commands)
+void	lets_echo(t_command *commands)
 {
 	if (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0)
 		ft_putstr_fd(commands->args[2], 1);
@@ -31,7 +31,7 @@ void	ft_echo(t_command *commands)
 	}
 }
 
-void	ft_cd(t_command *commands, t_env *env)
+void	lets_cd(t_command *commands, t_env *env)
 {
 	char	*home;
 	char	*current_path;
