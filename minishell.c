@@ -6,11 +6,28 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:10:08 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 02:59:17 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 03:22:22 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// CHOOSE THE PROJECT TYPE
+# define ARE_WE_EXECUTING true
+
+void are_we_executing(t_env *env, t_token *tokens)
+{
+	if(ARE_WE_EXECUTING){
+		tokens_execution(env);
+	} else {
+		t_token *temp = tokens;
+		while (temp != NULL)
+		{
+			printf("token: %s type: %d\n ", temp->content, temp->type);
+			temp = temp->next;
+		}
+	}
+}
 
 void scan_input(char *input, t_env *env)
 {
@@ -22,13 +39,9 @@ void scan_input(char *input, t_env *env)
 	tokens = tokens_creation(input, env);
 	if (tokens == NULL)
 		return ;
-	tokens_execution(env);
-	// t_token *temp = tokens;
-	// while (temp != NULL)
-	// {
-	// 	printf("token: %s type: %d\n ", temp->content, temp->type);
-	// 	temp = temp->next;
-	// }
+		
+	are_we_executing(env, tokens);
+	
 	ft_t_lstclear(&tokens);
 }
 
