@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:20:25 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 02:51:33 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/20 00:14:21 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	ft_strcmp(char *s1, char *s2)
 	index = 0;
 	while (s1[index] != '\0' || s2[index] != '\0')
 	{
-		if (( char)s1[index] != ( char)s2[index])
-			return (( char)s1[index] - ( char)s2[index]);	
+		if ((char)s1[index] != (char)s2[index])
+			return ((char)s1[index] - (char)s2[index]);	
 		index++;
 	}
 	return (0);
@@ -54,8 +54,8 @@ int	ft_strncmp(char *s1, char *s2, int n)
 	index = 0;
 	while ((s1[index] != '\0' || s2[index] != '\0') && index < n)
 	{
-		if (( char)s1[index] != ( char)s2[index])
-			return (( char)s1[index] - ( char)s2[index]);	
+		if ((char)s1[index] != (char)s2[index])
+			return ((char)s1[index] - (char)s2[index]);	
 		index++;
 	}
 	return (0);
