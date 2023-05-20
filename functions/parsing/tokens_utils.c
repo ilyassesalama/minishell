@@ -6,11 +6,11 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:41:10 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/20 04:28:54 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/21 00:14:46 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 t_token		*ft_t_lstnew(char *content, int type)
 {
@@ -45,7 +45,7 @@ void	ft_t_lstadd_back(t_token **alst, t_token *new)
  {
 	if (tokens && tokens -> type == SPACE)
 	{
-		t_token *tmp = tokens->next;
+		t_token *tmp = tokens -> next;
 		free(tokens);
 		tokens = tmp;
 	}

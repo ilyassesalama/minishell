@@ -6,11 +6,11 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:42:28 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 04:39:38 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/21 00:14:43 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 t_token		*tokens_creation(char *input, t_env *data)
 {
@@ -75,9 +75,7 @@ t_token		*tokens_creation(char *input, t_env *data)
 		{
 			start = i;
 			i++;
-			while (input[i] && input[i] != ' ' && input[i] != '|' 
-				&& input[i] != '>' && input[i] != '<' && input[i] != '$'
-				&& input[i] != '\'' && input[i] != '\"')
+			while (input[i] && !ft_strchr(" $\"'+-./:;<=>?@[\\]^_`{|}~%#&()*,;=[]", input[i]))
 				i++;
 			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), DOLLAR));
 		}

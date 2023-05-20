@@ -6,11 +6,11 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:50:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/19 02:54:06 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/21 00:14:18 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	ft_lstadd_back(t_env **alst, t_env *new)
 {
@@ -24,9 +24,9 @@ void	ft_lstadd_back(t_env **alst, t_env *new)
 		return ;
 	}
 	last = *alst;
-	while (last->next)
-		last = last->next;
-	last->next = new;
+	while (last -> next)
+		last = last -> next;
+	last -> next = new;
 }
 
 t_env	*ft_envlstnew(char *key, char *value)

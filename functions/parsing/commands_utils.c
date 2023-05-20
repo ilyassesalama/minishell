@@ -6,11 +6,11 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:53:48 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/20 05:42:19 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/21 00:14:14 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int		fd_opener(char *file, int mode)
 {
@@ -19,7 +19,7 @@ int		fd_opener(char *file, int mode)
 	if (mode == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (mode == 2)
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		fd = open(file, O_WRONLY | O_CREAT , 0777);
 	else
 		fd = open(file, O_RDONLY);
 	return (fd);

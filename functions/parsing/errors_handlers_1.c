@@ -6,11 +6,11 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 19:53:58 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/05/21 00:14:21 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 /*
 
@@ -103,7 +103,7 @@ bool	syntax_error(t_token *tokens)
 			&& (tokens -> next -> next -> type == REDIR || tokens -> next -> next -> type == DREDIR))
 				return (out_error(ERROR_MSG_SYNTAX), false);
 		}
-		tokens = tokens->next;
+		tokens = tokens -> next;
 	}
 	return true;
 }
