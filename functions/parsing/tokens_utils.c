@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:41:10 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/21 00:14:46 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/06/14 22:08:00 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ void	ft_t_lstadd_back(t_token **alst, t_token *new)
 		free(tokens);
 		tokens = tmp;
 	}
-	if (tokens && ft_t_lstlast(tokens) -> type == SPACE)
+	if (tokens && ft_t_lstlast(tokens, 1) -> type == SPACE)
 	{
-		t_token *tmp = ft_t_lstlast(tokens);
+		t_token *tmp = ft_t_lstlast(tokens, 1);
 		free(tmp);
 		tmp = NULL;
-		tmp = ft_t_blstlast(tokens);
+		tmp = ft_t_lstlast(tokens, 0);
 		tmp -> next = NULL;
 	}
 	return (tokens);
@@ -74,20 +74,32 @@ void	ft_t_lstclear(t_token **lst)
 	}
 }
 
-t_token		*ft_t_blstlast(t_token *lst)
+t_token *ft_t_lstlast(t_token *lst, int type)
 {
 	if (!lst)
 		return (NULL);
-	while (lst -> next -> next)
-		lst = lst -> next;
+	if (type == 1)
+	{
+		while (lst -> next)
+			lst = lst -> next;
+	}
+	else
+	{
+		while (lst -> next -> next)
+			lst = lst -> next;
+	}
 	return (lst);
 }
 
-t_token *ft_t_lstlast(t_token *lst)
+void	ft_t_delone(t_token *token)
 {
-	if (!lst)
-		return (NULL);
-	while (lst -> next)
-		lst = lst -> next;
-	return (lst);
+	t_token *tmp;
+
+	tmp = NULL;
+	if (!token)
+		return ;
+	if (token -> next)
+		tmp = token -> next;
+	free(token);
+	token = tmp;
 }
