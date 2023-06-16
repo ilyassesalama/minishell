@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:44:36 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/20 05:27:20 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/06/15 02:06:39 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ enum e_token_type
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	DOLLAR,
-	EMPTY
+	EMPTY,
+	NONUSABLE
 };
 
 // STRUCTURES
@@ -70,6 +71,7 @@ typedef struct s_command
 # define ERROR_MSG_ENV "\033[1;31mError: HOME not set.\n"
 # define ERROR_MSG_INV_PATH "\033[1;31mNo such file or directory.\n"
 # define ERROR_MSG_SYNTAX "\033[1;31mError: syntax error.\n"
+# define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n"
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
@@ -96,8 +98,8 @@ void				ft_lstclear(t_env **lst);
 t_token				*tokens_creation(char *input, t_env *data);
 t_token				*tokens_joiner(t_token *tokens);
 t_token				*ft_t_lstnew(char *content, int type);
-t_token				*ft_t_blstlast(t_token *lst);
-t_token				*ft_t_lstlast(t_token *lst);
+t_token				*ft_t_lstlast(t_token *lst, int type);
+void				ft_t_delone(t_token *token);
 void				ft_t_lstadd_back(t_token **alst, t_token *new);
  t_token			*ft_t_spaces_deleter(t_token *tokens);
 void				ft_t_lstclear(t_token **lst);
@@ -124,9 +126,12 @@ void				lets_unset(t_env **env, char **args);
 t_command			*command_lstnew(char *command, char **args, int input, int output);
 void				command_add_back(t_command **alst, t_command *new);
 
+// COMMANDS UTILS
+void				non_use_remover(t_token *tokens);
+
 // COMMANDS CREATION
 t_command			*command_creator(t_token *tokens);
-t_command			*ft_c_lstnew(char *command, int output, int input);
+t_command			*ft_c_lstnew(char *command , char **args, int input, int output);
 void				ft_c_lstadd_back(t_command **list, t_command *new);
 void				ft_c_lstclear(t_command **list);
 int					fd_opener(char *file, int mode);
