@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 21:44:36 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/15 02:06:39 by tajjid           ###   ########.fr       */
+/*   Created: 2023/06/17 00:20:18 by isalama           #+#    #+#             */
+/*   Updated: 2023/06/18 00:14:17 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_command
 # define ERROR_MSG_SYNTAX "\033[1;31mError: syntax error.\n"
 # define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n"
 
+
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
 int					ft_strlen(const char *s);
@@ -88,6 +89,8 @@ char				**ft_split(char const *s, char c);
 char				*ft_strjoin(char *s1, char *s2, int flag);
 char				*ft_strchr(char *s, int c);
 char				*ft_strrchr(char *s, int c);
+void				ft_putchar_fd(char c, int fd);
+void				ft_putnbr_fd(int n, int fd);
 
 // ENVIRONMENT_UTILS
 t_env				*ft_envlstnew(char *key, char *value);
@@ -111,7 +114,7 @@ char				*word_expander(char *str, t_env *data);
 char				*check_expand(char *str, t_env *data);
 
 // EXECUTION_FUNCTIONS
-void				tokens_execution(t_env *env);
+void				tokens_execution(t_command *commands,t_env *env);
 
 // --> EXECUTION_FUNCTIONS --> BUILT_INS
 void				lets_pwd(void);
@@ -125,6 +128,7 @@ void				lets_unset(t_env **env, char **args);
 // --> EXECUTION_FUNCTIONS --> TESTING
 t_command			*command_lstnew(char *command, char **args, int input, int output);
 void				command_add_back(t_command **alst, t_command *new);
+int					command_lst_size(t_command *cmd);
 
 // COMMANDS UTILS
 void				non_use_remover(t_token *tokens);
@@ -143,6 +147,8 @@ bool				handle_quotes(char *input);
 
 // UTILS
 char				*get_current_dir(char *path);
+char				*get_current_path(void);
+void				update_env(char *key, char *value, t_env *env);
 char				*get_env_value(char *key, t_env *env);
 
 #endif

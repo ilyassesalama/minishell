@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 23:35:53 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 00:18:35 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/25 21:44:32 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,16 @@ void	command_add_back(t_command **alst, t_command *new)
 	while (last -> next)
 		last = last -> next;
 	last -> next = new;
+}
+
+
+int command_lst_size(t_command *cmd)
+{
+	int i = 0;
+	while (cmd)
+	{
+		i++;
+		cmd = cmd->next;
+	}
+	return (i);
 }

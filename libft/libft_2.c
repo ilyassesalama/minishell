@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:30:34 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/19 23:31:01 by isalama          ###   ########.fr       */
+/*   Updated: 2023/05/20 05:06:25 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,9 @@ char	*ft_strrchr(char *s, int c)
 		i--;
 	}
 	return (NULL);
+}
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
 }

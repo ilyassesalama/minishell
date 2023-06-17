@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 03:46:46 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/18 00:21:25 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,19 @@ void	lets_export(t_env *env, char **args)
 		}
 		envirement = envirement->next;
 	}
-	if (!already_there)
+	if (!already_there){
 		ft_lstadd_back(&env,
 			ft_envlstnew(ft_strdup(args[1]), ft_strdup(args[2])));
+		// print all args
+		while (*args)
+		{
+			printf("%s\n", *args);
+			args++;
+		}
+				
+	} else {
+		printf("already there\n");
+	}
 }
 
 void	lets_unset(t_env **env, char **args)

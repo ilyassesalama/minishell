@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 03:15:09 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/11 15:23:37 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,37 @@ void	lets_pwd(void)
 		printf("%s\n", path);
 }
 
+int getLastExitCode() {
+	return 0;
+}
+
 void	lets_echo(t_command *commands)
 {
-	if (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0)
-		ft_putstr_fd(commands->args[2], 1);
-	else
-	{
-		ft_putstr_fd(commands->args[1], 1);
-		ft_putstr_fd("\n", 1);
+	bool	is_n;
+
+	is_n = (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0);
+
+	int i = 1;
+	if (is_n)
+		i++;
+	while(commands->args[i]){
+		if (ft_strcmp(commands->args[i], "$?") == 0){
+			ft_putnbr_fd(getLastExitCode(), 1);
+		} else {
+			ft_putstr_fd(commands->args[i], 1);
+		}
+		i++;
 	}
+	if (!is_n)
+		ft_putstr_fd("\n", 1);
 }
 
 void	lets_cd(t_command *commands, t_env *env)
 {
 	char	*home;
 	char	*current_path;
-	int		slash_size;
-	int		i;
-	char	*last_slash;
-	
-	current_path = NULL;
-	current_path = getcwd(current_path, sizeof(current_path));
-	i = 0;
-	slash_size = 1;
+
+	current_path = get_current_path();
 	if (ft_strcmp(current_path, "/") == 0)
 		return ;
 	if (commands->args[1] == NULL || (commands->args[1]
@@ -51,31 +59,15 @@ void	lets_cd(t_command *commands, t_env *env)
 		home = get_env_value("HOME", env);
 		if (!home)
 			return (ft_putstr_fd(ERROR_MSG_ENV, 2));
-		if (chdir(home) == -1)
+		if (chdir(home) == -1) {
 			ft_putstr_fd(ERROR_MSG_INV_PATH, 2);
+			return ;
+		}
+		update_env("PWD", get_current_path(), env);
 		return ;
 	}
-	if (commands->args[1] == NULL || (commands->args[1]
-			&& ft_strcmp(commands->args[1], "-") == 0))
-	{
-		home = get_env_value("OLDPWD", env);
-		if (!home)
-			return (ft_putstr_fd(ERROR_MSG_ENV, 2));
-		if (chdir(home) == -1)
-			return (ft_putstr_fd(ERROR_MSG_INV_PATH, 2));
-		return ;
-	}
-	if (commands->args[1] && ft_strcmp(commands->args[1], "..") == 0){
-		last_slash = strrchr(current_path, '/');
-		while (current_path[i++])
-			if (current_path[i] == '/')
-				slash_size++;
-		if (slash_size == 1)
-			current_path = "/";
-		if (chdir(current_path) == -1)
-			ft_putstr_fd(ERROR_MSG_INV_PATH, 2);
-		return ;
-	}	
-	if (commands->args[1] && chdir(commands->args[1]) == -1)
+	if (commands->args[1] || chdir(commands->args[1]) == -1)
 		ft_putstr_fd(ERROR_MSG_INV_PATH, 2);
+		
+	update_env("PWD", get_current_path(), env);
 }
