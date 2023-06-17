@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:42:28 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/21 00:14:43 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/06/17 01:17:09 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,19 @@ t_token		*tokens_creation(char *input, t_env *data)
 		{
 			start = i;
 			i++;
-			while (input[i] && !ft_strchr(" $\"'+-./:;<=>?@[\\]^_`{|}~%#&()*,;=[]", input[i]))
+			if (input[i] && ft_strchr("$\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
+			{
 				i++;
-			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), DOLLAR));
+				while (input[i] && !ft_strchr("$\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
+					i++;
+				ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), WORD));
+			}
+			else
+			{
+				while (input[i] && !ft_strchr("$\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
+					i++;
+				ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), DOLLAR));
+			}
 		}
 		else 
 		{

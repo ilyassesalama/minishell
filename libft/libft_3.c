@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:50:03 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/19 02:52:30 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/06/17 00:27:31 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ char	*ft_strdup(const char *s1)
 	char	*ss1;
 
 	ls1 = ft_strlen (s1);
+	if (!s1)
+		return (NULL);
 	i = 0;
-	ss1 = malloc(sizeof(char) * ls1 + 1);
+	ss1 = malloc(sizeof(char) * (ls1 + 1));
 	if (!ss1)
 		return (NULL);
 	while (s1[i])

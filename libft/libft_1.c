@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:20:25 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 00:14:21 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/17 00:26:56 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	ft_strlen(const char *s)
 	int	index;
 
 	index = 0;
+	if (!s)
+		return (0);
 	while (s[index] != '\0')
 		index++;
 	return (index);
