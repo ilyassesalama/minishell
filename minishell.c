@@ -3,32 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/07 16:10:08 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/17 23:59:02 by tajjid           ###   ########.fr       */
+/*   Created: 2023/06/18 00:10:44 by isalama           #+#    #+#             */
+/*   Updated: 2023/06/18 00:22:24 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// CHOOSE THE PROJECT TYPE
-# define ARE_WE_EXECUTING false
-
-void are_we_executing(t_env *env, t_token *tokens)
-{
-	if(ARE_WE_EXECUTING)
-		tokens_execution(env);
-	else 
-	{
-		t_token *temp = tokens;
-		while (temp != NULL)
-		{
-			printf("token: %s type: %d\n ", temp->content, temp->type);
-			temp = temp->next;
-		}
-	}
-}
+# define ARE_WE_EXECUTING true
 
 void scan_input(char *input, t_env *env)
 {
@@ -43,20 +27,23 @@ void scan_input(char *input, t_env *env)
 	if (tokens == NULL)
 		return ;
 	commands = command_creator(tokens);
-	while (commands)
-	{
-		i = 0;
-		printf("--------------------\n");
-		printf("{ command: %s input: %d output: %d }\n", commands->command, commands->input, commands->output);
-		while (commands->args[i])
+	if(ARE_WE_EXECUTING){
+		tokens_execution(commands, env);
+	} else {
+		while (commands)
 		{
-			printf("arg: %s\n", commands->args[i]);
-			i++;
+			i = 0;
+			printf("--------------------\n");
+			printf("{ command: %s input: %d output: %d }\n", commands->command, commands->input, commands->output);
+			while (commands->args[i])
+			{
+				printf("arg: %s\n", commands->args[i]);
+				i++;
+			}
+			printf("--------------------\n");
+			commands = commands->next;
 		}
-		printf("--------------------\n");
-		commands = commands->next;
 	}
-	are_we_executing(env, tokens);
 	ft_t_lstclear(&tokens);
 }
 
@@ -84,9 +71,13 @@ int main(int argc, char **argv, char **env)
 	{
 		receiver = readline(input_command);
 		if(receiver == NULL)
+		{
+			
 			break;
+		}
 		if (ft_strlen(receiver) > 0) 
 			add_history(receiver);
 		scan_input(receiver, env_list);
+		
 	}
 }
