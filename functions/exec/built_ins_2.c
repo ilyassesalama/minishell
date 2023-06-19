@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/18 00:21:25 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/19 00:38:07 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,6 @@ void	lets_env(t_env *env)
 		ft_putstr_fd(envirement->value, 1);
 		ft_putstr_fd("\n", 1);
 		envirement = envirement->next;
-	}
-}
-
-void	lets_export(t_env *env, char **args)
-{
-	t_env		*envirement;
-	bool		already_there;
-
-	already_there = false;
-	envirement = env;
-	while (envirement)
-	{
-		if (ft_strcmp(envirement->key, args[1]) == 0)
-		{
-			already_there = true;
-			break ;
-		}
-		envirement = envirement->next;
-	}
-	if (!already_there){
-		ft_lstadd_back(&env,
-			ft_envlstnew(ft_strdup(args[1]), ft_strdup(args[2])));
-		// print all args
-		while (*args)
-		{
-			printf("%s\n", *args);
-			args++;
-		}
-				
-	} else {
-		printf("already there\n");
 	}
 }
 

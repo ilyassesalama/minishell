@@ -6,19 +6,19 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/18 00:13:40 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/19 01:15:18 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void execute(char *content, t_env *env, char **args)
+char *get_function_path(char *content, t_env *env)
 {
 	char *working_path = "";
 	char **exec_paths = NULL;
+	char *original_command = content;
 	int i = 0;
 	content = ft_strjoin("/", content, 0);
-	int exit_status = 0;
 	while (env)
 	{
 		if (ft_strncmp(env->key, "PATH", 4) == 0)
@@ -33,20 +33,12 @@ void execute(char *content, t_env *env, char **args)
 		if (access(ft_strjoin(exec_paths[i], content, 0), F_OK) == 0)
 		{
 			working_path = ft_strjoin(exec_paths[i], content, 0);
-			pid_t pid = fork();
-			if (pid == 0)
-			{
-				execve(working_path, args, NULL);
-				perror("execve");
-				exit(125);
-			}
-			wait(&exit_status);
+			return working_path;
 			break;
 		}
 		i++;
 	}
-	execve("ls", args, NULL);
-	return;
+	return original_command;
 }
 
 bool	is_builtin(t_command *commands){
@@ -72,13 +64,13 @@ void builtin_execution(t_command *commands, t_env **env){
 	else if(ft_strcmp(commands->command, "env") == 0)
 		lets_env(*env);
 	else if(ft_strcmp(commands->command, "export") == 0)
-		lets_export(*env, commands->args);
+		lets_export(env, commands->args);
 	else if(ft_strcmp(commands->command, "unset") == 0)
 		lets_unset(env, commands->args);
 	return;
 }
 
-void tokens_execution(t_command *commands, t_env *env)
+void tokens_execution(t_command *commands, t_env **env)
 {
 	pid_t	pid;
 	int 	pipex[2];
@@ -87,28 +79,30 @@ void tokens_execution(t_command *commands, t_env *env)
 	int output = dup(STDOUT_FILENO);	
 	while (commands)
 	{
-		pipe(pipex);
-		pid = fork();
-		if (pid == 0)
-		{
-			if (commands->next)
-				dup2(pipex[1], 1);
-			close(pipex[0]);
-			if (is_builtin(commands))
-			{
-				builtin_execution(commands, &env);
+		if (is_builtin(commands)){
+			builtin_execution(commands, env);
+		} else {
+			pipe(pipex);
+			pid = fork();
+			if (pid == 0) {
+				if (commands->next)
+					dup2(pipex[1], 1);
+				close(pipex[0]);
+				
+				if(commands->input != 0)
+					dup2(commands->input, 0);
+				if(commands->output != 1)
+					dup2(commands->output, 1);
+				
+				execve(get_function_path(commands->command, *env), commands->args, NULL);
 				exit(0);
-			} else 
-				execve(commands->command, commands->args, NULL);
+			} else {	
+				dup2(pipex[0], 0);
+				close(pipex[1]);
+				close(pipex[0]);
+			}
 		}
-		else
-		{	
-			dup2(pipex[0], 0);
-			close(pipex[1]);
-			close(pipex[0]);
-		}
-		commands = commands->next;
-		
+	commands = commands->next;
 	}
 	while (wait(NULL) > 0);
 	dup2(input, STDIN_FILENO);

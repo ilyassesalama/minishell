@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 00:10:44 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/18 00:22:24 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/19 01:10:44 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define ARE_WE_EXECUTING true
 
-void scan_input(char *input, t_env *env)
+void scan_input(char *input, t_env **env)
 {
 	int i = 0;
 	t_command *commands;
@@ -23,7 +23,7 @@ void scan_input(char *input, t_env *env)
 	}
 	
 	t_token *tokens;
-	tokens = tokens_creation(input, env);
+	tokens = tokens_creation(input, *env);
 	if (tokens == NULL)
 		return ;
 	commands = command_creator(tokens);
@@ -77,7 +77,7 @@ int main(int argc, char **argv, char **env)
 		}
 		if (ft_strlen(receiver) > 0) 
 			add_history(receiver);
-		scan_input(receiver, env_list);
+		scan_input(receiver, &env_list);
 		
 	}
 }

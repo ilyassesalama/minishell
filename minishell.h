@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 00:20:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/18 00:14:17 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/19 01:11:01 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,12 @@ typedef struct s_command
 }	t_command;
 
 // MESSAGES
-# define ERROR_MSG_QUOTE "\033[1;31mError: quotations not closed.\n"
-# define ERROR_MSG_ENV "\033[1;31mError: HOME not set.\n"
-# define ERROR_MSG_INV_PATH "\033[1;31mNo such file or directory.\n"
-# define ERROR_MSG_SYNTAX "\033[1;31mError: syntax error.\n"
-# define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n"
+# define ERROR_MSG_QUOTE "\033[1;31mError: quotations not closed.\n\033[0m"
+# define ERROR_MSG_ENV "\033[1;31mError: HOME not set.\n\033[0m"
+# define ERROR_MSG_INV_PATH "\033[1;31mNo such file or directory.\n\033[0m"
+# define ERROR_MSG_SYNTAX "\033[1;31mError: syntax error.\n\033[0m"
+# define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n\033[0m"
+# define ERROR_MSG_IDENTIFIER "\033[1;31mError: not a valid identifier.\n\033[0m"
 
 
 // LIBFT
@@ -91,6 +92,8 @@ char				*ft_strchr(char *s, int c);
 char				*ft_strrchr(char *s, int c);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putnbr_fd(int n, int fd);
+bool				is_alpha(char c);
+bool				is_digit(char c);
 
 // ENVIRONMENT_UTILS
 t_env				*ft_envlstnew(char *key, char *value);
@@ -114,7 +117,7 @@ char				*word_expander(char *str, t_env *data);
 char				*check_expand(char *str, t_env *data);
 
 // EXECUTION_FUNCTIONS
-void				tokens_execution(t_command *commands,t_env *env);
+void				tokens_execution(t_command *commands,t_env **env);
 
 // --> EXECUTION_FUNCTIONS --> BUILT_INS
 void				lets_pwd(void);
@@ -122,7 +125,7 @@ void				lets_echo(t_command *commands);
 void				lets_cd(t_command *commands, t_env *env);
 void				lets_exit(void);
 void				lets_env(t_env *env);
-void				lets_export(t_env *env, char **args);
+void				lets_export(t_env **env, char **args);
 void				lets_unset(t_env **env, char **args);
 
 // --> EXECUTION_FUNCTIONS --> TESTING
