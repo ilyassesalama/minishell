@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/11 15:23:37 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/19 00:00:07 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	lets_echo(t_command *commands)
 			ft_putnbr_fd(getLastExitCode(), 1);
 		} else {
 			ft_putstr_fd(commands->args[i], 1);
+			ft_putstr_fd(" ", 1);
 		}
 		i++;
 	}
