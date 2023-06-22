@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/19 01:15:18 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:57:39 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,11 @@ void tokens_execution(t_command *commands, t_env **env)
 					dup2(commands->input, 0);
 				if(commands->output != 1)
 					dup2(commands->output, 1);
-				
-				execve(get_function_path(commands->command, *env), commands->args, NULL);
+				if(!*env){
+					ft_putstr_fd(ERROR_MSG_ENV, 2);
+				} else {	
+					execve(get_function_path(commands->command, *env), commands->args, NULL);
+				}
 				exit(0);
 			} else {	
 				dup2(pipex[0], 0);
