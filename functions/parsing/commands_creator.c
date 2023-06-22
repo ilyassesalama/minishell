@@ -6,14 +6,14 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/16 23:30:59 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/06/22 11:53:47 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
 /*
+	
 */
 
 char	**args_filler(char **args, char *token)
@@ -149,7 +149,10 @@ t_command	*command_creator(t_token *tokens)
 				line = readline("> ");
 				write(output, line, ft_strlen(line));
 				write(output, "\n", 1);
-			}	
+			}
+			if (line)
+				free(line);
+			close(output);
 			input = fd_opener("/tmp/tmp.txt", 3);
 			output = 1;
 		}

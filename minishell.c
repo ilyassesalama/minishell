@@ -3,33 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/18 00:10:44 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/19 01:10:44 by isalama          ###   ########.fr       */
+/*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
+/*   Updated: 2023/06/22 12:24:08 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "minishell.h"
 
-# define ARE_WE_EXECUTING true
+# define ARE_WE_EXECUTING false
 
 void scan_input(char *input, t_env **env)
 {
 	int i = 0;
-	t_command *commands;
-	if(!handle_quotes(input)){
-		return;
-	}
-	
 	t_token *tokens;
+	t_token *temp;
+	t_command *commands;
+	
+	if(!handle_quotes(input))
+		return;
 	tokens = tokens_creation(input, *env);
 	if (tokens == NULL)
 		return ;
+	temp = tokens;
+	while (temp)
+	{
+		printf("token: %s type: %d\n", temp -> content, temp -> type);
+		temp = temp->next;
+	}
 	commands = command_creator(tokens);
-	if(ARE_WE_EXECUTING){
+	if(ARE_WE_EXECUTING)
 		tokens_execution(commands, env);
-	} else {
+	else
+	{
 		while (commands)
 		{
 			i = 0;
@@ -54,7 +62,7 @@ int main(int argc, char **argv, char **env)
 	t_env *env_list;
 	int i;
 	char *receiver;
-	char *input_command = " minishell: ";
+	char *input_command = "\x1b[32m minishell: \x1b[0m";
 
 	i = 0;
 	while (env[i] != NULL && ft_strncmp(env[i], "PATH=", 5) != 0)
@@ -72,12 +80,10 @@ int main(int argc, char **argv, char **env)
 		receiver = readline(input_command);
 		if(receiver == NULL)
 		{
-			
 			break;
 		}
 		if (ft_strlen(receiver) > 0) 
 			add_history(receiver);
 		scan_input(receiver, &env_list);
-		
 	}
 }

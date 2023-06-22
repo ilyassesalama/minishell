@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:10:00 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/17 23:58:28 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/06/22 12:43:43 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char *check_expand(char *str, t_env *data)
 {
 	int i = 0;
 	char *tmp;
-	
+
 	while (str[i] && !ft_strchr(" $\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", str[i]))
 		i++;
 	tmp = ft_substr(str, 0, i);
@@ -67,6 +67,8 @@ char *word_expander(char *str, t_env *data)
 {
 	char *tmp;
 	
+	if(str[0] == '$' && str[1] == '\0')
+		return (ft_strdup("$"));
 	while (data && ft_strcmp(data -> key, str + 1) != 0)
 		data = data -> next;
 	if (data)
@@ -78,11 +80,18 @@ char *word_expander(char *str, t_env *data)
 
 bool	join_checker(int type)
 {
-
-	int i = 0;
-	int types[6] = {HEREDOC, REDIR, APPEND, DREDIR, PIPE, SPACE};
+	int i;
+	int types[6];
 	
-	while(i < 5){
+	i = 0;
+	types[0] = HEREDOC;
+	types[1] = REDIR;
+	types[2] = APPEND;
+	types[3] = DREDIR;
+	types[4] = PIPE;
+	types[5] = SPACE;
+	while (i < 6)
+	{
 		if (type == types[i])
 			return (false);
 		i++;
@@ -99,7 +108,27 @@ t_token		*tokens_joiner(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if ((tmp && tmp -> next) && (tmp -> type == WORD && join_checker(tmp -> next -> type)))
+		if ((tmp && tmp -> next) && (tmp -> type == WORD && tmp -> next -> type == SINGLE_QUOTE))
+		{
+			tmp_content = tmp -> content;
+			tmp_content2 = tmp -> next -> content;
+			tmp -> content = ft_strjoin(tmp_content, tmp_content2, 1);
+			free(tmp_content2);
+			tmp -> type = SINGLE_QUOTE;
+			tmp -> next = tmp -> next -> next;
+			tmp = tokens;
+		}
+		else if ((tmp && tmp -> next) && (tmp -> type == WORD && tmp -> next -> type == DOUBLE_QUOTE))
+		{
+			tmp_content = tmp -> content;
+			tmp_content2 = tmp -> next -> content;
+			tmp -> content = ft_strjoin(tmp_content, tmp_content2, 1);
+			free(tmp_content2);
+			tmp -> type = DOUBLE_QUOTE;
+			tmp -> next = tmp -> next -> next;
+			tmp = tokens;
+		}
+	 	else if ((tmp && tmp -> next) && (tmp -> type == WORD && join_checker(tmp -> next -> type)))
 		{
 			tmp_content = tmp -> content;
 			tmp_content2 = tmp -> next -> content;
@@ -123,13 +152,13 @@ t_token		*tokens_joiner(t_token *tokens)
 		{
 			tmp_content = tmp -> content;
 			tmp_content2 = tmp -> next -> content;
-			tmp -> content = ft_strjoin(tmp_content, tmp_content2, 1);
+			tmp -> content = ft_strjoin(tmp_content, tmp_content2, 1); 
 			free(tmp_content2);
 			tmp -> type = SINGLE_QUOTE;
 			tmp -> next = tmp -> next -> next;
 			tmp = tokens;
 		}
-		else if ((tmp && tmp -> next) && (tmp -> type == DOLLAR && join_checker(tmp -> next -> type)))
+		else if ((tmp && tmp -> next) && (tmp -> type == DOLLAR && !join_checker(tmp -> next -> type)))
 		{
 			tmp_content = tmp -> content;
 			tmp_content2 = tmp -> next -> content;
@@ -168,24 +197,26 @@ t_token		*tokens_expander(t_token *tokens, t_env *data)
 			tmp = tmp -> next;
 			if (tmp -> type == SPACE)
 				tmp = tmp -> next;
-			while (tmp && (tmp -> type == WORD 
-					|| tmp -> type == SINGLE_QUOTE 
+			while (tmp && (tmp -> type == WORD || tmp -> type == SINGLE_QUOTE 
 					|| tmp -> type == DOUBLE_QUOTE))
 				tmp = tmp -> next;
 		}
-		if (tmp && (tmp -> type == DOLLAR))
+		else if (tmp && (tmp -> type == DOLLAR))
 		{
 			tmp_content = tmp -> content;
 			tmp -> content = word_expander(tmp_content, data);
 			tmp -> type = WORD;
+			tmp = tmp -> next;
 		}
 		else if (tmp && (tmp -> type == DOUBLE_QUOTE))
 		{
 			tmp_content = tmp -> content;
 			tmp -> content = d_quote_expander(tmp_content, data);
-			tmp -> type = DOUBLE_QUOTE;
+			tmp -> type = DOUBLE_QUOTE;	
+			tmp = tmp -> next;
 		}
-		tmp = tmp -> next;
+		else
+			tmp = tmp -> next;
 	}
 	tmp = tokens;
 	tmp = tokens_joiner(tmp);
