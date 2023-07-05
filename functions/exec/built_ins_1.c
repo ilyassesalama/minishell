@@ -6,18 +6,20 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/19 00:00:07 by isalama          ###   ########.fr       */
+/*   Updated: 2023/06/22 18:59:16 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	lets_pwd(void)
+void	lets_pwd(t_env *env)
 {
 	char	path[PATH_MAX];
 
 	if (getcwd(path, sizeof(path)) != NULL)
 		printf("%s\n", path);
+	else
+		printf("%s\n", get_env_value("PWD", env));
 }
 
 int getLastExitCode() {
@@ -26,49 +28,70 @@ int getLastExitCode() {
 
 void	lets_echo(t_command *commands)
 {
-	bool	is_n;
+	bool	is_n = true;
+	t_command *cmd_tmp = commands;
 
-	is_n = (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0);
-
-	int i = 1;
-	if (is_n)
-		i++;
-	while(commands->args[i]){
-		if (ft_strcmp(commands->args[i], "$?") == 0){
-			ft_putnbr_fd(getLastExitCode(), 1);
-		} else {
-			ft_putstr_fd(commands->args[i], 1);
-			ft_putstr_fd(" ", 1);
+	// is_n = (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0);
+	
+		int i = 1;
+		int j = 0;
+		while(cmd_tmp->args[i])
+		{
+			j = 0;
+			if(cmd_tmp->args[i][j] == '-')
+			{
+				j++;
+				while (cmd_tmp->args[i][j])
+				{
+					if(cmd_tmp->args[i][j] != 'n')
+					{
+						is_n = false;
+						break;
+					}
+					j++;
+				}
+			}
+			else
+				break;
+			if (!is_n)
+				break;
+			i++;
 		}
+	is_n = i == 1 ? true : false;
+	while (cmd_tmp->args[i])
+	{
+		printf("%s", cmd_tmp->args[i]);
+		if (cmd_tmp->args[i + 1])
+			printf(" ");
 		i++;
 	}
-	if (!is_n)
-		ft_putstr_fd("\n", 1);
+	if (is_n)
+		printf("\n");
+	
 }
 
 void	lets_cd(t_command *commands, t_env *env)
 {
-	char	*home;
-	char	*current_path;
-
-	current_path = get_current_path();
-	if (ft_strcmp(current_path, "/") == 0)
-		return ;
-	if (commands->args[1] == NULL || (commands->args[1]
-			&& ft_strcmp(commands->args[1], "~") == 0))
+	char *home = NULL;
+	
+	if(commands->args[1] == NULL || (!ft_strcmp(commands->args[1], "~")))
 	{
 		home = get_env_value("HOME", env);
-		if (!home)
-			return (ft_putstr_fd(ERROR_MSG_ENV, 2));
-		if (chdir(home) == -1) {
-			ft_putstr_fd(ERROR_MSG_INV_PATH, 2);
+		if(!home){
+			ft_putstr_fd(ERROR_MSG_ENV, 2);
 			return ;
 		}
-		update_env("PWD", get_current_path(), env);
-		return ;
+		else
+		{
+			
+			if(chdir(home) == -1)
+				ft_putstr_fd(ERROR_MSG_NOFILE, 2);
+		}
+	} else
+	{
+		if (chdir(commands->args[1]) == -1)
+			ft_putstr_fd(ERROR_MSG_NOFILE, 2);
 	}
-	if (commands->args[1] || chdir(commands->args[1]) == -1)
-		ft_putstr_fd(ERROR_MSG_INV_PATH, 2);
-		
-	update_env("PWD", get_current_path(), env);
+	update_env("OLDPWD", get_env_value("PWD", env), env);
+	update_env("PWD", get_current_path(env), env);
 }

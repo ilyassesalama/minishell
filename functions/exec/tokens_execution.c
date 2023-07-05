@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/21 19:57:39 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/05 19:42:19 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ void builtin_execution(t_command *commands, t_env **env){
 	if(ft_strcmp(commands->command, "cd") == 0)
 		lets_cd(commands, *env);
 	else if(ft_strcmp(commands->command, "pwd") == 0)
-		lets_pwd();
+		lets_pwd(*env);
 	else if(ft_strcmp(commands->command, "exit") == 0)
 		lets_exit();
 	else if(ft_strcmp(commands->command, "echo") == 0)
 		lets_echo(commands);
-	else if(ft_strcmp(commands->command, "env") == 0)
-		lets_env(*env);
-	else if(ft_strcmp(commands->command, "export") == 0)
+	else if(ft_strcmp(commands->command, "export") == 0 && commands->args[1])
 		lets_export(env, commands->args);
+	else if(ft_strcmp(commands->command, "env") == 0 || ft_strcmp(commands->command, "export") == 0)
+		lets_env(*env);
 	else if(ft_strcmp(commands->command, "unset") == 0)
 		lets_unset(env, commands->args);
 	return;
@@ -74,37 +74,39 @@ void tokens_execution(t_command *commands, t_env **env)
 {
 	pid_t	pid;
 	int 	pipex[2];
+	
+	
+	if(!commands->next && is_builtin(commands)){
+		builtin_execution(commands, env);
+		return;
+	}
 
 	int input = dup(STDIN_FILENO);
 	int output = dup(STDOUT_FILENO);	
 	while (commands)
 	{
-		if (is_builtin(commands)){
-			builtin_execution(commands, env);
-		} else {
-			pipe(pipex);
-			pid = fork();
-			if (pid == 0) {
-				if (commands->next)
-					dup2(pipex[1], 1);
-				close(pipex[0]);
-				
-				if(commands->input != 0)
-					dup2(commands->input, 0);
-				if(commands->output != 1)
-					dup2(commands->output, 1);
-				if(!*env){
-					ft_putstr_fd(ERROR_MSG_ENV, 2);
-				} else {	
-					execve(get_function_path(commands->command, *env), commands->args, NULL);
-				}
-				exit(0);
-			} else {	
-				dup2(pipex[0], 0);
-				close(pipex[1]);
-				close(pipex[0]);
-			}
+		pipe(pipex);
+		pid = fork();
+		if (pid == 0) {
+			if (commands->next)
+				dup2(pipex[1], STDOUT_FILENO);
+			close(pipex[0]);
+			
+			if(commands->input != 0)
+				dup2(commands->input, STDIN_FILENO);
+			if(commands->output != 1)
+				dup2(commands->output, STDOUT_FILENO);
+			if (is_builtin(commands))
+				builtin_execution(commands, env);
+			else
+				execve(get_function_path(commands->command, *env), commands->args, NULL);
+			exit(0);
+		} else {	
+			dup2(pipex[0], STDIN_FILENO);
+			close(pipex[1]);
+			close(pipex[0]);
 		}
+		
 	commands = commands->next;
 	}
 	while (wait(NULL) > 0);
