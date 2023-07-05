@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 00:20:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/19 01:11:01 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/05 19:44:48 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct s_command
 # define ERROR_MSG_SYNTAX "\033[1;31mError: syntax error.\n\033[0m"
 # define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n\033[0m"
 # define ERROR_MSG_IDENTIFIER "\033[1;31mError: not a valid identifier.\n\033[0m"
+# define ERROR_MSG_NOFILE "\033[1;31mError: No such file or directory.\n\033[0m"
+# define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found:\033[0m"
 
 
 // LIBFT
@@ -120,7 +122,7 @@ char				*check_expand(char *str, t_env *data);
 void				tokens_execution(t_command *commands,t_env **env);
 
 // --> EXECUTION_FUNCTIONS --> BUILT_INS
-void				lets_pwd(void);
+void				lets_pwd(t_env *env);
 void				lets_echo(t_command *commands);
 void				lets_cd(t_command *commands, t_env *env);
 void				lets_exit(void);
@@ -150,7 +152,7 @@ bool				handle_quotes(char *input);
 
 // UTILS
 char				*get_current_dir(char *path);
-char				*get_current_path(void);
+char				*get_current_path(t_env *env);
 void				update_env(char *key, char *value, t_env *env);
 char				*get_env_value(char *key, t_env *env);
 

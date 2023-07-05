@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/05 19:42:19 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/05 19:44:56 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,18 @@ void builtin_execution(t_command *commands, t_env **env){
 	return;
 }
 
+
+void execute_command(t_command *commands, t_env **env){
+	int result;
+	
+	result = execve(get_function_path(commands->command, *env), commands->args, NULL);
+	if(result == -1){
+		printf("%s %s\n", ERROR_MSG_CMD_404, commands->command);
+		exit(0);
+	}
+}
+
+
 void tokens_execution(t_command *commands, t_env **env)
 {
 	pid_t	pid;
@@ -99,7 +111,7 @@ void tokens_execution(t_command *commands, t_env **env)
 			if (is_builtin(commands))
 				builtin_execution(commands, env);
 			else
-				execve(get_function_path(commands->command, *env), commands->args, NULL);
+				execute_command(commands, env);
 			exit(0);
 		} else {	
 			dup2(pipex[0], STDIN_FILENO);
