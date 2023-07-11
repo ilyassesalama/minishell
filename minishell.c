@@ -3,38 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/10 16:23:34 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/11 17:18:39 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-# define ARE_WE_EXECUTING false
+# define ARE_WE_EXECUTING true
 
-void scan_input(char *input, t_env **env)
+void	scan_input(char *input, t_env **env)
 {
-	int i = 0;
-	t_token *tokens;
-	t_token *temp;
-	t_command *commands;
-	
-	if(!handle_quotes(input))
-		return;
+	int			i = 0;
+	t_token		*tokens;
+	t_command		*commands;
+
+	if (!handle_quotes(input))
+		return ;
 	tokens = tokens_creation(input, *env);
 	if (tokens == NULL)
 		return ;
-	temp = tokens;
-	while (temp)
-	{
-		printf("token: %s type: %d\n", temp -> content, temp -> type);
-		temp = temp->next;
-	}
-	commands = command_creator(tokens, *env);
-	if(ARE_WE_EXECUTING)
+	commands = command_creator(tokens);
+	if (ARE_WE_EXECUTING)
 		tokens_execution(commands, env);
 	else
 	{
@@ -53,21 +45,22 @@ void scan_input(char *input, t_env **env)
 		}
 	}
 	ft_t_lstclear(&tokens);
+	ft_c_lstclear(&commands);
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
+	t_env	*env_list;
+	int		i;
+	char	*receiver;
+	char	*input_command;
+
+	input_command = "\x1b[32m minishell: \x1b[0m";
 	(void)argc;
 	(void)argv;
-	t_env *env_list;
-	int i;
-	char *receiver;
-	char *input_command = "\x1b[32m minishell: \x1b[0m";
-
 	i = 0;
 	while (env[i] != NULL && ft_strncmp(env[i], "PATH=", 5) != 0)
 		i++;
-	
 	i = 0;
 	while (env[i] != NULL)
 	{
@@ -78,11 +71,9 @@ int main(int argc, char **argv, char **env)
 	while (true)
 	{
 		receiver = readline(input_command);
-		if(receiver == NULL)
-		{
-			break;
-		}
-		if (ft_strlen(receiver) > 0) 
+		if (receiver == NULL)
+			break ;
+		if (ft_strlen(receiver) > 0)
 			add_history(receiver);
 		scan_input(receiver, &env_list);
 	}

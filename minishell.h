@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/11 16:15:24 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/11 17:17:41 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ enum e_token_type
 
 // STRUCTURES
 
+typedef struct s_global {
+	int		exit_status;
+}	t_global;
+
+t_global g_global;
+
+
 typedef struct s_token
 {
 	char				*content;
@@ -63,6 +70,7 @@ typedef struct s_command
 	char				*command;
 	char				**args;
 	int					output;
+	bool				should_print;
 	int					input;
 	struct s_command	*next;
 }	t_command;
@@ -97,11 +105,12 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putnbr_fd(int n, int fd);
 bool				is_alpha(char c);
 bool				is_digit(char c);
+int					ft_atoi(char *str);
 
 // ENVIRONMENT_UTILS
 t_env				*ft_envlstnew(char *key, char *value);
 void				ft_lstadd_back(t_env **alst, t_env *new);
-void				ft_lstclear(t_env **lst);
+void				ft_lstclear(t_env **env_lst);
 
 // TOKENS_FUNCTIONS
 t_token				*tokens_creation(char *input, t_env *data);
@@ -110,8 +119,8 @@ t_token				*ft_t_lstnew(char *content, int type);
 t_token				*ft_t_lstlast(t_token *lst, int type);
 void				ft_t_delone(t_token *token);
 void				ft_t_lstadd_back(t_token **alst, t_token *new);
- t_token			*ft_t_spaces_deleter(t_token *tokens);
-void				ft_t_lstclear(t_token **lst);
+t_token				*ft_t_spaces_deleter(t_token *tokens);
+void				ft_t_lstclear(t_token **token_lst);
 
 // TOKENS_EXPANSION
 t_token				*tokens_expander(t_token *tokens, t_env *data);
@@ -126,7 +135,7 @@ void				tokens_execution(t_command *commands,t_env **env);
 void				lets_pwd(t_env *env);
 void				lets_echo(t_command *commands);
 void				lets_cd(t_command *commands, t_env *env);
-void				lets_exit(void);
+void				lets_exit(t_command *commands);
 void				lets_env(t_env *env);
 void				lets_export(t_env **env, char **args);
 void				lets_unset(t_env **env, char **args);
