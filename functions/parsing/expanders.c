@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:10:00 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/22 12:43:43 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/09 18:33:27 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char *check_expand(char *str, t_env *data)
 
 	while (str[i] && !ft_strchr(" $\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", str[i]))
 		i++;
+	if (i == 0)
+		return(ft_strjoin("$", str, 2));
 	tmp = ft_substr(str, 0, i);
 	while (data && ft_strcmp(data -> key, tmp) != 0)
 		data = data -> next;
@@ -39,11 +41,11 @@ char *d_quote_expander(char *str, t_env *data)
 	int boo2 = 0;
 	int i = 0;
 	char **splitted;
-	char *tmp = ft_strdup("") ;
-	
+	char *tmp = ft_strdup("");
+
 	if (str[0] == '$')
 		boo = 1;
-	if (str[1] && ft_strchr("$\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", str[1]))
+	if (str[ft_strlen(str) - 1] == '$')
 		boo2 = 1;
 	splitted  = ft_split(str, '$');
 	while (splitted[i])
@@ -56,10 +58,10 @@ char *d_quote_expander(char *str, t_env *data)
 	}
 	splitted[i] = NULL;
 	i = 0;
-	if (boo2 == 1)
-		tmp = ft_strjoin(tmp, "$", 0);
 	while(splitted[i])
 		tmp = ft_strjoin(tmp, splitted[i++], 2);
+	if (boo2 == 1)
+		tmp = ft_strjoin(tmp, "$", 1);
 	return (tmp);
 }
 
@@ -158,15 +160,24 @@ t_token		*tokens_joiner(t_token *tokens)
 			tmp -> next = tmp -> next -> next;
 			tmp = tokens;
 		}
-		else if ((tmp && tmp -> next) && (tmp -> type == DOLLAR && !join_checker(tmp -> next -> type)))
+		else if ((tmp && tmp -> next) && (tmp -> type == DOLLAR && join_checker(tmp -> next -> type)))
 		{
-			tmp_content = tmp -> content;
-			tmp_content2 = tmp -> next -> content;
-			tmp -> content = ft_strjoin(tmp_content, tmp_content2, 1);
-			free(tmp_content2);
-			tmp -> type = DOLLAR;
-			tmp -> next = tmp -> next -> next;
-			tmp = tokens;
+			if (ft_strlen(tmp -> content) == 1)
+				{
+					free(tmp -> content);
+					tmp -> content = ft_strdup("");
+					tmp -> type = NONUSABLE;	
+				}
+				else
+				{
+					tmp_content = tmp -> content;
+					tmp_content2 = tmp -> next -> content;
+					tmp -> content = ft_strjoin(tmp_content, tmp_content2, 1);
+					free(tmp_content2);
+					tmp -> type = DOLLAR;
+					tmp -> next = tmp -> next -> next;
+					tmp = tokens;
+				}
 		}
 		else
 			tmp = tmp -> next;
@@ -197,15 +208,18 @@ t_token		*tokens_expander(t_token *tokens, t_env *data)
 			tmp = tmp -> next;
 			if (tmp -> type == SPACE)
 				tmp = tmp -> next;
-			while (tmp && (tmp -> type == WORD || tmp -> type == SINGLE_QUOTE 
-					|| tmp -> type == DOUBLE_QUOTE))
+			while (tmp && (tmp -> type == DOLLAR || tmp -> type == SINGLE_QUOTE
+				|| tmp -> type == DOUBLE_QUOTE))
 				tmp = tmp -> next;
 		}
 		else if (tmp && (tmp -> type == DOLLAR))
 		{
 			tmp_content = tmp -> content;
 			tmp -> content = word_expander(tmp_content, data);
-			tmp -> type = WORD;
+			if (ft_strlen(tmp -> content) == 1 && tmp -> next && tmp -> next -> type != SPACE)
+				tmp -> type = DOLLAR;
+			else
+				tmp -> type = WORD;
 			tmp = tmp -> next;
 		}
 		else if (tmp && (tmp -> type == DOUBLE_QUOTE))
@@ -216,7 +230,7 @@ t_token		*tokens_expander(t_token *tokens, t_env *data)
 			tmp = tmp -> next;
 		}
 		else
-			tmp = tmp -> next;
+ 			tmp = tmp -> next;
 	}
 	tmp = tokens;
 	tmp = tokens_joiner(tmp);

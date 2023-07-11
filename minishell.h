@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/17 00:20:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/05 19:44:48 by isalama          ###   ########.fr       */
+/*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
+/*   Updated: 2023/07/11 16:15:24 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -139,7 +140,7 @@ int					command_lst_size(t_command *cmd);
 void				non_use_remover(t_token *tokens);
 
 // COMMANDS CREATION
-t_command			*command_creator(t_token *tokens);
+t_command			*command_creator(t_token *tokens, t_env *env);
 t_command			*ft_c_lstnew(char *command , char **args, int input, int output);
 void				ft_c_lstadd_back(t_command **list, t_command *new);
 void				ft_c_lstclear(t_command **list);

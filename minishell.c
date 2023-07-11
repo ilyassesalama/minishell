@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/22 12:24:08 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/10 16:23:34 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void scan_input(char *input, t_env **env)
 		printf("token: %s type: %d\n", temp -> content, temp -> type);
 		temp = temp->next;
 	}
-	commands = command_creator(tokens);
+	commands = command_creator(tokens, *env);
 	if(ARE_WE_EXECUTING)
 		tokens_execution(commands, env);
 	else

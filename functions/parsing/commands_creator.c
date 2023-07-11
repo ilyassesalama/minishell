@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/22 11:53:47 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/10 16:22:41 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 	
 */
+
 
 char	**args_filler(char **args, char *token)
 {
@@ -60,6 +61,11 @@ t_command	*command_filler(t_token *tokens, t_command *commands, int input, int o
 	{
 		args = ft_split(tokens -> content, ' ');
 		command = ft_strdup(args[0]);
+		if (!command)
+		{
+			free(command);
+			command = ft_strdup("");
+		}
 		tokens = tokens -> next;
 	}
 	else if (tokens && (tokens -> type == DOUBLE_QUOTE || tokens -> type == SINGLE_QUOTE))
@@ -89,7 +95,7 @@ t_command	*command_filler(t_token *tokens, t_command *commands, int input, int o
 	return (commands);
 }
 
-t_command	*command_creator(t_token *tokens)
+t_command	*command_creator(t_token *tokens, t_env *env)
 {
 	t_token		*tmp_tokens;
 	t_token		*tmp_tokens2;
@@ -100,11 +106,13 @@ t_command	*command_creator(t_token *tokens)
 	int			input;
 	int			output;
 	int 		flag;
+	bool 		expand;
 	
 	tmp_tokens = tokens;
 	tmp_tokens2 = tokens;
 	commands = NULL;
 	tmp = NULL;
+	line = NULL;
 	input = 0;
 	output = 1;
 	flag = 0;
@@ -127,28 +135,40 @@ t_command	*command_creator(t_token *tokens)
 		}
 		if (tmp_tokens -> type == HEREDOC)
 		{
-			output = fd_opener("/tmp/tmp.txt", 2);
+			output = fd_opener("/tmp/tmp.txt", 1);
 			line = readline("> ");
 			if (tmp_tokens -> next -> type != SPACE)
 			{
+				if (tmp_tokens -> next -> type == WORD)
+					expand = true;
+				else
+					expand = false;
 				limiter = ft_strdup(tmp_tokens -> next -> content);
 				tmp_tokens -> type = NONUSABLE;
 				tmp_tokens -> next -> type = NONUSABLE;
 			}
 			else
 			{
+				if (tmp_tokens -> next -> next -> type == WORD)
+					expand = true;
+				else
+					expand = false;
 				limiter = ft_strdup(tmp_tokens -> next -> next -> content);
 				tmp_tokens -> type = NONUSABLE;
 				tmp_tokens -> next -> type = NONUSABLE;
 				tmp_tokens -> next -> next -> type = NONUSABLE;
 			}
-			while(line && ft_strcmp(line, limiter))
+			while (line && ft_strcmp(line, limiter))
 			{
-				if (line)
-					free(line);
-				line = readline("> ");
+				if (expand)
+				{
+					while(line && ft_strchr(line, '$'))
+						line = d_quote_expander(line, env);
+				}
 				write(output, line, ft_strlen(line));
 				write(output, "\n", 1);
+				free(line);
+				line = readline("> ");
 			}
 			if (line)
 				free(line);

@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:24 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/22 12:04:27 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/11 02:48:27 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ t_token		*tokens_creation(char *input, t_env *data)
 		{
 			start = i;
 			i++;
-			if (input[i] && ft_strchr("$\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
+			if (input[i] && ft_strchr("$+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
 			{
 				i++;
-				while (input[i] && !ft_strchr("$\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
+				while (input[i] && !ft_strchr(" $\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
 					i++;
 				ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), WORD));
 			}
