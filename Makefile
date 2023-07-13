@@ -3,30 +3,41 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+         #
+#    By: isalama <isalama@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/07 16:19:01 by isalama           #+#    #+#              #
-#    Updated: 2023/06/22 12:17:52 by tajjid           ###   ########.fr        #
+#    Created: 2023/06/22 13:06:26 by isalama           #+#    #+#              #
+#    Updated: 2023/07/12 03:09:37 by isalama          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
+USER = $(shell whoami)
 CFLAGS = -Wall -Wextra -Werror
 READLINEFLAG = -lreadline
 LIBFT = $(wildcard libft/*.c)
-FUNCTIONS = $(wildcard functions/*.c) $(wildcard functions/exec/*.c) $(wildcard functions/parsing/*.c) $(wildcard functions/exec/builtins/*.c) 
+FUNCTIONS = $(wildcard functions/*.c) $(wildcard functions/exec/*.c) \
+$(wildcard functions/parsing/*.c) $(wildcard functions/exec/builtins/*.c) minishell.c
 
-all:
-	$(CC) $(CFLAGS) $(READLINEFLAG) $(LIBFT) $(FUNCTIONS) minishell.c -o $(NAME)
+OBJS = $(FUNCTIONS:.c=.o) $(LIBFT:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(OBJS)  -L /Users/$(USER)/.brew/opt/readline/lib -o $(NAME) $(READLINEFLAG)
 	@clear
+
 %.o: %.c minishell.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I /Users/$(USER)/.brew/opt/readline/include -c $< -o $@
 	@clear
+
 clean:
+	rm -f $(OBJS)
+	@clear
+
+fclean: clean
 	rm -f $(NAME)
 	@clear
-fclean: clean
 
 re: fclean all
 	@clear
