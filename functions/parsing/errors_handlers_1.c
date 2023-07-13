@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/14 22:46:48 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:07:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool	syntax_error(t_token *tokens)
 		{
 			if (tokens -> next == NULL || tokens -> next -> type == PIPE)
 				return (out_error(ERROR_MSG_SYNTAX), false);
-			if (tokens -> next -> next && tokens -> next -> type == SPACE && tokens -> next -> next -> type == PIPE)
+			if (tokens -> next -> next && tokens -> next -> type == SPACER && tokens -> next -> next -> type == PIPE)
 				return (out_error(ERROR_MSG_SYNTAX), false);
 		}
 		else if ((tokens -> type == REDIR || tokens -> type == DREDIR) && tokens -> next == NULL)
@@ -75,7 +75,7 @@ bool	syntax_error(t_token *tokens)
 		{
 			if (tokens -> next -> type == APPEND || tokens -> next -> type == PIPE)
 				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACE 
+			else if (tokens -> next -> type == SPACER 
 			&& (tokens -> next -> next -> type == HEREDOC || tokens -> next -> next -> type == APPEND))
 				return (out_error(ERROR_MSG_SYNTAX), false);
 		}
@@ -83,7 +83,7 @@ bool	syntax_error(t_token *tokens)
 		{
 			if (tokens -> next -> type == HEREDOC || tokens -> next -> type == PIPE)
 				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACE 
+			else if (tokens -> next -> type == SPACER 
 			&& (tokens -> next -> next -> type == HEREDOC || tokens -> next -> next -> type == APPEND))
 				return (out_error(ERROR_MSG_SYNTAX), false);
 		}
@@ -91,7 +91,7 @@ bool	syntax_error(t_token *tokens)
 		{
 			if (tokens -> next -> type == DREDIR || tokens -> next -> type == PIPE)
 				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACE 
+			else if (tokens -> next -> type == SPACER 
 			&& (tokens -> next -> next -> type == REDIR || tokens -> next -> next -> type == DREDIR))
 				return (out_error(ERROR_MSG_SYNTAX), false);
 		}
@@ -99,7 +99,7 @@ bool	syntax_error(t_token *tokens)
 		{
 			if (tokens -> next -> type == REDIR || tokens -> next -> type == PIPE)
 				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACE 
+			else if (tokens -> next -> type == SPACER 
 			&& (tokens -> next -> next -> type == REDIR || tokens -> next -> next -> type == DREDIR))
 				return (out_error(ERROR_MSG_SYNTAX), false);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/11 17:17:41 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/13 01:19:57 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 enum e_token_type
 {
 	WORD,
-	SPACE,
+	SPACER,
 	PIPE,
 	REDIR,
 	DREDIR,
@@ -106,6 +106,7 @@ void				ft_putnbr_fd(int n, int fd);
 bool				is_alpha(char c);
 bool				is_digit(char c);
 int					ft_atoi(char *str);
+char				*ft_itoa(int n);
 
 // ENVIRONMENT_UTILS
 t_env				*ft_envlstnew(char *key, char *value);
@@ -119,7 +120,7 @@ t_token				*ft_t_lstnew(char *content, int type);
 t_token				*ft_t_lstlast(t_token *lst, int type);
 void				ft_t_delone(t_token *token);
 void				ft_t_lstadd_back(t_token **alst, t_token *new);
-t_token				*ft_t_spaces_deleter(t_token *tokens);
+t_token				*ft_t_SPACERs_deleter(t_token *tokens);
 void				ft_t_lstclear(t_token **token_lst);
 
 // TOKENS_EXPANSION

@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:53:48 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/16 02:05:08 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:07:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	non_use_remover(t_token *tokens)
 			tmp2 = tmp -> next;
 			tmp -> next = tmp -> next -> next;
 			free(tmp2);
-			if (tmp -> next && tmp -> next -> type == SPACE)
+			if (tmp -> next && tmp -> next -> type == SPACER)
 			{
 				tmp2 = tmp -> next;
 				tmp -> next = tmp -> next -> next;

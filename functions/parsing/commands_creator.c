@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/10 16:22:41 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:07:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ t_command	*command_filler(t_token *tokens, t_command *commands, int input, int o
 	
 	args = NULL;
 	command = NULL;
-	if (tokens -> type == NONUSABLE || tokens -> type == SPACE)
+	if (tokens -> type == NONUSABLE || tokens -> type == SPACER)
 	{
-		while (tokens && (tokens -> type == NONUSABLE || tokens -> type == SPACE))
+		while (tokens && (tokens -> type == NONUSABLE || tokens -> type == SPACER))
 			tokens = tokens -> next;
 	}
 	if (tokens && tokens -> type == WORD)
@@ -82,7 +82,7 @@ t_command	*command_filler(t_token *tokens, t_command *commands, int input, int o
 	}
 	while(tokens && tokens -> type != PIPE)
 	{
-		if (tokens -> type == SPACE || tokens -> type == NONUSABLE)
+		if (tokens -> type == SPACER || tokens -> type == NONUSABLE)
 			tokens = tokens -> next;
 		else 
 		{
@@ -137,9 +137,10 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 		{
 			output = fd_opener("/tmp/tmp.txt", 1);
 			line = readline("> ");
-			if (tmp_tokens -> next -> type != SPACE)
+			if (tmp_tokens -> next -> type != SPACER)
 			{
-				if (tmp_tokens -> next -> type == WORD)
+				if (tmp_tokens -> next -> type == WORD 
+					|| tmp_tokens -> next -> type == DOLLAR)
 					expand = true;
 				else
 					expand = false;
@@ -149,7 +150,8 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 			}
 			else
 			{
-				if (tmp_tokens -> next -> next -> type == WORD)
+				if (tmp_tokens -> next -> next -> type == WORD 
+					|| tmp_tokens -> next -> next -> type == DOLLAR)
 					expand = true;
 				else
 					expand = false;
@@ -185,9 +187,9 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 				tmp_tokens -> next -> type = NONUSABLE;
 				tmp_tokens = tmp_tokens -> next;
 			}
-			else if ((tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == WORD)
-				|| (tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == SINGLE_QUOTE)
-				|| (tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == DOUBLE_QUOTE))
+			else if ((tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == WORD)
+				|| (tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == SINGLE_QUOTE)
+				|| (tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == DOUBLE_QUOTE))
 			{
 				output = fd_opener(tmp_tokens -> next -> next -> content, 2);
 				tmp_tokens -> type = NONUSABLE;
@@ -207,9 +209,9 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 				tmp_tokens -> next -> type = NONUSABLE;
 				tmp_tokens = tmp_tokens -> next;
 			}
-			else if ((tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == WORD)
-				|| (tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == SINGLE_QUOTE)
-				|| (tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == DOUBLE_QUOTE))
+			else if ((tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == WORD)
+				|| (tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == SINGLE_QUOTE)
+				|| (tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == DOUBLE_QUOTE))
 			{
 				if (output != 1)
 					close(output);
@@ -231,9 +233,9 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 				tmp_tokens -> next -> type = NONUSABLE;
 				tmp_tokens = tmp_tokens -> next;
 			}
-			else if ((tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == WORD)
-				|| (tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == SINGLE_QUOTE)
-				|| (tmp_tokens -> next -> type == SPACE && tmp_tokens -> next -> next -> type == DOUBLE_QUOTE))
+			else if ((tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == WORD)
+				|| (tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == SINGLE_QUOTE)
+				|| (tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == DOUBLE_QUOTE))
 			{
 				if (input != 0)
 					close(input);

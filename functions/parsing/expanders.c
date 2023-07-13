@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:10:00 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/09 18:33:27 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:40:17 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@ char *check_expand(char *str, t_env *data)
 	int i = 0;
 	char *tmp;
 
-	while (str[i] && !ft_strchr(" $\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", str[i]))
+	if (str[i] && str[i] == '?')
+	{
+		tmp = ft_itoa(g_global.exit_status);
+		str = ft_strjoin(tmp, str + 1, 1);
+		return (str);
+	}
+	while (str[i] && !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[i]))
 		i++;
 	if (i == 0)
 		return(ft_strjoin("$", str, 2));
@@ -68,8 +74,10 @@ char *d_quote_expander(char *str, t_env *data)
 char *word_expander(char *str, t_env *data)
 {
 	char *tmp;
-	
-	if(str[0] == '$' && str[1] == '\0')
+
+	if (str[0] == '$' && str[1] == '?')
+		return (ft_itoa(g_global.exit_status));
+	else if (str[0] == '$' && str[1] == '\0')
 		return (ft_strdup("$"));
 	while (data && ft_strcmp(data -> key, str + 1) != 0)
 		data = data -> next;
@@ -91,7 +99,7 @@ bool	join_checker(int type)
 	types[2] = APPEND;
 	types[3] = DREDIR;
 	types[4] = PIPE;
-	types[5] = SPACE;
+	types[5] = SPACER;
 	while (i < 6)
 	{
 		if (type == types[i])
@@ -206,7 +214,7 @@ t_token		*tokens_expander(t_token *tokens, t_env *data)
 		if (tmp -> type == HEREDOC)
 		{
 			tmp = tmp -> next;
-			if (tmp -> type == SPACE)
+			if (tmp -> type == SPACER)
 				tmp = tmp -> next;
 			while (tmp && (tmp -> type == DOLLAR || tmp -> type == SINGLE_QUOTE
 				|| tmp -> type == DOUBLE_QUOTE))
@@ -216,7 +224,7 @@ t_token		*tokens_expander(t_token *tokens, t_env *data)
 		{
 			tmp_content = tmp -> content;
 			tmp -> content = word_expander(tmp_content, data);
-			if (ft_strlen(tmp -> content) == 1 && tmp -> next && tmp -> next -> type != SPACE)
+			if (ft_strlen(tmp -> content) == 1 && tmp -> next && tmp -> next -> type != SPACER)
 				tmp -> type = DOLLAR;
 			else
 				tmp -> type = WORD;

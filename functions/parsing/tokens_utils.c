@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:41:10 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/14 22:08:00 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:07:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ void	ft_t_lstadd_back(t_token **alst, t_token *new)
 		last = last -> next;
 	last -> next = new;
 }	
- t_token	*ft_t_spaces_deleter(t_token *tokens)
+ t_token	*ft_t_SPACERs_deleter(t_token *tokens)
  {
-	if (tokens && tokens -> type == SPACE)
+	if (tokens && tokens -> type == SPACER)
 	{
 		t_token *tmp = tokens -> next;
 		free(tokens);
 		tokens = tmp;
 	}
-	if (tokens && ft_t_lstlast(tokens, 1) -> type == SPACE)
+	if (tokens && ft_t_lstlast(tokens, 1) -> type == SPACER)
 	{
 		t_token *tmp = ft_t_lstlast(tokens, 1);
 		free(tmp);

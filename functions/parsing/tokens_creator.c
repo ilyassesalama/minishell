@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:24 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/11 02:48:27 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 01:34:37 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token		*tokens_creation(char *input, t_env *data)
 	{
 		if (input[i] && input[i] == ' ')
 		{
-			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_strdup(" "), SPACE));
+			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_strdup(" "), SPACER));
 			while (input[i] == ' ')
 				i++;
 		}
@@ -75,7 +75,12 @@ t_token		*tokens_creation(char *input, t_env *data)
 		{
 			start = i;
 			i++;
-			if (input[i] && ft_strchr("$+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
+			if (input[i] && input[i] == '?')
+			{
+				i++;
+				ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), DOLLAR));
+			}
+			else if (input[i] && ft_strchr("$+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", input[i]))
 			{
 				i++;
 				while (input[i] && !ft_strchr(" $\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]", input[i]))
@@ -99,7 +104,7 @@ t_token		*tokens_creation(char *input, t_env *data)
 			ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_substr(input, start, i - start), WORD));
 		}
 	}
-	tokens = ft_t_spaces_deleter(tokens);
+	tokens = ft_t_SPACERs_deleter(tokens);
 	if (!syntax_error(tokens))
 		return (NULL);
 	tokens = tokens_expander(tokens, data);
