@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/22 18:59:16 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/11 20:50:19 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	lets_echo(t_command *commands)
 	bool	is_n = true;
 	t_command *cmd_tmp = commands;
 
-	// is_n = (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0);
+	is_n = (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0);
 	
 		int i = 1;
 		int j = 0;
@@ -60,13 +60,16 @@ void	lets_echo(t_command *commands)
 	is_n = i == 1 ? true : false;
 	while (cmd_tmp->args[i])
 	{
-		printf("%s", cmd_tmp->args[i]);
+		ft_putstr_fd(cmd_tmp->args[i], commands->output);
 		if (cmd_tmp->args[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", commands->output);
 		i++;
 	}
 	if (is_n)
-		printf("\n");
+		ft_putstr_fd("\n", commands->output);
+	
+	// printf("%d\n", g_global.exit_status);
+	g_global.exit_status = 0;
 	
 }
 
