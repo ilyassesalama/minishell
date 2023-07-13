@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 17:52:53 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/13 20:57:58 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,42 @@ void	builtin_execution(t_command *commands, t_env **env)
 	return ;
 }
 
+char **env_to_array(t_env *env){
+	int i = 0;
+	char **env_variables;
+	t_env *tmp;
+	
+	tmp = env;
+	while(tmp){
+		i++;
+		tmp = tmp->next;
+	}
+	env_variables = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!env_variables)
+		return NULL;
+	i = 0;
+	while(env){
+		env_variables[i] = ft_strjoin(env->key, "=", 0);
+		env_variables[i] = ft_strjoin(env_variables[i], env->value, 1);
+		i++;
+		env = env->next;
+	}
+	env_variables[i] = NULL;
+	return env_variables;
+}
+
+
 void	execute_command(t_command *commands, t_env **env)
 {
 	int	result;
+	char **env_variables;
 
+	env_variables = env_to_array(*env);
 	result = execve(get_function_path(commands->command, *env),
-			commands->args, NULL);
+			commands->args, env_variables);
 	if (commands->args[0] && result == -1)
 	{
-		printf("%s %s\n", ERROR_MSG_CMD_404, commands->command);
+		ft_putstr_fd(ERROR_MSG_CMD_404, 2);
 		exit(127);
 	}
 }
@@ -108,9 +135,9 @@ void	tokens_execution(t_command *commands, t_env **env)
 				dup2(pipex[1], STDOUT_FILENO);
 			close(pipex[0]);
 			
-			if(commands->input != 0)
+			if (commands->input != 0)
 				dup2(commands->input, STDIN_FILENO);
-			if(commands->output != 1)
+			if (commands->output != 1)
 				dup2(commands->output, STDOUT_FILENO);
 			if (is_builtin(commands))
 				builtin_execution(commands, env);
@@ -123,12 +150,13 @@ void	tokens_execution(t_command *commands, t_env **env)
 			close(pipex[1]);
 			close(pipex[0]);
 		}
-	commands = commands->next;
+		commands = commands->next;
 	}
-	while (wait(&status_code) > 0) {
-        if (WIFEXITED(status_code))
+	while (wait(&status_code) > 0)
+	{
+		if (WIFEXITED(status_code))
 			g_global.exit_status = WEXITSTATUS(status_code);
-    }
+	}
 	dup2(input, STDIN_FILENO);
 	dup2(output, STDOUT_FILENO);
 }
