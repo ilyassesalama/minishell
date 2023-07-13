@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/05 19:44:56 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/13 17:52:53 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char *get_function_path(char *content, t_env *env)
 		if (ft_strncmp(env->key, "PATH", 4) == 0)
 		{
 			exec_paths = ft_split(env->value, ':');
-			break;
+			break ;
 		}
 		env = env->next;
 	}
@@ -34,11 +34,11 @@ char *get_function_path(char *content, t_env *env)
 		{
 			working_path = ft_strjoin(exec_paths[i], content, 0);
 			return working_path;
-			break;
+			break ;
 		}
 		i++;
 	}
-	return original_command;
+	return (original_command);
 }
 
 bool	is_builtin(t_command *commands){
@@ -52,49 +52,53 @@ bool	is_builtin(t_command *commands){
 	return false;
 }
 
-void builtin_execution(t_command *commands, t_env **env){
-	if(ft_strcmp(commands->command, "cd") == 0)
+void	builtin_execution(t_command *commands, t_env **env)
+{
+	if (ft_strcmp(commands->command, "cd") == 0)
 		lets_cd(commands, *env);
-	else if(ft_strcmp(commands->command, "pwd") == 0)
+	else if (ft_strcmp(commands->command, "pwd") == 0)
 		lets_pwd(*env);
-	else if(ft_strcmp(commands->command, "exit") == 0)
-		lets_exit();
-	else if(ft_strcmp(commands->command, "echo") == 0)
+	else if (ft_strcmp(commands->command, "exit") == 0)
+		lets_exit(commands);
+	else if (ft_strcmp(commands->command, "echo") == 0)
 		lets_echo(commands);
-	else if(ft_strcmp(commands->command, "export") == 0 && commands->args[1])
+	else if (ft_strcmp(commands->command, "export") == 0 && commands->args[1])
 		lets_export(env, commands->args);
-	else if(ft_strcmp(commands->command, "env") == 0 || ft_strcmp(commands->command, "export") == 0)
+	else if (ft_strcmp(commands->command, "env") == 0
+		|| ft_strcmp(commands->command, "export") == 0)
 		lets_env(*env);
-	else if(ft_strcmp(commands->command, "unset") == 0)
+	else if (ft_strcmp(commands->command, "unset") == 0)
 		lets_unset(env, commands->args);
-	return;
+	return ;
 }
 
+void	execute_command(t_command *commands, t_env **env)
+{
+	int	result;
 
-void execute_command(t_command *commands, t_env **env){
-	int result;
-	
-	result = execve(get_function_path(commands->command, *env), commands->args, NULL);
-	if(result == -1){
+	result = execve(get_function_path(commands->command, *env),
+			commands->args, NULL);
+	if (commands->args[0] && result == -1)
+	{
 		printf("%s %s\n", ERROR_MSG_CMD_404, commands->command);
-		exit(0);
+		exit(127);
 	}
 }
 
-
-void tokens_execution(t_command *commands, t_env **env)
+void	tokens_execution(t_command *commands, t_env **env)
 {
 	pid_t	pid;
-	int 	pipex[2];
-	
-	
-	if(!commands->next && is_builtin(commands)){
+	int		pipex[2];
+	int		status_code;
+
+	if (!commands->next && is_builtin(commands))
+	{
 		builtin_execution(commands, env);
-		return;
+		return ;
 	}
 
 	int input = dup(STDIN_FILENO);
-	int output = dup(STDOUT_FILENO);	
+	int output = dup(STDOUT_FILENO);		
 	while (commands)
 	{
 		pipe(pipex);
@@ -112,16 +116,19 @@ void tokens_execution(t_command *commands, t_env **env)
 				builtin_execution(commands, env);
 			else
 				execute_command(commands, env);
-			exit(0);
-		} else {	
+		}
+		else
+		{	
 			dup2(pipex[0], STDIN_FILENO);
 			close(pipex[1]);
 			close(pipex[0]);
 		}
-		
 	commands = commands->next;
 	}
-	while (wait(NULL) > 0);
+	while (wait(&status_code) > 0) {
+        if (WIFEXITED(status_code))
+			g_global.exit_status = WEXITSTATUS(status_code);
+    }
 	dup2(input, STDIN_FILENO);
 	dup2(output, STDOUT_FILENO);
 }

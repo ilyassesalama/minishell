@@ -6,15 +6,23 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/19 00:38:07 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/13 17:11:00 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	lets_exit(void)
+void	lets_exit(t_command *commands)
 {
-	exit(0);
+	if (commands->args[1] == NULL)
+		exit(0);
+	else if (commands->args[2])
+	{
+		ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("exit: too many arguments\n", 1);
+	}
+	else if (commands->args[1] != NULL)
+		exit(ft_atoi(commands->args[1]));
 }
 
 void	lets_env(t_env *env)
