@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/11 17:18:39 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/13 17:54:07 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@
 
 void	scan_input(char *input, t_env **env)
 {
-	int			i = 0;
+	int			i;
 	t_token		*tokens;
-	t_command		*commands;
+	t_command	*commands;
 
+	i = 0;
 	if (!handle_quotes(input))
 		return ;
 	tokens = tokens_creation(input, *env);
 	if (tokens == NULL)
 		return ;
-	commands = command_creator(tokens);
+	commands = command_creator(tokens, *env);
 	if (ARE_WE_EXECUTING)
 		tokens_execution(commands, env);
 	else
@@ -55,6 +56,7 @@ int	main(int argc, char **argv, char **env)
 	char	*receiver;
 	char	*input_command;
 
+	signals_handler();
 	input_command = "\x1b[32m minishell: \x1b[0m";
 	(void)argc;
 	(void)argv;

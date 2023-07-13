@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 01:19:57 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 17:48:47 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_global {
 
 t_global g_global;
 
-
 typedef struct s_token
 {
 	char				*content;
@@ -69,8 +68,8 @@ typedef struct s_command
 {
 	char				*command;
 	char				**args;
-	int					output;
 	bool				should_print;
+	int					output;
 	int					input;
 	struct s_command	*next;
 }	t_command;
@@ -84,7 +83,6 @@ typedef struct s_command
 # define ERROR_MSG_IDENTIFIER "\033[1;31mError: not a valid identifier.\n\033[0m"
 # define ERROR_MSG_NOFILE "\033[1;31mError: No such file or directory.\n\033[0m"
 # define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found:\033[0m"
-
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
@@ -130,7 +128,7 @@ char				*word_expander(char *str, t_env *data);
 char				*check_expand(char *str, t_env *data);
 
 // EXECUTION_FUNCTIONS
-void				tokens_execution(t_command *commands,t_env **env);
+void				tokens_execution(t_command *commands, t_env **env);
 
 // --> EXECUTION_FUNCTIONS --> BUILT_INS
 void				lets_pwd(t_env *env);
@@ -142,16 +140,21 @@ void				lets_export(t_env **env, char **args);
 void				lets_unset(t_env **env, char **args);
 
 // --> EXECUTION_FUNCTIONS --> TESTING
-t_command			*command_lstnew(char *command, char **args, int input, int output);
+t_command			*command_lstnew(char *command, char **args, int input,
+						int output);
 void				command_add_back(t_command **alst, t_command *new);
 int					command_lst_size(t_command *cmd);
+
+// --> EXECUTION_FUNCTIONS --> SIGNALS
+void				signals_handler(void);
 
 // COMMANDS UTILS
 void				non_use_remover(t_token *tokens);
 
 // COMMANDS CREATION
 t_command			*command_creator(t_token *tokens, t_env *env);
-t_command			*ft_c_lstnew(char *command , char **args, int input, int output);
+t_command			*ft_c_lstnew(char *command, char **args, int input,
+						int output);
 void				ft_c_lstadd_back(t_command **list, t_command *new);
 void				ft_c_lstclear(t_command **list);
 int					fd_opener(char *file, int mode);
