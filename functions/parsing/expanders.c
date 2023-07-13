@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:10:00 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 01:40:17 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 17:49:33 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,13 +176,18 @@ t_token		*tokens_joiner(t_token *tokens)
 					tmp -> content = ft_strdup("");
 					tmp -> type = NONUSABLE;	
 				}
-				else
+			else
 				{
 					tmp_content = tmp -> content;
 					tmp_content2 = tmp -> next -> content;
 					tmp -> content = ft_strjoin(tmp_content, tmp_content2, 1);
 					free(tmp_content2);
-					tmp -> type = DOLLAR;
+					if (tmp -> next -> type == DOUBLE_QUOTE)
+						tmp -> type = DOUBLE_QUOTE;
+					else if (tmp -> next -> type == SINGLE_QUOTE)
+						tmp -> type = SINGLE_QUOTE;
+					else
+						tmp -> type = DOLLAR;
 					tmp -> next = tmp -> next -> next;
 					tmp = tokens;
 				}

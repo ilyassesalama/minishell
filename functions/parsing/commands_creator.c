@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 01:07:05 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 16:38:45 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 			if (tmp_tokens -> next -> type != SPACER)
 			{
 				if (tmp_tokens -> next -> type == WORD 
-					|| tmp_tokens -> next -> type == DOLLAR)
+						|| tmp_tokens -> next -> type == DOLLAR)
 					expand = true;
 				else
 					expand = false;
@@ -151,7 +151,7 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 			else
 			{
 				if (tmp_tokens -> next -> next -> type == WORD 
-					|| tmp_tokens -> next -> next -> type == DOLLAR)
+						|| tmp_tokens -> next -> next -> type == DOLLAR)
 					expand = true;
 				else
 					expand = false;
