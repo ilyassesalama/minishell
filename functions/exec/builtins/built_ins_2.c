@@ -6,11 +6,11 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 19:20:06 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:24:04 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 void	lets_exit(t_command *commands)
 {

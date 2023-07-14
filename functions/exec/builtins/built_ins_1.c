@@ -6,11 +6,11 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 18:53:38 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:24:01 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 void	lets_pwd(t_env *env)
 {
