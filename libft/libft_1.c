@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:20:25 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/17 00:26:56 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/14 19:47:34 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
+	if (!s)
+		return ;
 	write(fd, s, ft_strlen(s));
 }
 

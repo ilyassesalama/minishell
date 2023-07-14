@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 00:37:19 by isalama           #+#    #+#             */
-/*   Updated: 2023/06/22 13:05:55 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 18:33:01 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	lets_export(t_env **env, char **args)
 		if (is_exportable(args[index]))
 			export_to_env(env, args[index]);
 		else
-			printf(ERROR_MSG_IDENTIFIER);
+			ft_putstr_fd(ERROR_MSG_IDENTIFIER, 2);
 		index++;
 	}
 }

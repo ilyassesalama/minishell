@@ -6,22 +6,22 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 19:24:01 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:54:50 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-void	lets_pwd(t_env *env)
+void	lets_pwd(t_env *env, int fd)
 {
 	char	path[PATH_MAX];
 
 	if (getcwd(path, sizeof(path)) != NULL) {
-		ft_putstr_fd(path, 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd(path, fd);
+		ft_putstr_fd("\n", fd);
 	} else {
-		ft_putstr_fd(get_env_value("PWD", env), 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd(get_env_value("PWD", env), fd);
+		ft_putstr_fd("\n", fd);
 	}
 }
 

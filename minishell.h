@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 22:38:50 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/14 19:56:06 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_command
 # define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n\033[0m"
 # define ERROR_MSG_IDENTIFIER "\033[1;31mError: not a valid identifier.\n\033[0m"
 # define ERROR_MSG_NOFILE "\033[1;31mError: No such file or directory.\n\033[0m"
-# define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found:\n\033[0m"
+# define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found.\n\033[0m"
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
@@ -134,11 +134,11 @@ char				*check_expand(char *str, t_env *data);
 void				tokens_execution(t_command *commands, t_env **env);
 
 // --> EXECUTION_FUNCTIONS --> BUILT_INS
-void				lets_pwd(t_env *env);
+void				lets_pwd(t_env *env, int fd);
 void				lets_echo(t_command *commands);
 void				lets_cd(t_command *commands, t_env *env);
 void				lets_exit(t_command *commands);
-void				lets_env(t_env *env);
+void				lets_env(t_env *env, int fd);
 void				lets_export(t_env **env, char **args);
 void				lets_unset(t_env **env, char **args);
 
