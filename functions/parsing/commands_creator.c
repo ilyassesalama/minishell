@@ -6,16 +6,11 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 16:38:45 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/13 23:24:11 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-/*
-	
-*/
-
 
 char	**args_filler(char **args, char *token)
 {
@@ -95,6 +90,25 @@ t_command	*command_filler(t_token *tokens, t_command *commands, int input, int o
 	return (commands);
 }
 
+static void	heredoc_sigint(int sigint)
+{
+	if (sigint != SIGINT)
+		return ;
+	if (g_global.heredoc_eof == 1)
+	{
+		g_global.heredoc_eof = 0;
+		return ;
+	}
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	g_global.heredoc_eof = 1;
+}
+
+void	herdoc_signal(void)
+{
+	signal(SIGINT, heredoc_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 t_command	*command_creator(t_token *tokens, t_env *env)
 {
 	t_token		*tmp_tokens;
@@ -126,7 +140,6 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 		}
 		if (tmp_tokens -> type == PIPE)
 		{
-			// non_use_remover(tmp_tokens2);
 			commands = command_filler(tmp_tokens2, commands, input, output);
 			input = 0;
 			output = 1;
@@ -135,8 +148,8 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 		}
 		if (tmp_tokens -> type == HEREDOC)
 		{
+			herdoc_signal();
 			output = fd_opener("/tmp/tmp.txt", 1);
-			line = readline("> ");
 			if (tmp_tokens -> next -> type != SPACER)
 			{
 				if (tmp_tokens -> next -> type == WORD 
@@ -160,18 +173,22 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 				tmp_tokens -> next -> type = NONUSABLE;
 				tmp_tokens -> next -> next -> type = NONUSABLE;
 			}
-			while (line && ft_strcmp(line, limiter))
+			while (1)
 			{
+				line = readline("> ");
+				if(!line || g_global.heredoc_eof == 1 || ft_strcmp(line, limiter) == 0)
+				{
+					g_global.heredoc_eof = 0;
+					break ;
+				}
 				if (expand)
 				{
 					while(line && ft_strchr(line, '$'))
 						line = d_quote_expander(line, env);
 				}
 				write(output, line, ft_strlen(line));
-				write(output, "\n", 1);
 				free(line);
-				line = readline("> ");
-			}
+			}	
 			if (line)
 				free(line);
 			close(output);

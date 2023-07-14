@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 17:48:47 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/13 22:38:50 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <limits.h>
 # include <string.h>
 # include <fcntl.h>
+# include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -46,6 +47,7 @@ enum e_token_type
 
 typedef struct s_global {
 	int		exit_status;
+	int		heredoc_eof;
 }	t_global;
 
 t_global g_global;
@@ -82,7 +84,7 @@ typedef struct s_command
 # define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n\033[0m"
 # define ERROR_MSG_IDENTIFIER "\033[1;31mError: not a valid identifier.\n\033[0m"
 # define ERROR_MSG_NOFILE "\033[1;31mError: No such file or directory.\n\033[0m"
-# define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found:\033[0m"
+# define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found:\n\033[0m"
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
@@ -103,6 +105,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putnbr_fd(int n, int fd);
 bool				is_alpha(char c);
 bool				is_digit(char c);
+bool                ft_istrdigit(char *str);
 int					ft_atoi(char *str);
 char				*ft_itoa(int n);
 
