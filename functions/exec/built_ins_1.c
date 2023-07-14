@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 02:22:18 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 05:30:48 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,23 +71,25 @@ void	lets_echo(t_command *commands)
 
 void	lets_cd(t_command *commands, t_env *env)
 {
-	char	*home;
-
-	home = NULL;
-	if (commands->args[1] == NULL || (!ft_strcmp(commands->args[1], "~")))
+	char *home = NULL;
+	
+	if(commands->args[1] == NULL || (!ft_strcmp(commands->args[1], "~")))
 	{
 		home = get_env_value("HOME", env);
-		if (!home)
-		{
+		if(!home){
 			ft_putstr_fd(ERROR_MSG_ENV, 2);
 			return ;
 		}
 		else
-			if (chdir(home) == -1)
+		{
+			
+			if(chdir(home) == -1)
 				ft_putstr_fd(ERROR_MSG_NOFILE, 2);
-		else
-			if (chdir(commands->args[1]) == -1)
-				ft_putstr_fd(ERROR_MSG_NOFILE, 2);
+		}
+	} else
+	{
+		if (chdir(commands->args[1]) == -1)
+			ft_putstr_fd(ERROR_MSG_NOFILE, 2);
 	}
 	update_env("OLDPWD", get_env_value("PWD", env), env);
 	update_env("PWD", get_current_path(env), env);
