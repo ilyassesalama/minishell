@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_creator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 23:24:11 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/14 03:49:59 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 						line = d_quote_expander(line, env);
 				}
 				write(output, line, ft_strlen(line));
+				write(output, "\n", 1);
 				free(line);
 			}	
 			if (line)
