@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 20:57:58 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 02:39:48 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,11 @@ void	execute_command(t_command *commands, t_env **env)
 	}
 }
 
-void	tokens_execution(t_command *commands, t_env **env)
+void tokens_execution(t_command *commands, t_env **env)
 {
-	pid_t	pid;
-	int		pipex[2];
-	int		status_code;
+	pid_t   pid;
+	int     pipex[2];
+	int     status_code;
 
 	if (!commands->next && is_builtin(commands))
 	{
@@ -125,7 +125,7 @@ void	tokens_execution(t_command *commands, t_env **env)
 	}
 
 	int input = dup(STDIN_FILENO);
-	int output = dup(STDOUT_FILENO);		
+	int output = dup(STDOUT_FILENO);      
 	while (commands)
 	{
 		pipe(pipex);
@@ -134,7 +134,7 @@ void	tokens_execution(t_command *commands, t_env **env)
 			if (commands->next)
 				dup2(pipex[1], STDOUT_FILENO);
 			close(pipex[0]);
-			
+
 			if (commands->input != 0)
 				dup2(commands->input, STDIN_FILENO);
 			if (commands->output != 1)
@@ -143,20 +143,20 @@ void	tokens_execution(t_command *commands, t_env **env)
 				builtin_execution(commands, env);
 			else
 				execute_command(commands, env);
+			exit(0);
 		}
 		else
-		{	
+		{
 			dup2(pipex[0], STDIN_FILENO);
 			close(pipex[1]);
 			close(pipex[0]);
 		}
 		commands = commands->next;
 	}
-	while (wait(&status_code) > 0)
-	{
-		if (WIFEXITED(status_code))
-			g_global.exit_status = WEXITSTATUS(status_code);
-	}
+
+	while (waitpid(-1, &status_code, 0) != -1);
+	if (WIFEXITED(status_code))
+		g_global.exit_status = WEXITSTATUS(status_code);
 	dup2(input, STDIN_FILENO);
 	dup2(output, STDOUT_FILENO);
 }
