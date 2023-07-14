@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 19:26:01 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 05:33:39 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	fill_envirement(t_env **env_list, char **env)
 	while (env[i] != NULL)
 	{
 		temp = ft_split(env[i], '=');
-		ft_lstadd_back(env_list, ft_envlstnew(ft_strdup(temp[0]), ft_strdup(temp[1])));
+		ft_lstadd_back(env_list, ft_envlstnew(ft_strdup(temp[0]),
+				ft_strdup(temp[1])));
 		i++;
 	}
 }
@@ -71,15 +72,18 @@ int	main(int argc, char **argv, char **env)
 	t_env	*env_list;
 	char	*receiver;
 	char	*input_command;
-
+	g_global.heredoc_eof = 0;
 	(void)argc;
 	(void)argv;
 	env_list = NULL;
 	input_command = "\x1b[32m minishell: \x1b[0m";
 	signals_handler();
+	rl_catch_signals = 0;
 	fill_envirement(&env_list, env);
 	while (true)
 	{
+		signals_handler();
+		g_global.heredoc_eof = 0;
 		receiver = readline(input_command);
 		if (receiver == NULL)
 			break ;

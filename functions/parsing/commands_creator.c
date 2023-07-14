@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/14 03:49:59 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 05:39:41 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,12 +173,11 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 				tmp_tokens -> next -> type = NONUSABLE;
 				tmp_tokens -> next -> next -> type = NONUSABLE;
 			}
-			while (1)
+			while (1 && g_global.heredoc_eof == 0)
 			{
 				line = readline("> ");
 				if(!line || g_global.heredoc_eof == 1 || ft_strcmp(line, limiter) == 0)
 				{
-					g_global.heredoc_eof = 0;
 					break ;
 				}
 				if (expand)
@@ -190,7 +189,7 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 				write(output, "\n", 1);
 				free(line);
 			}	
-			if (line)
+			if (line && g_global.heredoc_eof == 0)
 				free(line);
 			close(output);
 			input = fd_opener("/tmp/tmp.txt", 3);
