@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 05:30:48 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 18:53:38 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ void	lets_pwd(t_env *env)
 {
 	char	path[PATH_MAX];
 
-	if (getcwd(path, sizeof(path)) != NULL)
-		printf("%s\n", path);
-	else
-		printf("%s\n", get_env_value("PWD", env));
+	if (getcwd(path, sizeof(path)) != NULL) {
+		ft_putstr_fd(path, 1);
+		ft_putstr_fd("\n", 1);
+	} else {
+		ft_putstr_fd(get_env_value("PWD", env), 1);
+		ft_putstr_fd("\n", 1);
+	}
 }
 
 void	lets_echo(t_command *commands)
@@ -64,7 +67,6 @@ void	lets_echo(t_command *commands)
 	if (is_n)
 		ft_putstr_fd("\n", commands->output);
 	
-	// printf("%d\n", g_global.exit_status);
 	g_global.exit_status = 0;
 	
 }

@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/13 20:21:58 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:20:06 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,18 @@ void	lets_unset(t_env **env, char **args)
 {
 	t_env		*envirement;
 	t_env		*prev;
-
+	int			i;
+	
+	i = 1;
+	
 	envirement = *env;
 	prev = NULL;
-	while (envirement)
+	if(!args[1])
+		return ;
+
+	while (envirement && args[i])
 	{
-		if (ft_strcmp(envirement->key, args[1]) == 0)
+		if (ft_strcmp(envirement->key, args[i]) == 0)
 		{
 			if (prev == NULL)
 				*env = envirement->next;
@@ -64,7 +70,8 @@ void	lets_unset(t_env **env, char **args)
 			free(envirement->key);
 			free(envirement->value);
 			free(envirement);
-			break ;
+			i++;
+			envirement = *env;
 		}
 		prev = envirement;
 		envirement = envirement->next;
