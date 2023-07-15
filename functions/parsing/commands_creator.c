@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_creator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/14 05:39:41 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 23:49:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_command	*command_filler(t_token *tokens, t_command *commands, int input, int o
 	t_command	*tmp;
 	char		*command;
 	char		**args;
-	
+
 	args = NULL;
 	command = NULL;
 	if (tokens -> type == NONUSABLE || tokens -> type == SPACER)
@@ -144,7 +144,8 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 			input = 0;
 			output = 1;
 			flag = 1;
-			tmp_tokens = tmp_tokens -> next;
+			if (tmp_tokens -> next -> type == SPACER)
+				tmp_tokens = tmp_tokens -> next;
 		}
 		if (tmp_tokens -> type == HEREDOC)
 		{
@@ -199,6 +200,8 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 		{
 			if (tmp_tokens -> next -> type == WORD || tmp_tokens -> next -> type == SINGLE_QUOTE || tmp_tokens -> next -> type == DOUBLE_QUOTE)
 			{
+				if (output != 1)
+					close(output);
 				output = fd_opener(tmp_tokens -> next->content, 2);
 				tmp_tokens -> type = NONUSABLE;
 				tmp_tokens -> next -> type = NONUSABLE;
@@ -208,6 +211,8 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 				|| (tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == SINGLE_QUOTE)
 				|| (tmp_tokens -> next -> type == SPACER && tmp_tokens -> next -> next -> type == DOUBLE_QUOTE))
 			{
+				if (output != 1)
+					close(output);
 				output = fd_opener(tmp_tokens -> next -> next -> content, 2);
 				tmp_tokens -> type = NONUSABLE;
 				tmp_tokens -> next -> type = NONUSABLE;
@@ -265,7 +270,6 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 		}
 		tmp_tokens = tmp_tokens -> next;
 	}
-	// non_use_remover(tmp_tokens2);
-	commands = command_filler(tmp_tokens2, commands, input, output);
+ 	commands = command_filler(tmp_tokens2, commands, input, output);
 	return (commands);
 }
