@@ -6,10 +6,9 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/14 22:42:56 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/15 03:29:31 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -84,7 +83,8 @@ typedef struct s_command
 # define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n\033[0m"
 # define ERROR_MSG_IDENTIFIER "\033[1;31mError: not a valid identifier.\n\033[0m"
 # define ERROR_MSG_NOFILE "\033[1;31mError: No such file or directory.\n\033[0m"
-# define ERROR_MSG_CD_ERR "\033[1;31mError: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory.\n\033[0m"
+# define ERROR_MSG_CD_ERR "\033[1;31mError: cd: error retrieving current directory: \
+getcwd: cannot access parent directories: No such file or directory.\n\033[0m"
 # define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found.\n\033[0m"
 
 // LIBFT
@@ -97,7 +97,7 @@ void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 void				*ft_memset(void *b, int c, size_t len);
 char				*ft_strdup(const char *s1);
-char				*ft_substr(char const *s, int start, size_t len);
+char				*ft_substr(char *s, int start, size_t len);
 char				**ft_split(char const *s, char c);
 char				*ft_strjoin(char *s1, char *s2, int flag);
 char				*ft_strchr(char *s, int c);
@@ -133,8 +133,11 @@ char				*check_expand(char *str, t_env *data);
 
 // EXECUTION_FUNCTIONS
 void				tokens_execution(t_command *commands, t_env **env);
+void				builtin_execution(t_command *commands, t_env **env);
+// EXECUTION_FUNCTIONS --> UTILS
+char				**env_to_array(t_env *env);
 
-// --> EXECUTION_FUNCTIONS --> BUILT_INS
+// EXECUTION_FUNCTIONS --> BUILT_INS
 void				lets_pwd(t_env *env, int fd);
 void				lets_echo(t_command *commands);
 void				lets_cd(t_command *commands, t_env *env);
@@ -142,15 +145,17 @@ void				lets_exit(t_command *commands);
 void				lets_env(t_env *env, int fd);
 void				lets_export(t_env **env, char **args);
 void				lets_unset(t_env **env, char **args);
+// EXECUTION_FUNCTIONS --> BUILT_INS --> UTILS
+bool				is_builtin(t_command *commands);
 
-// --> EXECUTION_FUNCTIONS --> TESTING
+// EXECUTION_FUNCTIONS --> TESTING
 t_command			*command_lstnew(char *command, char **args, int input,
 						int output);
 void				command_add_back(t_command **alst, t_command *new);
 int					command_lst_size(t_command *cmd);
-
-// --> EXECUTION_FUNCTIONS --> SIGNALS
+// EXECUTION_FUNCTIONS --> SIGNALS
 void				signals_handler(void);
+void				invalidate_signals(void);
 
 // COMMANDS UTILS
 void				non_use_remover(t_token *tokens);

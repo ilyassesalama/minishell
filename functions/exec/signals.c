@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:47:03 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/13 17:49:06 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/15 03:10:31 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,20 @@ void	slash_sig_handler(int sig_num)
 	return ;
 }
 
-void    signals_handler(void)
+void	signals_handler(void)
 {
 	signal(SIGINT, d_sig_handler);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	throw_sigs_to_void(int sig)
+{
+	(void)sig;
+	return ;
+}
+
+void	invalidate_signals(void)
+{
+	signal(SIGINT, throw_sigs_to_void);
+	signal(SIGQUIT, throw_sigs_to_void);
 }

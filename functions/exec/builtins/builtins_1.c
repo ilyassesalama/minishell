@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 22:48:03 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/15 02:58:46 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,47 +30,25 @@ void	lets_pwd(t_env *env, int fd)
 
 void	lets_echo(t_command *commands)
 {
-	bool		is_n;
-	t_command	*cmd_tmp;
+	bool	is_n;
+	int		i;
 
-	cmd_tmp = commands;
 	if (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0)
 		is_n = true;
 	else
 		is_n = false;
-		int i = 1;
-		int j = 0;
-		while(cmd_tmp->args[i])
-		{
-			j = 0;
-			if(cmd_tmp->args[i][j] == '-')
-			{
-				j++;
-				while (cmd_tmp->args[i][j])
-				{
-					if(cmd_tmp->args[i][j] != 'n')
-					{
-						is_n = false;
-						break;
-					}
-					j++;
-				}
-			}
-			else
-				break;
-			if (!is_n)
-				break;
-			i++;
-		}
-	is_n = i == 1 ? true : false;
-	while (cmd_tmp->args[i])
+	if (is_n)
+		i = 2;
+	else
+		i = 1;
+	while (commands->args[i])
 	{
-		ft_putstr_fd(cmd_tmp->args[i], commands->output);
-		if (cmd_tmp->args[i + 1])
+		ft_putstr_fd(commands->args[i], commands->output);
+		if (commands->args[i + 1])
 			ft_putstr_fd(" ", commands->output);
 		i++;
 	}
-	if (is_n)
+	if (!is_n)
 		ft_putstr_fd("\n", commands->output);
 	g_global.exit_status = 0;
 }
