@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/14 19:55:17 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 23:41:35 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,18 @@ void	execute_command(t_command *commands, t_env **env)
 	}
 }
 
+void set_to_default(int sig)
+{
+	(void)sig;
+	return ;
+}
+
+void seg_set_to_default()
+{
+	signal(SIGINT, set_to_default);
+	signal(SIGQUIT, set_to_default);
+}
+
 void tokens_execution(t_command *commands, t_env **env)
 {
 	pid_t   pid;
@@ -125,7 +137,8 @@ void tokens_execution(t_command *commands, t_env **env)
 	}
 
 	int input = dup(STDIN_FILENO);
-	int output = dup(STDOUT_FILENO);      
+	int output = dup(STDOUT_FILENO);
+	seg_set_to_default();
 	while (commands)
 	{
 		pipe(pipex);
@@ -155,7 +168,20 @@ void tokens_execution(t_command *commands, t_env **env)
 	}
 
 	while (waitpid(-1, &status_code, 0) != -1);
-	if (WIFEXITED(status_code))
+	if (WIFSIGNALED(status_code))
+	{
+		if (WTERMSIG(status_code) == SIGINT)
+		{
+			g_global.exit_status = 130;
+			ft_putstr_fd("\n", 2);
+		}
+		else if (WTERMSIG(status_code) == SIGQUIT)
+		{
+			g_global.exit_status = 131;
+			ft_putstr_fd("Quit: 3\n", 2);
+		}
+	}
+	else if (WIFEXITED(status_code))
 		g_global.exit_status = WEXITSTATUS(status_code);
 	dup2(input, STDIN_FILENO);
 	dup2(output, STDOUT_FILENO);

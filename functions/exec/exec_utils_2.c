@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:11:11 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 01:44:10 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 22:43:02 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*get_current_path(t_env *env)
 
 	if (getcwd(path, sizeof(path)) != NULL)
 		return (ft_strdup(path));
+	else
+		ft_putstr_fd(ERROR_MSG_CD_ERR, 2);
 	return (get_env_value("PWD", env));
 }
 

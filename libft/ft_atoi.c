@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 23:08:56 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/13 01:08:55 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/14 22:50:24 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	process_result(char *str, int sign, int position)
 	return (result * sign);
 }
 
-static int	is_SPACER(char str)
+static int	is_space(char str)
 {
 	return (str == 32 || (str >= 9 && str <= 13));
 }
@@ -43,7 +43,7 @@ int	ft_atoi(char *str)
 
 	i = 0;
 	sign = 1;
-	while (is_SPACER(str[i]))
+	while (is_space(str[i]))
 		i++;
 	if (has_sign(str[i]))
 	{

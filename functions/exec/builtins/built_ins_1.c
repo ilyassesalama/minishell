@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 19:54:50 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 22:48:03 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ void	lets_pwd(t_env *env, int fd)
 {
 	char	path[PATH_MAX];
 
-	if (getcwd(path, sizeof(path)) != NULL) {
+	if (getcwd(path, sizeof(path)) != NULL)
+	{
 		ft_putstr_fd(path, fd);
 		ft_putstr_fd("\n", fd);
-	} else {
+	}
+	else
+	{
 		ft_putstr_fd(get_env_value("PWD", env), fd);
 		ft_putstr_fd("\n", fd);
 	}
@@ -27,11 +30,14 @@ void	lets_pwd(t_env *env, int fd)
 
 void	lets_echo(t_command *commands)
 {
-	bool	is_n = true;
-	t_command *cmd_tmp = commands;
+	bool		is_n;
+	t_command	*cmd_tmp;
 
-	is_n = (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0);
-	
+	cmd_tmp = commands;
+	if (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0)
+		is_n = true;
+	else
+		is_n = false;
 		int i = 1;
 		int j = 0;
 		while(cmd_tmp->args[i])
@@ -66,33 +72,29 @@ void	lets_echo(t_command *commands)
 	}
 	if (is_n)
 		ft_putstr_fd("\n", commands->output);
-	
 	g_global.exit_status = 0;
-	
 }
 
 void	lets_cd(t_command *commands, t_env *env)
 {
-	char *home = NULL;
-	
-	if(commands->args[1] == NULL || (!ft_strcmp(commands->args[1], "~")))
+	char	*home;
+
+	home = NULL;
+	if (commands->args[1] == NULL || (!ft_strcmp(commands->args[1], "~")))
 	{
 		home = get_env_value("HOME", env);
-		if(!home){
+		if (!home)
+		{
 			ft_putstr_fd(ERROR_MSG_ENV, 2);
 			return ;
 		}
 		else
-		{
-			
-			if(chdir(home) == -1)
+			if (chdir(home) == -1)
 				ft_putstr_fd(ERROR_MSG_NOFILE, 2);
-		}
-	} else
-	{
+	}
+	else
 		if (chdir(commands->args[1]) == -1)
 			ft_putstr_fd(ERROR_MSG_NOFILE, 2);
-	}
 	update_env("OLDPWD", get_env_value("PWD", env), env);
 	update_env("PWD", get_current_path(env), env);
 }

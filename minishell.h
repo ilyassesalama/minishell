@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/14 19:56:06 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/14 22:42:56 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_command
 # define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n\033[0m"
 # define ERROR_MSG_IDENTIFIER "\033[1;31mError: not a valid identifier.\n\033[0m"
 # define ERROR_MSG_NOFILE "\033[1;31mError: No such file or directory.\n\033[0m"
+# define ERROR_MSG_CD_ERR "\033[1;31mError: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory.\n\033[0m"
 # define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found.\n\033[0m"
 
 // LIBFT
