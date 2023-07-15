@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/15 03:29:31 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/15 04:12:25 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,6 @@ bool				syntax_error(t_token *tokens);
 bool				handle_quotes(char *input);
 
 // UTILS
-char				*get_current_dir(char *path);
 char				*get_current_path(t_env *env);
 void				update_env(char *key, char *value, t_env *env);
 char				*get_env_value(char *key, t_env *env);

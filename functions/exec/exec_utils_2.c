@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:11:11 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/15 03:29:41 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/15 04:12:44 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ void	update_env(char *key, char *value, t_env *env)
 		}
 		temp = temp->next;
 	}
+}
+
+char	*get_env_value(char *key, t_env *env)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->key, key) == 0)
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
 }
 
 char	**env_to_array(t_env *env)

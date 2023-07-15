@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/14 19:46:28 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/15 04:11:34 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	main(int argc, char **argv, char **env)
 	t_env	*env_list;
 	char	*receiver;
 	char	*input_command;
+
 	g_global.heredoc_eof = 0;
 	(void)argc;
 	(void)argv;
