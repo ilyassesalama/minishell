@@ -6,30 +6,27 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:10:00 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 17:49:33 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/14 23:03:48 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*
-
-*/
 char *check_expand(char *str, t_env *data)
 {
 	int i = 0;
 	char *tmp;
-
+	
 	if (str[i] && str[i] == '?')
 	{
 		tmp = ft_itoa(g_global.exit_status);
-		str = ft_strjoin(tmp, str + 1, 1);
+		str = ft_strjoin(tmp, str + 1, 0);
 		return (str);
 	}
 	while (str[i] && !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[i]))
 		i++;
 	if (i == 0)
-		return(ft_strjoin("$", str, 2));
+		return(ft_strjoin("$", str, 0));
 	tmp = ft_substr(str, 0, i);
 	while (data && ft_strcmp(data -> key, tmp) != 0)
 		data = data -> next;
@@ -37,37 +34,45 @@ char *check_expand(char *str, t_env *data)
 		tmp = ft_strdup(data -> value);
 	else
 		tmp = ft_strdup("");
-	str = ft_strjoin(tmp, str + i, 1);
-	return (str);
+	return (tmp);
 }
 
 char *d_quote_expander(char *str, t_env *data)
 {
-	int boo = 0;
-	int boo2 = 0;
 	int i = 0;
-	char **splitted;
+	int j = 0;
 	char *tmp = ft_strdup("");
+	char *tmp2 = NULL;
 
-	if (str[0] == '$')
-		boo = 1;
-	if (str[ft_strlen(str) - 1] == '$')
-		boo2 = 1;
-	splitted  = ft_split(str, '$');
-	while (splitted[i])
+	while (str[i])
 	{
-		if (boo == 1 && i == 0)
-			splitted[i] = check_expand(splitted[i], data);
-		else if (i != 0)
-			splitted[i] = check_expand(splitted[i], data);
-		i++;
+		if (str[i] && str[i + 1] && str[i] == '$' && str[i + 1] == '$')
+		{
+			tmp = ft_strjoin(tmp, "$$", 0);
+			i += 2;
+		}
+		else if (str[i] && str[i + 1] && str[i] == '$' 
+					&& !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[i + 1]))
+		{
+			i++;
+			tmp2 = check_expand(str + i, data);
+			tmp = ft_strjoin(tmp, tmp2, 0);
+			while (str[i] && !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[i]))
+				i++;
+		}
+		else
+		{
+			j = i;
+			if (str[j] && str[j] == '$')
+				j++;
+			while (str[j] && str[j] != '$')
+				j++;
+			j = j - i;
+			tmp2 = ft_substr(str, i, j);
+			tmp = ft_strjoin(tmp, tmp2, 0);
+			i += j;
+		}
 	}
-	splitted[i] = NULL;
-	i = 0;
-	while(splitted[i])
-		tmp = ft_strjoin(tmp, splitted[i++], 2);
-	if (boo2 == 1)
-		tmp = ft_strjoin(tmp, "$", 1);
 	return (tmp);
 }
 

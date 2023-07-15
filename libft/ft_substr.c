@@ -6,13 +6,13 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 23:01:54 by tajjid            #+#    #+#             */
-/*   Updated: 2023/05/12 17:53:55 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/14 05:14:22 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_len(char const *s, unsigned int start, size_t len)
+static int	ft_len(char *s, unsigned int start, size_t len)
 {
 	unsigned int	i;
 
@@ -22,7 +22,7 @@ static int	ft_len(char const *s, unsigned int start, size_t len)
 	return (i);
 }
 
-char	*ft_substr(char const *s, int start, size_t len)
+char	*ft_substr(char *s, int start, size_t len)
 {
 	int		i;
 	int		k;
