@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins_1.c                                      :+:      :+:    :+:   */
+/*   builtins_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/15 02:58:46 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/15 21:44:22 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,45 @@ void	lets_pwd(t_env *env, int fd)
 	}
 }
 
+bool	lets_echo_rest(char **str, int *i, int *j, int *is_n)
+{
+	if (str[*i][*j] == '-')
+	{
+		(*j)++;
+		while (str[*i][*j])
+		{
+			if (str[*i][*j] != 'n')
+			{
+				is_n = false;
+				break ;
+			}
+			(*j)++;
+		}
+	}
+	else
+		return (false);
+	if (!is_n)
+		return (false);
+	return (true);
+}
+
 void	lets_echo(t_command *commands)
 {
-	bool	is_n;
-	int		i;
+	int	is_n;
+	int	i;
+	int	j;
 
-	if (commands->args[1] && ft_strcmp(commands->args[1], "-n") == 0)
-		is_n = true;
-	else
-		is_n = false;
-	if (is_n)
-		i = 2;
-	else
-		i = 1;
+	i = 1;
+	j = 0;
+	is_n = true;
+	while (commands->args[i])
+	{
+		j = 0;
+		if (!lets_echo_rest(commands->args, &i, &j, &is_n))
+			break ;
+		i++;
+	}
+	is_n = i;
 	while (commands->args[i])
 	{
 		ft_putstr_fd(commands->args[i], commands->output);
@@ -48,10 +74,11 @@ void	lets_echo(t_command *commands)
 			ft_putstr_fd(" ", commands->output);
 		i++;
 	}
-	if (!is_n)
+	if (is_n == 1)
 		ft_putstr_fd("\n", commands->output);
-	g_global.exit_status = 0;
 }
+
+
 
 void	lets_cd(t_command *commands, t_env *env)
 {
