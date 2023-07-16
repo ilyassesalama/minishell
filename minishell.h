@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 05:10:13 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/16 06:32:27 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ t_token				*ft_t_spaces_deleter(t_token *tokens);
 void				ft_t_lstclear(t_token **token_lst);
 void				content_joiner(t_token **tmp, t_token *tokes, int type);
 bool				join_checker(int type);
+// TOKENS_FUNCTIONS --> SIGNALS
+void				herdoc_signal(void);
 
 // TOKENS_EXPANSION
 t_token				*tokens_expander(t_token *tokens, t_env *data);
@@ -177,7 +179,11 @@ void				signals_handler(void);
 void				invalidate_signals(void);
 
 // COMMANDS UTILS
-void				non_use_remover(t_token *tokens);
+char				**args_filler(char **args, char *token);
+void				command_filler_2(t_token **tokens,
+						char **command, char ***args);
+t_command			*command_filler(t_token *tokens,
+						t_command *com, int in, int out);
 
 // COMMANDS CREATION
 t_command			*command_creator(t_token *tokens, t_env *env);
@@ -185,6 +191,12 @@ t_command			*ft_c_lstnew(char *command, char **args, int input,
 						int output);
 void				ft_c_lstadd_back(t_command **list, t_command *new);
 void				ft_c_lstclear(t_command **list);
+int					fd_opener(char *file, int mode);
+
+// COMMANDS OPNER
+void				files_opener(t_token **tmp_tokens, int type, int *output);
+void				dredir_opener(t_token **tmp_tokens, int type, int *input);
+bool				files_if_checker(t_token *tmp_tokens);
 int					fd_opener(char *file, int mode);
 
 // ERROR HANDLERS

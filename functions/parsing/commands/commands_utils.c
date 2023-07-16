@@ -6,25 +6,25 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:53:48 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/15 23:23:34 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/16 05:47:36 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-int	fd_opener(char *file, int mode)
-{
-	int	fd;
+// int	fd_opener(char *file, int mode)
+// {
+// 	int	fd;
 
-	fd = 0;
-	if (mode == 1)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (mode == 2)
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (mode == 3)
-		fd = open(file, O_RDONLY);
-	return (fd);
-}
+// 	fd = 0;
+// 	if (mode == 1)
+// 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+// 	else if (mode == 2)
+// 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+// 	else if (mode == 3)
+// 		fd = open(file, O_RDONLY);
+// 	return (fd);
+// }
 
 t_command	*ft_c_lstnew(char *command, char **args, int input, int output)
 {
