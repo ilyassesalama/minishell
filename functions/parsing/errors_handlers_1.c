@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/13 01:07:05 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/15 19:39:06 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ bool	syntax_error(t_token *tokens)
 		}
 		else if (tokens -> next && tokens -> type == DREDIR)
 		{
-			if (tokens -> next -> type == REDIR || tokens -> next -> type == PIPE)
+			if (tokens -> next -> type == REDIR || tokens -> next -> type == PIPE || tokens -> next -> type == DREDIR)
 				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACER 
-			&& (tokens -> next -> next -> type == REDIR || tokens -> next -> next -> type == DREDIR))
+			else if (tokens -> next -> type == SPACER
+			&& (tokens -> next -> next -> type == REDIR || tokens -> next -> next -> type == DREDIR || tokens -> next -> next -> type == PIPE))
 				return (out_error(ERROR_MSG_SYNTAX), false);
 		}
 		tokens = tokens -> next;

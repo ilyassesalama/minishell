@@ -6,11 +6,11 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/14 23:49:05 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/15 23:24:59 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 char	**args_filler(char **args, char *token)
 {
@@ -26,7 +26,7 @@ char	**args_filler(char **args, char *token)
 		return (tmp2d);
 	}
 	while (args[i])
-		i++;	
+		i++;
 	tmp2d = malloc(sizeof(char *) * (i + 2));
 	i = 0;
 	while (args[i])
@@ -39,7 +39,7 @@ char	**args_filler(char **args, char *token)
 	return (tmp2d);
 }
 
-t_command	*command_filler(t_token *tokens, t_command *commands, int input, int output)
+t_command	*command_filler(t_token *tokens, t_command *com, int in, int out)
 {
 	t_command	*tmp;
 	char		*command;
@@ -75,19 +75,19 @@ t_command	*command_filler(t_token *tokens, t_command *commands, int input, int o
 		args = malloc(sizeof(char *) * 1);
 		args[0] = NULL;
 	}
-	while(tokens && tokens -> type != PIPE)
+	while (tokens && tokens -> type != PIPE)
 	{
 		if (tokens -> type == SPACER || tokens -> type == NONUSABLE)
 			tokens = tokens -> next;
-		else 
+		else
 		{
 			args = args_filler(args, tokens -> content);
 			tokens = tokens -> next;
 		}
 	}
-	tmp = ft_c_lstnew(command, args, input, output);
-	ft_c_lstadd_back(&commands, tmp);
-	return (commands);
+	tmp = ft_c_lstnew(command, args, in, out);
+	ft_c_lstadd_back(&com, tmp);
+	return (com);
 }
 
 static void	heredoc_sigint(int sigint)

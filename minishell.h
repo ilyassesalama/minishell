@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/15 04:12:25 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/16 05:10:13 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_global {
 	int		heredoc_eof;
 }	t_global;
 
-t_global g_global;
+t_global	g_global;
 
 typedef struct s_token
 {
@@ -106,7 +106,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putnbr_fd(int n, int fd);
 bool				is_alpha(char c);
 bool				is_digit(char c);
-bool                ft_istrdigit(char *str);
+bool				ft_istrdigit(char *str);
 int					ft_atoi(char *str);
 char				*ft_itoa(int n);
 
@@ -117,23 +117,40 @@ void				ft_lstclear(t_env **env_lst);
 
 // TOKENS_FUNCTIONS
 t_token				*tokens_creation(char *input, t_env *data);
+t_token				*tokens_checker(char *input, t_env *data);
 t_token				*tokens_joiner(t_token *tokens);
+t_token				*handle_space(char *input, int *i, t_token *tokens);
+t_token				*handle_singlequote(char *input, int *i, t_token *tokens);
+t_token				*handle_doublequote(char *input, int *i, t_token *tokens);
+t_token				*handle_special(char *input, int *i, t_token *tokens);
+t_token				*handle_dollar(char *input, int *i, t_token *tokens);
+t_token				*handle_word(char *input, int *i, t_token *tokens);
+
+// TOKENS_FUNCTIONS --> UTILS
 t_token				*ft_t_lstnew(char *content, int type);
 t_token				*ft_t_lstlast(t_token *lst, int type);
-void				ft_t_delone(t_token *token);
 void				ft_t_lstadd_back(t_token **alst, t_token *new);
-t_token				*ft_t_SPACERs_deleter(t_token *tokens);
+t_token				*ft_t_spaces_deleter(t_token *tokens);
 void				ft_t_lstclear(t_token **token_lst);
+void				content_joiner(t_token **tmp, t_token *tokes, int type);
+bool				join_checker(int type);
 
 // TOKENS_EXPANSION
 t_token				*tokens_expander(t_token *tokens, t_env *data);
 char				*d_quote_expander(char *str, t_env *data);
 char				*word_expander(char *str, t_env *data);
-char				*check_expand(char *str, t_env *data);
+char				*chack_expand1(int *i, char *str, char *tmp, t_env *data);
+char				*chack_expand2(int *i, char *str, char *tmp);
+char				*d_expander(char *str, t_env *data);
+void				expand_token_checker(t_env *data, t_token **tmp);
+void				dollar_joiner(t_token **tmp, t_token *tokens);
+void				dollar_joiner2(t_token **tmp, t_token *tokens);
+void				token_join_checker(t_token **tmp, t_token *tokens);
 
 // EXECUTION_FUNCTIONS
 void				tokens_execution(t_command *commands, t_env **env);
 void				builtin_execution(t_command *commands, t_env **env);
+
 // EXECUTION_FUNCTIONS --> UTILS
 char				**env_to_array(t_env *env);
 
@@ -145,6 +162,7 @@ void				lets_exit(t_command *commands);
 void				lets_env(t_env *env, int fd);
 void				lets_export(t_env **env, char **args);
 void				lets_unset(t_env **env, char **args);
+
 // EXECUTION_FUNCTIONS --> BUILT_INS --> UTILS
 bool				is_builtin(t_command *commands);
 
@@ -153,6 +171,7 @@ t_command			*command_lstnew(char *command, char **args, int input,
 						int output);
 void				command_add_back(t_command **alst, t_command *new);
 int					command_lst_size(t_command *cmd);
+
 // EXECUTION_FUNCTIONS --> SIGNALS
 void				signals_handler(void);
 void				invalidate_signals(void);

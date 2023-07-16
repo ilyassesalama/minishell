@@ -6,16 +6,17 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:53:48 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/13 01:07:05 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/15 23:23:34 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
-int		fd_opener(char *file, int mode)
+int	fd_opener(char *file, int mode)
 {
-	int		fd = 0;
+	int	fd;
 
+	fd = 0;
 	if (mode == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (mode == 2)
@@ -25,7 +26,7 @@ int		fd_opener(char *file, int mode)
 	return (fd);
 }
 
-t_command	*ft_c_lstnew(char *command , char **args, int input, int output)
+t_command	*ft_c_lstnew(char *command, char **args, int input, int output)
 {
 	t_command	*new;
 
@@ -67,30 +68,5 @@ void	ft_c_lstclear(t_command **list)
 		free((*list)->command);
 		free(*list);
 		*list = temp;
-	}
-}
-
-void	non_use_remover(t_token *tokens)
-{
-	t_token *tmp;
-	t_token *tmp2;
-
-	tmp = tokens;
-	while (tmp)
-	{
-		if (tmp -> next && tmp -> next -> type == NONUSABLE)
-		{
-			tmp2 = tmp -> next;
-			tmp -> next = tmp -> next -> next;
-			free(tmp2);
-			if (tmp -> next && tmp -> next -> type == SPACER)
-			{
-				tmp2 = tmp -> next;
-				tmp -> next = tmp -> next -> next;
-				free(tmp2);
-			}
-		}
-		else
-			tmp = tmp -> next;
 	}
 }

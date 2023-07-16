@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:50:03 by tajjid            #+#    #+#             */
-/*   Updated: 2023/06/19 00:14:11 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/16 02:29:06 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ char	*ft_strjoin(char *s1, char *s2, int flag)
 bool	is_alpha(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
 bool	is_digit(char c)
 {
 	if (c >= '0' && c <= '9')
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
