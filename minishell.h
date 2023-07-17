@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 02:37:00 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/17 03:29:21 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,16 @@ typedef struct s_cmdtls
 }	t_cmdtls;
 
 // MESSAGES
-# define ERROR_MSG_QUOTE "\033[1;31mError: quotations not closed.\n\033[0m"
-# define ERROR_MSG_ENV "\033[1;31mError: HOME not set.\n\033[0m"
-# define ERROR_MSG_INV_PATH "\033[1;31mNo such file or directory.\n\033[0m"
-# define ERROR_MSG_SYNTAX "\033[1;31mError: syntax error.\n\033[0m"
-# define ERROR_NO_FILE "\033[1;31mError: no such file or directory.\n\033[0m"
-# define ERROR_MSG_IDENTIFIER "\033[1;31mError: not a valid identifier.\n\033[0m"
-# define ERROR_MSG_NOFILE "\033[1;31mError: No such file or directory.\n\033[0m"
-# define ERROR_MSG_CD_ERR "\033[1;31mError: cd: error retrieving current directory: \
-getcwd: cannot access parent directories: No such file or directory.\n\033[0m"
-# define ERROR_MSG_CMD_404 "\033[1;31mError: Command not found.\n\033[0m"
+# define ERROR_MSG_QUOTE "\001\033[1;31m\002Error: quotations not closed.\n\001\033[0m\002"
+# define ERROR_MSG_ENV "\001\033[1;31m\002Error: HOME not set.\n\001\033[0m\002"
+# define ERROR_MSG_INV_PATH "\001\033[1;31m\002No such file or directory.\n\001\033[0m\002"
+# define ERROR_MSG_SYNTAX "\001\033[1;31m\002Error: syntax error.\n\001\033[0m\002"
+# define ERROR_NO_FILE "\001\033[1;31m\002Error: no such file or directory.\n\001\033[0m\002"
+# define ERROR_MSG_IDENTIFIER "\001\033[1;31m\002Error: not a valid identifier.\n\001\033[0m\002"
+# define ERROR_MSG_NOFILE "\001\033[1;31m\002Error: No such file or directory.\n\001\033[0m\002"
+# define ERROR_MSG_CD_ERR "\001\033[1;31m\002Error: cd: error retrieving current directory: getcwd: \
+cannot access parent directories: No such file or directory.\n\001\033[0m\002"
+# define ERROR_MSG_CMD_404 "\001\033[1;31m\002Error: Command not found.\n\001\033[0m\002"
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);

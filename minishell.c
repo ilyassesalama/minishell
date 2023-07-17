@@ -6,11 +6,11 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 02:51:46 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/17 03:28:09 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define ARE_WE_DEBUGGING true
+#define ARE_WE_DEBUGGING false
 
 #include "minishell.h"
 
@@ -40,24 +40,22 @@ void	scan_input(char *input, t_env **env)
 	ft_c_lstclear(&commands);
 }
 
-void	init_readline(t_env **env_list)
-{
-	int		i;
-	char	*receiver;
+void init_readline(t_env **env_list) {
+    int i;
+    char *receiver;
 
-	i = 0;
-	while (true)
-	{
-		signals_handler();
-		g_global.heredoc_eof = 0;
-		receiver = readline("\x1b[32m minishell: \x1b[0m");
-		if (receiver == NULL)
-			break ;
-		if (ft_strlen(receiver) > 0)
-			add_history(receiver);
-		scan_input(receiver, env_list);
-		signals_handler();
-	}
+    i = 0;
+    while (true) {
+        signals_handler();
+        g_global.heredoc_eof = 0;
+        receiver = readline("\001\033[32m\002 minishell:\001\033[0m\002 ");
+        if (receiver == NULL)
+            break;
+        if (ft_strlen(receiver) > 0)
+            add_history(receiver);
+        scan_input(receiver, env_list);
+        signals_handler();
+    }
 }
 
 int	main(int argc, char **argv, char **env)
