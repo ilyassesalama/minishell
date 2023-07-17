@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 01:09:03 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 02:37:00 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,5 +229,14 @@ bool				handle_quotes(char *input);
 char				*get_current_path(t_env *env);
 void				update_env(char *key, char *value, t_env *env);
 char				*get_env_value(char *key, t_env *env);
+
+
+
+
+
+
+
+// DEBUGGING
+void	init_debugger(t_command *commands, t_token *tokens);
 
 #endif
