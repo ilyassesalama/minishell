@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_creator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:24 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 02:14:34 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 05:43:56 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_token	*tokens_creation(char *input, t_env *data)
 	tokens = tokens_checker(input, data);
 	tokens = ft_t_spaces_deleter(tokens);
 	if (!syntax_error(tokens))
-		return (NULL);
+		return (ft_t_lstclear(&tokens), NULL);
 	tokens = tokens_expander(tokens, data);
 	return (tokens);
 }

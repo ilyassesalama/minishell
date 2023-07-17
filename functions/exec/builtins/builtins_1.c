@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/17 01:09:56 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 05:40:53 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ void	lets_cd(t_command *commands, t_env *env)
 	else
 		if (chdir(commands->args[1]) == -1)
 			ft_putstr_fd(ERROR_MSG_NOFILE, 2);
-	update_env("OLDPWD", get_env_value("PWD", env), env);
+	update_env("OLDPWD", ft_strdup(get_env_value("PWD", env)), env);
 	update_env("PWD", get_current_path(env), env);
 }

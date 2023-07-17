@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:53:48 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 05:47:36 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 05:07:34 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ void	ft_c_lstadd_back(t_command **list, t_command *new)
 	temp->next = new;
 }
 
+void	ft_free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		free(array[i++]);
+	free(array);
+}
+
 void	ft_c_lstclear(t_command **list)
 {
 	t_command	*temp;
@@ -66,6 +76,8 @@ void	ft_c_lstclear(t_command **list)
 	{
 		temp = (*list)->next;
 		free((*list)->command);
+		if ((*list)->args)
+			ft_free_array((*list)->args);
 		free(*list);
 		*list = temp;
 	}

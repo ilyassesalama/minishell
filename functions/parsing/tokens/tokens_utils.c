@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:41:10 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/15 03:15:54 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 05:48:20 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,15 @@ t_token	*ft_t_spaces_deleter(t_token *tokens)
 
 	if (tokens && tokens -> type == SPACER)
 	{
-		tmp = tokens -> next;
-		free(tokens);
-		tokens = tmp;
+		tmp = tokens;
+		tokens = tokens -> next;
+		free(tmp);
+		tmp = NULL;
 	}
 	if (tokens && ft_t_lstlast(tokens, 1)-> type == SPACER)
 	{
 		tmp = ft_t_lstlast(tokens, 1);
-		free(tmp);
-		tmp = NULL;
-		tmp = ft_t_lstlast(tokens, 0);
+		free(tmp -> next);
 		tmp -> next = NULL;
 	}
 	return (tokens);
@@ -72,6 +71,7 @@ void	ft_t_lstclear(t_token **lst)
 	while (*lst)
 	{
 		tmp = (*lst)-> next;
+		free((*lst)-> content);
 		free(*lst);
 		*lst = tmp;
 	}

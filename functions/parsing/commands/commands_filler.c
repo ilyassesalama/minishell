@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_filler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 05:36:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 05:36:55 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 05:13:49 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	**args_filler(char **args, char *token)
 	}
 	tmp2d[i] = ft_strdup(token);
 	tmp2d[i + 1] = NULL;
+	ft_free_array(args);
 	return (tmp2d);
 }
 

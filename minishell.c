@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 04:25:15 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 05:48:57 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// #define ARE_WE_DEBUGGING false
+#define ARE_WE_DEBUGGING false
 
 void	scan_input(char *input, t_env **env)
 {
@@ -39,6 +39,7 @@ void	scan_input(char *input, t_env **env)
 		init_debugger(commands, tokens);
 	}
 	ft_t_lstclear(&tokens);
+	tokens_execution(commands, env);
 	ft_c_lstclear(&commands);
 }
 
@@ -59,6 +60,7 @@ void	init_readline(t_env **env_list)
 			add_history(receiver);
 		scan_input(receiver, env_list);
 		signals_handler();
+		free(receiver);
 	}
 }
 
@@ -85,6 +87,8 @@ int	main(int argc, char **argv, char **env)
 		ft_lstadd_back(&env_list,
 			ft_envlstnew(ft_strdup(temp[0]), ft_strdup(temp[1])));
 		i++;
+		ft_free_array(temp);
 	}
 	init_readline(&env_list);
+	ft_e_lstclear(&env_list);
 }

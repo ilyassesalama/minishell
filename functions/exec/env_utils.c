@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:50:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/15 03:02:19 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 04:24:48 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,18 @@ t_env	*ft_envlstnew(char *key, char *value)
 	return (new);
 }
 
-void	ft_lstclear(t_env **lst)
+void	ft_e_lstclear(t_env **lst)
 {
-	t_env	*tmp;
+	t_env	*temp;
 
 	if (!lst)
 		return ;
 	while (*lst)
 	{
-		tmp = (*lst)->next;
+		temp = (*lst)->next;
+		free((*lst)->key);
+		free((*lst)->value);
 		free(*lst);
-		*lst = tmp;
+		*lst = temp;
 	}
 }

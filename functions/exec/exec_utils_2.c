@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:11:11 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/15 04:12:44 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/17 05:40:27 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	update_env(char *key, char *value, t_env *env)
 		if (ft_strcmp(temp->key, key) == 0)
 		{
 			free(temp->value);
-			temp->value = ft_strdup(value);
+			temp->value = value;
 			return ;
 		}
 		temp = temp->next;

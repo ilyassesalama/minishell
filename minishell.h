@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 04:25:02 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 05:46:43 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_command
 {
 	char				*command;
 	char				**args;
-	bool				should_print;
 	int					output;
 	int					input;
 	struct s_command	*next;
@@ -131,7 +130,8 @@ char				*ft_itoa(int n);
 // ENVIRONMENT_UTILS
 t_env				*ft_envlstnew(char *key, char *value);
 void				ft_lstadd_back(t_env **alst, t_env *new);
-void				ft_lstclear(t_env **env_lst);
+void				ft_e_lstclear(t_env **env_lst);
+void				ft_free_array(char **array);
 
 // TOKENS_FUNCTIONS
 t_token				*tokens_creation(char *input, t_env *data);
