@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debugger.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 02:32:27 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/17 02:51:39 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/17 04:22:20 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	print_tokens(t_token *tokens)
 	}
 	printf("------------------------------------\n");
 }
+
 void	init_debugger(t_command *commands, t_token *tokens)
 {
 	printf("\n\033[0;34mCommands output:\033[0m\n");
