@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 06:31:06 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 20:36:04 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 00:32:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	fd_opener(char *file, int mode)
 	int	fd;
 
 	fd = 0;
-	if (mode == REDIR || mode == 1)
+	if (mode == OUT_REDIR || mode == 0)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (mode == APPEND || mode == 2)
+	else if (mode == APPEND || mode == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (mode == DREDIR || mode == 3)
+	else if (mode == IN_REDIR || mode == 2)
 		fd = open(file, O_RDONLY, 0777);
 	return (fd);
 }

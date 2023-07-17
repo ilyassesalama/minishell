@@ -6,13 +6,18 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 23:01:54 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/14 05:14:22 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 01:08:53 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_len(char *s, unsigned int start, size_t len)
+void	out_error(char *error_message)
+{
+	ft_putstr_fd(error_message, 2);
+}
+
+int	ft_len(char *s, unsigned int start, size_t len)
 {
 	unsigned int	i;
 

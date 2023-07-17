@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_execution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/15 04:03:21 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/17 00:32:43 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*get_function_path(char *content, t_env *env)
 	i = 0;
 	while (env && ft_strcmp(env->key, "PATH"))
 		env = env->next;
-
 	if (!env)
 		return (content);
 	exec_paths = ft_split(env->value, ':');
@@ -102,7 +101,6 @@ void	loop_through_commands(t_command *commands, t_env **env, int *pipex)
 		commands = commands->next;
 	}
 }
-
 
 void	tokens_execution(t_command *commands, t_env **env)
 {

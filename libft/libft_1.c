@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 16:20:25 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 19:47:34 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/17 01:10:34 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_strlen(const char *s)
 		index++;
 	return (index);
 }
+
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
@@ -45,7 +46,7 @@ int	ft_strcmp(char *s1, char *s2)
 	while (s1[index] != '\0' || s2[index] != '\0')
 	{
 		if ((char)s1[index] != (char)s2[index])
-			return ((char)s1[index] - (char)s2[index]);	
+			return ((char)s1[index] - (char)s2[index]);
 		index++;
 	}
 	return (0);
@@ -59,7 +60,7 @@ int	ft_strncmp(char *s1, char *s2, int n)
 	while ((s1[index] != '\0' || s2[index] != '\0') && index < n)
 	{
 		if ((char)s1[index] != (char)s2[index])
-			return ((char)s1[index] - (char)s2[index]);	
+			return ((char)s1[index] - (char)s2[index]);
 		index++;
 	}
 	return (0);

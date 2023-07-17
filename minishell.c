@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 05:09:55 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 01:58:37 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,27 @@ void	print_tokens(t_token *tokens)
 	}
 }
 
-void	print_commands(t_command *commands)
-{
-	int	i;
+// void	print_commands(t_command *commands)
+// {
+// 	int	i;
 
-	i = 0;
-	while (commands)
-	{
-		printf("------------------------------------\n");
-		printf("command: %s\n", commands -> command);
-		printf("input: %d\n", commands -> input);
-		printf("output: %d\n", commands -> output);
-		while (commands -> args[i])
-		{
-			printf("arg[%d] : %s\n", i, commands -> args[i]);
-			i++;
-		}
-		commands = commands -> next;
-		printf("------------------------------------\n");
-	}
-}
+// 	i = 0;
+// 	while (commands)
+// 	{
+// 		printf("------------------------------------\n");
+// 		printf("command: %s\n", commands -> command);
+// 		printf("input: %d\n", commands -> input);
+// 		printf("output: %d\n", commands -> output);
+// 		while (commands -> args[i])
+// 		{
+// 			printf("arg[%d] : %s\n", i, commands -> args[i]);
+// 			i++;
+// 		}
+// 		i = 0;
+// 		commands = commands -> next;
+// 		printf("------------------------------------\n");
+// 	}
+// }
 
 void	scan_input(char *input, t_env **env)
 {
@@ -56,7 +57,7 @@ void	scan_input(char *input, t_env **env)
 	tokens = tokens_creation(input, *env);
 	if (tokens == NULL)
 		return ;
-	print_tokens(tokens);
+	// print_tokens(tokens);
 	commands = command_creator(tokens, *env);
 	if (ARE_WE_EXECUTING)
 		tokens_execution(commands, env);

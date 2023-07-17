@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:05:14 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 02:18:49 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 00:32:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ bool	join_checker(int type)
 
 	i = 0;
 	types[0] = HEREDOC;
-	types[1] = REDIR;
+	types[1] = OUT_REDIR;
 	types[2] = APPEND;
-	types[3] = DREDIR;
+	types[3] = IN_REDIR;
 	types[4] = PIPE;
 	types[5] = SPACER;
 	while (i < 6)

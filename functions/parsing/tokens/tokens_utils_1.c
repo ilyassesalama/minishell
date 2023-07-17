@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 02:58:34 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/15 05:00:42 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 00:32:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ t_token	*handle_special(char *input, int *i, t_token *tokens)
 	}
 	else if (input[*i] && input[*i] == '>')
 	{
-		ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_strdup(">"), REDIR));
+		ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_strdup(">"), OUT_REDIR));
 		(*i)++;
 	}
 	else if (input[*i] && input[*i] == '<')
 	{
-		ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_strdup("<"), DREDIR));
+		ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_strdup("<"), IN_REDIR));
 		(*i)++;
 	}
 	return (tokens);

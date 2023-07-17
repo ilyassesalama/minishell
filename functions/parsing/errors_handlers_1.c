@@ -6,52 +6,106 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/16 05:49:34 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 01:09:24 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*
-
-*/
-
-void	out_error(char *error_message)
-{
-	ft_putstr_fd(error_message, 2);
-}
-
 bool	handle_quotes(char *input)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'')
+		if (input[i] == '\'' || input[i] == '\"')
 		{
+			quote = input[i];
 			i++;
-			while (input[i] && input[i] != '\'')
+			while (input[i] && input[i] != quote)
 				i++;
-			if (input[i] == '\'')
-				i++;
-			else
+			if (input[i] != quote)
 				return (out_error(ERROR_MSG_QUOTE), false);
-		}
-		if (input[i] == '\"')
-		{
-			i++;
-			while (input[i] && input[i] != '\"')
-				i++;
-			if (input[i] == '\"')
-				i++;
 			else
-				return (out_error(ERROR_MSG_QUOTE), false);
+				i++;
 		}
-		if (input[i] != '\'' && input[i] != '\"')
+		else
 			i++;
 	}
 	return (true);
+}
+
+bool	syntax_error_1(t_token *tokens)
+{
+	if (tokens -> type == PIPE)
+	{
+		if (tokens -> next == NULL || tokens -> next -> type == PIPE)
+			return (out_error(ERROR_MSG_SYNTAX), true);
+		if (tokens -> next -> next && tokens -> next -> type == SPACER
+			&& tokens -> next -> next -> type == PIPE)
+			return (out_error(ERROR_MSG_SYNTAX), true);
+	}
+	else if ((tokens -> type == OUT_REDIR || tokens -> type == IN_REDIR)
+		&& tokens -> next == NULL)
+		return (out_error(ERROR_MSG_SYNTAX), true);
+	else if ((tokens -> type == APPEND || tokens -> type == HEREDOC)
+		&& tokens -> next == NULL)
+		return (out_error(ERROR_MSG_SYNTAX), true);
+	return (false);
+}
+
+bool	syntax_error_2(t_token *tokens)
+{
+	if (tokens -> next && tokens -> type == APPEND)
+	{
+		if (tokens -> next -> type == APPEND
+			|| tokens -> next -> type == PIPE)
+			return (out_error(ERROR_MSG_SYNTAX), true);
+		else if (tokens -> next -> type == SPACER
+			&& (tokens -> next -> next -> type == HEREDOC
+				|| tokens -> next -> next -> type == APPEND))
+			return (out_error(ERROR_MSG_SYNTAX), true);
+	}
+	else if (tokens -> next && tokens -> type == HEREDOC)
+	{
+		if (tokens -> next -> type == HEREDOC
+			|| tokens -> next -> type == PIPE)
+			return (out_error(ERROR_MSG_SYNTAX), true);
+		else if (tokens -> next -> type == SPACER
+			&& (tokens -> next -> next -> type == HEREDOC
+				|| tokens -> next -> next -> type == APPEND))
+			return (out_error(ERROR_MSG_SYNTAX), true);
+	}
+	return (false);
+}
+
+bool	syntax_error_3(t_token *tokens)
+{
+	if (tokens -> next && tokens -> type == OUT_REDIR)
+	{
+		if (tokens -> next -> type == IN_REDIR
+			|| tokens -> next -> type == PIPE)
+			return (out_error(ERROR_MSG_SYNTAX), true);
+		else if (tokens -> next -> type == SPACER
+			&& (tokens -> next -> next -> type == OUT_REDIR
+				|| tokens -> next -> next -> type == IN_REDIR))
+			return (out_error(ERROR_MSG_SYNTAX), true);
+	}
+	else if (tokens -> next && tokens -> type == IN_REDIR)
+	{
+		if (tokens -> next -> type == OUT_REDIR
+			|| tokens -> next -> type == PIPE
+			|| tokens -> next -> type == IN_REDIR)
+			return (out_error(ERROR_MSG_SYNTAX), true);
+		else if (tokens -> next -> type == SPACER
+			&& (tokens -> next -> next -> type == OUT_REDIR
+				|| tokens -> next -> next -> type == IN_REDIR
+				|| tokens -> next -> next -> type == PIPE))
+			return (out_error(ERROR_MSG_SYNTAX), true);
+	}
+	return (false);
 }
 
 bool	syntax_error(t_token *tokens)
@@ -60,50 +114,10 @@ bool	syntax_error(t_token *tokens)
 		return (out_error(ERROR_MSG_SYNTAX), false);
 	while (tokens)
 	{
-		if (tokens -> type == PIPE)
-		{
-			if (tokens -> next == NULL || tokens -> next -> type == PIPE)
-				return (out_error(ERROR_MSG_SYNTAX), false);
-			if (tokens -> next -> next && tokens -> next -> type == SPACER && tokens -> next -> next -> type == PIPE)
-				return (out_error(ERROR_MSG_SYNTAX), false);
-		}
-		else if ((tokens -> type == REDIR || tokens -> type == DREDIR) && tokens -> next == NULL)
-			return (out_error(ERROR_MSG_SYNTAX), false);
-		else if ((tokens -> type == APPEND || tokens -> type == HEREDOC) && tokens -> next == NULL)
-				return (out_error(ERROR_MSG_SYNTAX), false);
-		else if (tokens -> next && tokens -> type == APPEND)
-		{
-			if (tokens -> next -> type == APPEND || tokens -> next -> type == PIPE)
-				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACER 
-			&& (tokens -> next -> next -> type == HEREDOC || tokens -> next -> next -> type == APPEND))
-				return (out_error(ERROR_MSG_SYNTAX), false);
-		}
-		else if (tokens -> next && tokens -> type == HEREDOC)
-		{
-			if (tokens -> next -> type == HEREDOC || tokens -> next -> type == PIPE)
-				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACER 
-			&& (tokens -> next -> next -> type == HEREDOC || tokens -> next -> next -> type == APPEND))
-				return (out_error(ERROR_MSG_SYNTAX), false);
-		}
-		else if (tokens -> next && tokens -> type == REDIR)
-		{
-			if (tokens -> next -> type == DREDIR || tokens -> next -> type == PIPE)
-				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACER 
-			&& (tokens -> next -> next -> type == REDIR || tokens -> next -> next -> type == DREDIR))
-				return (out_error(ERROR_MSG_SYNTAX), false);
-		}
-		else if (tokens -> next && tokens -> type == DREDIR)
-		{
-			if (tokens -> next -> type == REDIR || tokens -> next -> type == PIPE || tokens -> next -> type == DREDIR)
-				return (out_error(ERROR_MSG_SYNTAX), false);
-			else if (tokens -> next -> type == SPACER
-			&& (tokens -> next -> next -> type == REDIR || tokens -> next -> next -> type == DREDIR || tokens -> next -> next -> type == PIPE))
-				return (out_error(ERROR_MSG_SYNTAX), false);
-		}
+		if (syntax_error_1(tokens) || syntax_error_2(tokens)
+			|| syntax_error_3(tokens))
+			return (false);
 		tokens = tokens -> next;
 	}
-	return true;
+	return (true);
 }

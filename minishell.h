@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 06:32:27 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 01:09:03 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ enum e_token_type
 	WORD,
 	SPACER,
 	PIPE,
-	REDIR,
-	DREDIR,
+	OUT_REDIR,
+	IN_REDIR,
 	APPEND,
 	HEREDOC,
 	SINGLE_QUOTE,
@@ -74,6 +74,16 @@ typedef struct s_command
 	int					input;
 	struct s_command	*next;
 }	t_command;
+
+typedef struct s_cmdtls
+{
+	int					input;
+	int					output;
+	int					flag;
+	char				**args;
+	t_token				*tmp_tokens2;
+	t_command			*commands;
+}	t_cmdtls;
 
 // MESSAGES
 # define ERROR_MSG_QUOTE "\033[1;31mError: quotations not closed.\n\033[0m"
@@ -191,7 +201,18 @@ t_command			*ft_c_lstnew(char *command, char **args, int input,
 						int output);
 void				ft_c_lstadd_back(t_command **list, t_command *new);
 void				ft_c_lstclear(t_command **list);
-int					fd_opener(char *file, int mode);
+
+// COMMANDS CREATION --> INITIALIZATION
+void				heredoc_readline(int output, char *limiter,
+						t_env *env, int expand);
+bool				heredoc_expand_checker(t_token **tmp_tokens,
+						bool expand, char **limiter);
+int					heredoc_handler(t_token **tmp_tokens, int input,
+						int output, t_env *env);
+void				token_type_handler(t_token **tokens, t_env *env,
+						int *input, int *output);
+t_command			*command_filler_handler(t_token *tokens,
+						t_command *commands, t_token **tmp_tokens, int *flag);
 
 // COMMANDS OPNER
 void				files_opener(t_token **tmp_tokens, int type, int *output);

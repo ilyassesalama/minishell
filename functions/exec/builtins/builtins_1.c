@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/15 21:44:22 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/17 01:09:56 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ void	lets_echo(t_command *commands)
 	if (is_n == 1)
 		ft_putstr_fd("\n", commands->output);
 }
-
-
 
 void	lets_cd(t_command *commands, t_env *env)
 {
