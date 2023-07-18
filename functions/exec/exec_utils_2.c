@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:11:11 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/17 05:40:27 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 03:13:54 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,17 @@ char	**env_to_array(t_env *env)
 	}
 	env_variables[i] = NULL;
 	return (env_variables);
+}
+
+bool	is_non_dir(t_command **commands)
+{
+	if ((*commands)-> input == -1 || (*commands)-> output == -1)
+	{
+		ft_putstr_fd(ERROR_MSG, 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		(*commands) = (*commands)-> next;
+		return (true);
+	}
+	return (false);
 }

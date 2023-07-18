@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 06:31:06 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 21:08:31 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 01:59:43 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,6 @@ int	fd_opener(char *file, int mode)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else if (mode == IN_REDIR || mode == 2)
 		fd = open(file, O_RDONLY, 0777);
-	if (fd == -1)
-	{
-		ft_putstr_fd(ERROR_MSG, 2);
-		ft_putstr_fd(file, 2);
-		ft_putstr_fd(" ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
-	}
 	return (fd);
 }
 

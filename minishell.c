@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 21:07:12 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 03:05:20 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	scan_input(char *input, t_env **env)
 	if (tokens == NULL)
 		return ;
 	commands = command_creator(tokens, *env);
-	if (!commands)
-		return ;
 	if (ARE_WE_DEBUGGING)
 	{
 		printf("\033[0;34mExecution output:\033[0m\n");

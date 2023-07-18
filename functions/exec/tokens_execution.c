@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_execution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 01:41:58 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/18 03:22:21 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	execute_command(t_command *commands, t_env **env)
 	if (commands->args[0] && result == -1)
 	{
 		ft_putstr_fd(ERROR_MSG_CMD_404, 2);
+		ft_putstr_fd(commands->args[0], 2);
+		ft_putstr_fd("\n", 2);
 		exit(127);
 	}
 	ft_free_array(env_variables);
@@ -82,6 +84,8 @@ void	loop_through_commands(t_command *commands, t_env **env, int *pipex)
 {
 	while (commands)
 	{
+		if (is_non_dir(&commands))
+			continue ;
 		pipe(pipex);
 		if (fork() == 0)
 		{
