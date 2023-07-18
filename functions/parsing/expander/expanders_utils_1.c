@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:05:14 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 01:20:35 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/18 07:21:34 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*chack_expand2(int *i, char *str, char *tmp)
 		j++;
 	j = j - (*i);
 	tmp2 = ft_substr(str, (*i), j);
+	free(tmp);
 	tmp = ft_strjoin(tmp, tmp2, 2);
 	(*i) += j;
 	return (tmp);
@@ -85,6 +86,7 @@ char	*chack_expand1(int *i, char *str, char *tmp, t_env *data)
 	tmp2 = NULL;
 	(*i)++;
 	tmp2 = d_expander(str + (*i), data);
+	free(tmp);
 	tmp = ft_strjoin(tmp, tmp2, 2);
 	while (str[(*i)]
 		&& !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[(*i)]))
@@ -97,6 +99,7 @@ char	*d_quote_expander(char *str, t_env *data)
 	int		i;
 	char	*tmp;
 
+	tmp = ft_strdup("");
 	i = 0;
 	while (str[i])
 	{
