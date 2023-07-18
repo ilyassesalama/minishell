@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 03:05:20 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 07:14:16 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ int	main(int argc, char **argv, char **env)
 	g_global.heredoc_eof = 0;
 	(void)argc;
 	(void)argv;
-	while (env[i] != NULL && ft_strncmp(env[i], "PATH=", 5) != 0)
-		i++;
 	while (env[i] != NULL)
 	{
 		temp = ft_split(env[i], '=');

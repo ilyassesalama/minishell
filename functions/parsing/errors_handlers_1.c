@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:11:35 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/18 06:30:01 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 06:39:52 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,15 @@ bool	handle_quotes(char *input)
 
 bool	syntax_error_checker(t_token *tokens)
 {
-	if (tokens -> type == PIPE || tokens -> type == IN_REDIR
-		|| tokens -> type == OUT_REDIR || tokens -> type == APPEND
-		|| tokens -> type == HEREDOC)
+	if (tokens -> type == PIPE)
+	{
+		if (tokens -> next && tokens -> next -> type == SPACER)
+			tokens = tokens -> next;
+		if (tokens -> next == NULL || tokens -> next -> type == PIPE)
+			return (out_error(ERROR_MSG_SYNTAX), true);
+	}
+	if (tokens -> type == IN_REDIR || tokens -> type == OUT_REDIR
+		|| tokens -> type == APPEND || tokens -> type == HEREDOC)
 	{
 		if (tokens -> next && tokens -> next -> type == SPACER)
 			tokens = tokens -> next;

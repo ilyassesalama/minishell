@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 00:37:19 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 18:33:01 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 07:08:48 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	export_append(t_env **env, int plus_pos, char *identifier)
 		new_value = ft_substr(identifier, plus_pos + 2,
 				ft_strlen(identifier + plus_pos + 2));
 	ft_lstadd_back(env, ft_envlstnew(key, new_value));
+	free(key);
+	free(new_value);
 }
 
 void	export_new(t_env **env, int index, char *identifier)
