@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins_2.c                                      :+:      :+:    :+:   */
+/*   builtins_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/15 03:07:26 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 07:38:50 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,19 @@ void	lets_exit(t_command *commands)
 
 void	lets_env(t_env *env, int fd)
 {
-	t_env	*envirement;
+	t_env	*env_tmp;
 
-	envirement = env;
-	while (envirement)
+	env_tmp = env;
+	while (env_tmp)
 	{
-		ft_putstr_fd(envirement->key, fd);
-		ft_putstr_fd("=", fd);
-		ft_putstr_fd(envirement->value, fd);
-		ft_putstr_fd("\n", fd);
-		envirement = envirement->next;
+		if (env_tmp->value && ft_strlen(env_tmp->value) > 0)
+		{
+			ft_putstr_fd(env_tmp->key, fd);
+			ft_putstr_fd("=", fd);
+			ft_putstr_fd(env_tmp->value, fd);
+			ft_putstr_fd("\n", fd);
+		}
+		env_tmp = env_tmp->next;
 	}
 }
 
