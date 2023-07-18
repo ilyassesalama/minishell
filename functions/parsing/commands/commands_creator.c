@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_creator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 21:06:11 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 01:49:49 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 		}
 		files_checker(&tokens, &t, env);
 		if (t.output == -1 || t.input == -1)
-			return (NULL);
+			return (t.commands);
 	}
 	return (command_filler(t.tmp_tokens2, t.commands, t.input, t.output));
 }

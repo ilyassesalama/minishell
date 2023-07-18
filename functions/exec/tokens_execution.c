@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_execution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 05:48:34 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 01:41:58 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void	tokens_execution(t_command *commands, t_env **env)
 	int		input;
 	int		output;
 
+	if (!commands)
+		return ;
 	if (!commands->next && is_builtin(commands))
 	{
 		builtin_execution(commands, env);

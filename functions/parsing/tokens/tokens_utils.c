@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:41:10 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 05:48:20 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 00:37:27 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_token	*ft_t_spaces_deleter(t_token *tokens)
 	{
 		tmp = tokens;
 		tokens = tokens -> next;
+		free(tmp -> content);
 		free(tmp);
-		tmp = NULL;
 	}
 	if (tokens && ft_t_lstlast(tokens, 1)-> type == SPACER)
 	{

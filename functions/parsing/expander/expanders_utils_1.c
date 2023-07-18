@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:05:14 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 00:32:05 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/18 01:20:35 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*d_expander(char *str, t_env *data)
 	if (str[i] && str[i] == '?')
 	{
 		tmp = ft_itoa(g_global.exit_status);
-		str = ft_strjoin(tmp, str + 1, 0);
+		str = ft_strjoin(tmp, str + 1, 1);
 		return (str);
 	}
 	while (str[i] && !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[i]))
@@ -52,24 +52,11 @@ char	*d_expander(char *str, t_env *data)
 	tmp = ft_substr(str, 0, i);
 	while (data && ft_strcmp(data -> key, tmp) != 0)
 		data = data -> next;
+	free(tmp);
 	if (data)
 		tmp = ft_strdup(data -> value);
 	else
 		tmp = ft_strdup("");
-	return (tmp);
-}
-
-char	*chack_expand1(int *i, char *str, char *tmp, t_env *data)
-{
-	char	*tmp2;
-
-	tmp2 = NULL;
-	(*i)++;
-	tmp2 = d_expander(str + (*i), data);
-	tmp = ft_strjoin(tmp, tmp2, 2);
-	while (str[(*i)]
-		&& !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[(*i)]))
-		(*i)++;
 	return (tmp);
 }
 
@@ -91,20 +78,31 @@ char	*chack_expand2(int *i, char *str, char *tmp)
 	return (tmp);
 }
 
+char	*chack_expand1(int *i, char *str, char *tmp, t_env *data)
+{
+	char	*tmp2;
+
+	tmp2 = NULL;
+	(*i)++;
+	tmp2 = d_expander(str + (*i), data);
+	tmp = ft_strjoin(tmp, tmp2, 2);
+	while (str[(*i)]
+		&& !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[(*i)]))
+		(*i)++;
+	return (tmp);
+}
+
 char	*d_quote_expander(char *str, t_env *data)
 {
 	int		i;
 	char	*tmp;
-	char	*tmp2;
 
 	i = 0;
-	tmp = ft_strdup("");
-	tmp2 = NULL;
 	while (str[i])
 	{
 		if (str[i] && str[i + 1] && str[i] == '$' && str[i + 1] == '$')
 		{
-			tmp = ft_strjoin(tmp, "$$", 0);
+			tmp = ft_strjoin(tmp, "$$", 1);
 			i += 2;
 		}
 		else if (str[i] && str[i + 1] && str[i] == '$'

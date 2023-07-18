@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:10:00 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 05:07:43 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/18 00:47:52 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	expand_token_checker(t_env *data, t_token **tmp)
 	{
 		tmp_content = (*tmp)-> content;
 		(*tmp)-> content = word_expander(tmp_content, data);
+		free(tmp_content);
 		if (ft_strlen((*tmp)-> content) == 1
 			&& (*tmp)-> next && (*tmp)-> next -> type != SPACER)
 			(*tmp)-> type = DOLLAR;
@@ -50,6 +51,7 @@ void	expand_token_checker(t_env *data, t_token **tmp)
 	{
 		tmp_content = (*tmp)-> content;
 		(*tmp)-> content = d_quote_expander(tmp_content, data);
+		free(tmp_content);
 		(*tmp)-> type = DOUBLE_QUOTE;
 		(*tmp) = (*tmp)-> next;
 	}
