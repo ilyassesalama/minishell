@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   commands_creator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 00:32:05 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/17 21:06:11 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-void	normkiller(t_token **tokens, t_cmdtls *t, t_env *env)
+void	files_checker(t_token **tokens, t_cmdtls *t, t_env *env)
 {
 	if ((*tokens)-> type == HEREDOC)
 		t->input = heredoc_handler((tokens), t->input, t->output, env);
@@ -47,7 +47,9 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 			if (tokens -> next -> type == SPACER)
 				tokens = tokens -> next;
 		}
-		normkiller(&tokens, &t, env);
+		files_checker(&tokens, &t, env);
+		if (t.output == -1 || t.input == -1)
+			return (NULL);
 	}
 	return (command_filler(t.tmp_tokens2, t.commands, t.input, t.output));
 }

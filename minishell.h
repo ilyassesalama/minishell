@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 05:46:43 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/17 21:02:17 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <limits.h>
 # include <string.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -85,6 +86,7 @@ typedef struct s_cmdtls
 }	t_cmdtls;
 
 // MESSAGES
+# define ERROR_MSG "\001\033[1;31m\002Error: \001\033[0m\002"
 # define ERROR_MSG_QUOTE "\001\033[1;31m\002Error: quotations not closed. \
 \n\001\033[0m\002"
 # define ERROR_MSG_ENV "\001\033[1;31m\002Error: HOME not set. \
