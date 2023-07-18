@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 22:51:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 05:18:34 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 06:27:01 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int	heredoc_handler(t_token **tmp_tokens, int input,
 	output = fd_opener("/tmp/tmp.txt", 0);
 	heredoc_readline(output, limiter, env, expand);
 	input = fd_opener("/tmp/tmp.txt", 2);
+	free(limiter);
 	return (input);
 }
