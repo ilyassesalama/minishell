@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 00:37:19 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/18 07:08:48 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 07:29:30 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,33 @@ bool	is_exportable(char *identifier)
 	return (true);
 }
 
-void	export_append(t_env **env, int plus_pos, char *identifier)
+bool	export_append(t_env **env, int plus_pos, char *ident)
 {
 	char	*key;
 	char	*new_value;
 	t_env	*env_tmp;
 
 	env_tmp = *env;
-	key = ft_substr(identifier, 0, plus_pos);
+	key = ft_substr(ident, 0, plus_pos);
 	while (env_tmp)
 	{
 		if (ft_strcmp(env_tmp->key, key) == 0)
 		{
-			new_value = ft_strjoin(env_tmp->value, identifier + plus_pos
+			new_value = ft_strjoin(env_tmp->value, ident + plus_pos
 					+ 2, 0);
 			free(env_tmp->value);
 			env_tmp->value = new_value;
-			return (free(key));
+			return (free(key), false);
 		}
 		env_tmp = env_tmp->next;
 	}
-	if (!identifier[plus_pos] || (identifier[plus_pos]
-			&& !identifier[plus_pos + 1]))
+	if (!ident[plus_pos] || (ident[plus_pos] && !ident[plus_pos + 1]))
 		new_value = ft_strdup("");
 	else
-		new_value = ft_substr(identifier, plus_pos + 2,
-				ft_strlen(identifier + plus_pos + 2));
+		new_value = ft_substr(ident, plus_pos + 2,
+				ft_strlen(ident + plus_pos + 2));
 	ft_lstadd_back(env, ft_envlstnew(key, new_value));
-	free(key);
-	free(new_value);
+	return (free(key), free(new_value), false);
 }
 
 void	export_new(t_env **env, int index, char *identifier)

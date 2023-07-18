@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 03:26:41 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/17 00:33:00 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/18 07:32:45 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
+
+void	lets_print_export(t_env *env)
+{
+	t_env	*env_tmp;
+
+	env_tmp = env;
+	while (env_tmp)
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(env_tmp->key, 1);
+		if (env_tmp->value)
+		{
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(env_tmp->value, 1);
+			ft_putstr_fd("\"", 1);
+		}
+		ft_putstr_fd("\n", 1);
+		env_tmp = env_tmp->next;
+	}
+}
 
 void	builtin_execution(t_command *commands, t_env **env)
 {
@@ -24,9 +44,10 @@ void	builtin_execution(t_command *commands, t_env **env)
 		lets_echo(commands);
 	else if (ft_strcmp(commands->command, "export") == 0 && commands->args[1])
 		lets_export(env, commands->args);
-	else if (ft_strcmp(commands->command, "env") == 0
-		|| ft_strcmp(commands->command, "export") == 0)
+	else if (ft_strcmp(commands->command, "env") == 0)
 		lets_env(*env, commands->output);
+	else if (ft_strcmp(commands->command, "export") == 0)
+		lets_print_export(*env);
 	else if (ft_strcmp(commands->command, "unset") == 0)
 		lets_unset(env, commands->args);
 	return ;
