@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:05:03 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/16 02:18:47 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/18 07:38:55 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,19 @@ void	content_joiner(t_token **tmp, t_token *tokens, int type)
 {
 	char	*tmp_content;
 	char	*tmp_content2;
+	t_token	*tmp2;
 
 	tmp_content = NULL;
 	tmp_content2 = NULL;
+	tmp2 = NULL;
 	tmp_content = (*tmp)-> content;
 	tmp_content2 = (*tmp)-> next -> content;
+	tmp2 = (*tmp)-> next -> next;
+	free((*tmp)-> next);
 	(*tmp)-> content = ft_strjoin(tmp_content, tmp_content2, 1);
 	free(tmp_content2);
 	(*tmp)-> type = type;
-	(*tmp)-> next = (*tmp)-> next -> next;
-	(*tmp) = tokens;
-}
-
-void	dollar_joiner2(t_token **tmp, t_token *tokens)
-{
-	char	*tmp_content;
-	char	*tmp_content2;
-
-	tmp_content = NULL;
-	tmp_content2 = NULL;
-	tmp_content = (*tmp)-> content;
-	tmp_content2 = (*tmp)-> next -> content;
-	(*tmp)-> content = ft_strjoin(tmp_content, tmp_content2, 1);
-	free(tmp_content2);
-	(*tmp)-> type = DOLLAR;
-	(*tmp)-> next = (*tmp)-> next -> next;
+	(*tmp)-> next = tmp2;
 	(*tmp) = tokens;
 }
 
@@ -58,7 +46,7 @@ void	dollar_joiner(t_token **tmp, t_token *tokens)
 		}
 	}
 	else
-		dollar_joiner2(tmp, tokens);
+		content_joiner(tmp, tokens, DOLLAR);
 }
 
 void	token_join_checker(t_token **tmp, t_token *tokens)
