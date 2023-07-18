@@ -6,13 +6,11 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 07:14:16 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 08:27:37 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#define ARE_WE_DEBUGGING false
 
 void	scan_input(char *input, t_env **env)
 {
@@ -81,6 +79,8 @@ int	main(int argc, char **argv, char **env)
 	while (env[i] != NULL)
 	{
 		temp = ft_split(env[i], '=');
+		if (!ft_strcmp(temp[0], "HOME"))
+			g_global.home = ft_strdup(temp[1]);
 		ft_lstadd_back(&env_list,
 			ft_envlstnew(ft_strdup(temp[0]), ft_strdup(temp[1])));
 		i++;
@@ -88,4 +88,5 @@ int	main(int argc, char **argv, char **env)
 	}
 	init_readline(&env_list);
 	ft_e_lstclear(&env_list);
+	free(g_global.home);
 }

@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/17 05:40:53 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 08:49:40 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,12 @@ void	lets_cd(t_command *commands, t_env *env)
 	char	*home;
 
 	home = NULL;
-	if (commands->args[1] == NULL || (!ft_strcmp(commands->args[1], "~")))
+	if (!commands->args[1] || (!ft_strcmp(commands->args[1], "~")))
 	{
 		home = get_env_value("HOME", env);
+		if (!home && (commands->args[1]
+				&& ft_strcmp(commands->args[1], "~") == 0))
+			home = g_global.home;
 		if (!home)
 		{
 			ft_putstr_fd(ERROR_MSG_ENV, 2);
