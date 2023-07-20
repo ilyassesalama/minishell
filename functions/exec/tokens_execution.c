@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/19 22:04:08 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/20 21:13:35 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	loop_through_commands(t_command *commands, t_env **env, int *pipex)
 {
 	while (commands)
 	{
+		if (is_non_dir(&commands))
+			continue ;
 		pipe(pipex);
 		if (fork() == 0)
 		{

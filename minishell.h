@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/20 01:41:09 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/20 21:13:54 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void				builtin_execution(t_command *commands, t_env **env);
 
 // EXECUTION_FUNCTIONS --> UTILS
 char				**env_to_array(t_env *env);
+bool				is_non_dir(t_command **commands);
 
 // EXECUTION_FUNCTIONS --> BUILT_INS
 void				lets_pwd(t_env *env, int fd);

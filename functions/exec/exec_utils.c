@@ -6,11 +6,24 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 23:35:53 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/14 01:44:48 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/20 21:16:54 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+bool	is_non_dir(t_command **commands)
+{
+	if ((*commands)-> input == -1 || (*commands)-> output == -1)
+	{
+		ft_putstr_fd(ERROR_MSG, 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		(*commands) = (*commands)-> next;
+		return (true);
+	}
+	return (false);
+}
 
 t_command	*command_lstnew(char *command, char **args, int input, int output)
 {
