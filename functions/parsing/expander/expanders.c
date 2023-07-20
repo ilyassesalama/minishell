@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanders.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:10:00 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 00:47:52 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/20 01:24:38 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ char	*word_expander(char *str, t_env *data)
 		return (ft_strdup("$$"));
 	else if (str[0] == '$' && str[1] == '\0')
 		return (ft_strdup("$"));
-	while (data && ft_strcmp(data -> key, str + 1) != 0)
+	while (data)
+	{
+		if (ft_strcmp(data -> key, str + 1) == 0 && !data->is_hidden)
+			break ;
 		data = data -> next;
+	}
 	if (data)
 		tmp = ft_strdup(data -> value);
 	else

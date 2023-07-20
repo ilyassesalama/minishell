@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/19 22:03:52 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/20 01:41:09 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,6 @@ char				*chack_expand2(int *i, char *str, char *tmp);
 char				*d_expander(char *str, t_env *data);
 void				expand_token_checker(t_env *data, t_token **tmp);
 void				dollar_joiner(t_token **tmp, t_token *tokens);
-void				dollar_joiner2(t_token **tmp, t_token *tokens);
 void				token_join_checker(t_token **tmp, t_token *tokens);
 
 // EXECUTION_FUNCTIONS

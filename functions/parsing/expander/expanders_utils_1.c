@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanders_utils_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:05:14 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 07:21:34 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/20 01:42:48 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,19 @@ char	*d_expander(char *str, t_env *data)
 
 	i = 0;
 	if (str[i] && str[i] == '?')
-	{
-		tmp = ft_itoa(g_global.exit_status);
-		str = ft_strjoin(tmp, str + 1, 1);
-		return (str);
-	}
+		return (tmp = ft_itoa(g_global.exit_status),
+			ft_strjoin(tmp, str + 1, 1));
 	while (str[i] && !ft_strchr(" $\"'+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", str[i]))
 		i++;
 	if (i == 0)
 		return (ft_strjoin("$", str, 0));
 	tmp = ft_substr(str, 0, i);
-	while (data && ft_strcmp(data -> key, tmp) != 0)
+	while (data)
+	{
+		if (ft_strcmp(data -> key, tmp) == 0 && !data->is_hidden)
+			break ;
 		data = data -> next;
+	}
 	free(tmp);
 	if (data)
 		tmp = ft_strdup(data -> value);

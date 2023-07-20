@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 08:27:37 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/20 01:33:28 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	init_readline(t_env **env_list)
 int	main(int argc, char **argv, char **env)
 {
 	int		i;
-	char	**temp;
-	t_env	*env_list;
+	char	**sp;
+	t_env	*en_v;
 
-	env_list = NULL;
+	en_v = NULL;
 	i = 0;
 	if (argc != 1)
 		return (1);
@@ -78,15 +78,14 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	while (env[i] != NULL)
 	{
-		temp = ft_split(env[i], '=');
-		if (!ft_strcmp(temp[0], "HOME"))
-			g_global.home = ft_strdup(temp[1]);
-		ft_lstadd_back(&env_list,
-			ft_envlstnew(ft_strdup(temp[0]), ft_strdup(temp[1])));
+		sp = ft_split(env[i], '=');
+		if (!ft_strcmp(sp[0], "HOME"))
+			g_global.home = ft_strdup(sp[1]);
+		ft_lstadd_back(&en_v, ft_envlstnew(ft_strdup(sp[0]), ft_strdup(sp[1])));
 		i++;
-		ft_free_array(temp);
+		ft_free_array(sp);
 	}
-	init_readline(&env_list);
-	ft_e_lstclear(&env_list);
+	init_readline(&en_v);
+	ft_e_lstclear(&en_v);
 	free(g_global.home);
 }
