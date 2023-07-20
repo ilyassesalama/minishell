@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 02:50:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 04:24:48 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/19 04:35:20 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_env	*ft_envlstnew(char *key, char *value)
 		return (NULL);
 	new->key = key;
 	new->value = value;
+	new->is_hidden = false;
 	new->next = NULL;
 	return (new);
 }

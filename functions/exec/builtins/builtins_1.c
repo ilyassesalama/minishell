@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/18 08:49:40 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/18 23:21:15 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,7 @@ void	lets_cd(t_command *commands, t_env *env)
 				&& ft_strcmp(commands->args[1], "~") == 0))
 			home = g_global.home;
 		if (!home)
-		{
-			ft_putstr_fd(ERROR_MSG_ENV, 2);
-			return ;
-		}
+			return (ft_putstr_fd(ERROR_MSG_ENV, 2));
 		else
 			if (chdir(home) == -1)
 				ft_putstr_fd(ERROR_MSG_NOFILE, 2);

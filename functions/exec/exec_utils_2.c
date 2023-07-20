@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:11:11 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/18 03:13:54 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/19 22:03:40 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_current_path(t_env *env)
 		return (ft_strdup(path));
 	else
 		ft_putstr_fd(ERROR_MSG_CD_ERR, 2);
-	return (get_env_value("PWD", env));
+	return (ft_strdup(get_env_value("PWD", env)));
 }
 
 void	update_env(char *key, char *value, t_env *env)
@@ -38,6 +38,7 @@ void	update_env(char *key, char *value, t_env *env)
 		}
 		temp = temp->next;
 	}
+	free(value);
 }
 
 char	*get_env_value(char *key, t_env *env)
@@ -77,17 +78,4 @@ char	**env_to_array(t_env *env)
 	}
 	env_variables[i] = NULL;
 	return (env_variables);
-}
-
-bool	is_non_dir(t_command **commands)
-{
-	if ((*commands)-> input == -1 || (*commands)-> output == -1)
-	{
-		ft_putstr_fd(ERROR_MSG, 2);
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
-		(*commands) = (*commands)-> next;
-		return (true);
-	}
-	return (false);
 }

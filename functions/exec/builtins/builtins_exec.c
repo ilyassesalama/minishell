@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 03:26:41 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/18 08:17:30 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/20 01:04:35 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,18 @@ void	lets_print_export(t_env *env, int output)
 	env_tmp = env;
 	while (env_tmp)
 	{
-		ft_putstr_fd("declare -x ", output);
-		ft_putstr_fd(env_tmp->key, output);
-		if (env_tmp->value && ft_strlen(env_tmp->value) > 0)
+		if (!env_tmp->is_hidden)
 		{
-			ft_putstr_fd("=\"", output);
-			ft_putstr_fd(env_tmp->value, output);
-			ft_putstr_fd("\"", output);
+			ft_putstr_fd("declare -x ", output);
+			ft_putstr_fd(env_tmp->key, output);
+			if (env_tmp->value && ft_strlen(env_tmp->value) > 0)
+			{
+				ft_putstr_fd("=\"", output);
+				ft_putstr_fd(env_tmp->value, output);
+				ft_putstr_fd("\"", output);
+			}
+			ft_putstr_fd("\n", output);
 		}
-		ft_putstr_fd("\n", output);
 		env_tmp = env_tmp->next;
 	}
 }

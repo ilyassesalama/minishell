@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 03:22:21 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/19 22:04:08 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ char	*get_function_path(char *content, t_env *env)
 	int		i;
 
 	i = 0;
-	while (env && ft_strcmp(env->key, "PATH"))
+	while (env)
+	{
+		if (ft_strcmp(env->key, "PATH") == 0 && !env->is_hidden)
+			break ;
 		env = env->next;
+	}
 	if (!env)
 		return (content);
 	exec_paths = ft_split(env->value, ':');
-	while (exec_paths[i])
+	while (exec_paths[i] && !env->is_hidden)
 	{
 		working_path = ft_strjoin(exec_paths[i],
 				ft_strjoin("/", content, 0), 0);
@@ -84,8 +88,6 @@ void	loop_through_commands(t_command *commands, t_env **env, int *pipex)
 {
 	while (commands)
 	{
-		if (is_non_dir(&commands))
-			continue ;
 		pipe(pipex);
 		if (fork() == 0)
 		{

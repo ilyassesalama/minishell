@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/18 07:38:50 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/19 04:29:30 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	lets_env(t_env *env, int fd)
 	env_tmp = env;
 	while (env_tmp)
 	{
-		if (env_tmp->value && ft_strlen(env_tmp->value) > 0)
+		if (env_tmp->value && ft_strlen(env_tmp->value) > 0
+			&& !env_tmp->is_hidden)
 		{
 			ft_putstr_fd(env_tmp->key, fd);
 			ft_putstr_fd("=", fd);
@@ -51,28 +52,23 @@ void	lets_env(t_env *env, int fd)
 
 void	lets_unset(t_env **env, char **args)
 {
-	t_env		*envirement;
-	t_env		*prev;
-	int			i;
+	int		i;
+	t_env	*tmp;
 
 	i = 1;
-	envirement = *env;
-	prev = NULL;
-	while (envirement && args[i])
+	while (args[i])
 	{
-		if (ft_strcmp(envirement->key, args[i]) == 0)
+		tmp = *env;
+		while (tmp)
 		{
-			if (prev == NULL)
-				*env = envirement->next;
-			else
-				prev->next = envirement->next;
-			free(envirement->key);
-			free(envirement->value);
-			free(envirement);
-			i++;
-			envirement = *env;
+			if (ft_strcmp(tmp->key, args[i]) == 0)
+			{
+				tmp->is_hidden = true;
+				break ;
+			}
+			tmp = tmp->next;
 		}
-		prev = envirement;
-		envirement = envirement->next;
+		i++;
 	}
 }
+

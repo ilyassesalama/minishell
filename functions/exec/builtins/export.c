@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 00:37:19 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/18 07:29:30 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/19 22:51:23 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	is_exportable(char *identifier)
 	return (true);
 }
 
-bool	export_append(t_env **env, int plus_pos, char *ident)
+void	export_append(t_env **env, int plus_pos, char *ident)
 {
 	char	*key;
 	char	*new_value;
@@ -49,13 +49,13 @@ bool	export_append(t_env **env, int plus_pos, char *ident)
 	key = ft_substr(ident, 0, plus_pos);
 	while (env_tmp)
 	{
-		if (ft_strcmp(env_tmp->key, key) == 0)
+		if (ft_strcmp(env_tmp->key, key) == 0 && !env_tmp->is_hidden)
 		{
 			new_value = ft_strjoin(env_tmp->value, ident + plus_pos
 					+ 2, 0);
 			free(env_tmp->value);
 			env_tmp->value = new_value;
-			return (free(key), false);
+			return (free(key));
 		}
 		env_tmp = env_tmp->next;
 	}
@@ -65,7 +65,6 @@ bool	export_append(t_env **env, int plus_pos, char *ident)
 		new_value = ft_substr(ident, plus_pos + 2,
 				ft_strlen(ident + plus_pos + 2));
 	ft_lstadd_back(env, ft_envlstnew(key, new_value));
-	return (free(key), free(new_value), false);
 }
 
 void	export_new(t_env **env, int index, char *identifier)
@@ -78,15 +77,14 @@ void	export_new(t_env **env, int index, char *identifier)
 	key = ft_substr(identifier, 0, index);
 	while (tmp_env)
 	{
-		if (ft_strcmp(tmp_env->key, key) == 0)
+		if (ft_strcmp(tmp_env->key, key) == 0 && !tmp_env->is_hidden)
 		{
 			if (!identifier[index] || !identifier[index + 1])
 				value = ft_strdup("");
 			else
 				value = ft_substr(identifier, index + 1,
 						ft_strlen(identifier + index));
-			tmp_env->value = value;
-			return ;
+			return (free(tmp_env->value), tmp_env->value = value, free(key));
 		}
 		tmp_env = tmp_env->next;
 	}

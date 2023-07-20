@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 03:14:15 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/19 22:03:52 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ enum e_token_type
 typedef struct s_global {
 	int		exit_status;
 	int		heredoc_eof;
+	char	*home;
 }	t_global;
 
 t_global	g_global;
@@ -63,6 +64,7 @@ typedef struct s_env
 {
 	char				*key;
 	char				*value;
+	bool				is_hidden;
 	struct s_env		*next;
 }	t_env;
 
@@ -103,6 +105,7 @@ typedef struct s_cmdtls
 cannot access parent directories: No such file or directory.\n\001\033[0m\002"
 # define ERROR_MSG_CMD_404 "\001\033[1;31m\002Error: command not found: \
 \001\033[0m\002"
+# define ARE_WE_DEBUGGING 0
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
@@ -173,7 +176,6 @@ void				builtin_execution(t_command *commands, t_env **env);
 
 // EXECUTION_FUNCTIONS --> UTILS
 char				**env_to_array(t_env *env);
-bool				is_non_dir(t_command **commands);
 
 // EXECUTION_FUNCTIONS --> BUILT_INS
 void				lets_pwd(t_env *env, int fd);
@@ -243,3 +245,5 @@ char				*get_env_value(char *key, t_env *env);
 void				init_debugger(t_command *commands, t_token *tokens);
 
 #endif
+
+// <f cat <<g ---> should be show no such file or directory
