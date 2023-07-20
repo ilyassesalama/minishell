@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 22:51:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 22:43:37 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/20 16:58:21 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,31 +42,24 @@ void	heredoc_readline(int output, char *limiter, t_env *env, int expand)
 }
 
 bool	heredoc_expand_checker(t_token **tmp_tokens,
-		bool expand, char **limiter)
+		bool expand, char **limiter, char *tmp_file)
 {
-	if ((*tmp_tokens)-> next -> type != SPACER)
-	{
-		if ((*tmp_tokens)-> next -> type == WORD
-			|| (*tmp_tokens)-> next -> type == DOLLAR)
-			expand = true;
-		else
-			expand = false;
-		*limiter = ft_strdup((*tmp_tokens)-> next -> content);
-		(*tmp_tokens)-> type = NONUSABLE;
-		(*tmp_tokens)-> next -> type = NONUSABLE;
-	}
+	t_token	*tmp;
+
+	tmp = *tmp_tokens;
+	(*tmp_tokens)-> type = IN_REDIR;
+	(*tmp_tokens) = (*tmp_tokens)-> next;
+	if ((*tmp_tokens)-> type == SPACER)
+		(*tmp_tokens) = (*tmp_tokens)-> next;
+	if ((*tmp_tokens)-> type == DOLLAR || (*tmp_tokens)-> type == WORD)
+		expand = true;
 	else
-	{
-		if ((*tmp_tokens)-> next -> next -> type == WORD
-			|| (*tmp_tokens)-> next -> next -> type == DOLLAR)
-			expand = true;
-		else
-			expand = false;
-		*limiter = ft_strdup((*tmp_tokens)-> next -> next -> content);
-		(*tmp_tokens)-> type = NONUSABLE;
-		(*tmp_tokens)-> next -> type = NONUSABLE;
-		(*tmp_tokens)-> next -> next -> type = NONUSABLE;
-	}
+		expand = false;
+	*limiter = ft_strdup((*tmp_tokens)-> content);
+	free((*tmp_tokens)-> content);
+	(*tmp_tokens)-> content = ft_strdup(tmp_file);
+	(*tmp_tokens)-> type = WORD;
+	(*tmp_tokens) = tmp;
 	return (expand);
 }
 
@@ -99,8 +92,8 @@ int	heredoc_handler(t_token **tmp_tokens, int input,
 	herdoc_signal();
 	expand = false;
 	limiter = NULL;
-	expand = heredoc_expand_checker(tmp_tokens, expand, &limiter);
 	tmp_file = tmp_file_name();
+	expand = heredoc_expand_checker(tmp_tokens, expand, &limiter, tmp_file);
 	output = fd_opener(tmp_file, 0);
 	heredoc_readline(output, limiter, env, expand);
 	input = fd_opener(tmp_file, 2);

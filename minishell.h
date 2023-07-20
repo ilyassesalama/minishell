@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/20 21:13:54 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/20 22:38:55 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_cmdtls
 	int					input;
 	int					output;
 	int					flag;
+	int					no_file;
 	char				**args;
 	t_token				*tmp_tokens2;
 	t_command			*commands;
@@ -217,7 +218,7 @@ void				ft_c_lstclear(t_command **list);
 void				heredoc_readline(int output, char *limiter,
 						t_env *env, int expand);
 bool				heredoc_expand_checker(t_token **tmp_tokens,
-						bool expand, char **limiter);
+						bool expand, char **limiter, char *tmp_file);
 int					heredoc_handler(t_token **tmp_tokens, int input,
 						int output, t_env *env);
 void				token_type_handler(t_token **tokens, t_env *env,
