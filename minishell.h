@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/22 01:37:27 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 02:39:30 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void				invalidate_signals(void);
 
 // COMMANDS UTILS
 char				**args_filler(char **args, char *token);
-void				command_filler_2(t_token **tokens,
+int					command_filler_2(t_token **tokens,
 						char **command, char ***args);
 t_command			*command_filler(t_token *tokens,
 						t_command *com, int in, int out);

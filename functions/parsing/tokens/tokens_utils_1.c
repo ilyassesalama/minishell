@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 02:58:34 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 04:56:07 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 02:28:15 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 t_token	*handle_space(char *input, int *i, t_token *tokens)
 {
 	ft_t_lstadd_back(&tokens, ft_t_lstnew(ft_strdup(" "), SPACER));
-	while (input[*i] && input[*i] == ' ')
+	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'
+			|| input[*i] == '\n' || input[*i] == '\v'
+			|| input[*i] == '\f' || input[*i] == '\r'))
 		(*i)++;
 	return (tokens);
 }

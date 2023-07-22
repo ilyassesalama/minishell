@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_filler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 05:36:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 05:13:49 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 02:39:05 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,27 @@ char	**args_filler(char **args, char *token)
 	if (!args)
 	{
 		tmp2d = malloc(sizeof(char *) * 2);
+		if (!tmp2d)
+			return (NULL);
 		tmp2d[0] = ft_strdup(token);
-		tmp2d[1] = NULL;
-		return (tmp2d);
+		return (tmp2d[1] = NULL, tmp2d);
 	}
 	while (args[i])
 		i++;
 	tmp2d = malloc(sizeof(char *) * (i + 2));
+	if (!tmp2d)
+		return (NULL);
 	i = 0;
 	while (args[i])
 	{
 		tmp2d[i] = ft_strdup(args[i]);
 		i++;
 	}
-	tmp2d[i] = ft_strdup(token);
-	tmp2d[i + 1] = NULL;
-	ft_free_array(args);
-	return (tmp2d);
+	return (tmp2d[i] = ft_strdup(token), tmp2d[i + 1] = NULL,
+		ft_free_array(args), tmp2d);
 }
 
-void	command_filler_2(t_token **tokens, char **command, char ***args)
+int	command_filler_2(t_token **tokens, char **command, char ***args)
 {
 	if ((*tokens) && (*tokens)-> type == WORD)
 	{
@@ -51,21 +52,22 @@ void	command_filler_2(t_token **tokens, char **command, char ***args)
 			free(*command);
 			*command = ft_strdup("");
 		}
-		(*tokens) = (*tokens)-> next;
+		return ((*tokens) = (*tokens)-> next, 0);
 	}
-	else if ((*tokens) && ((*tokens)-> type == DOUBLE_QUOTE
+	if ((*tokens) && ((*tokens)-> type == DOUBLE_QUOTE
 			|| (*tokens)-> type == SINGLE_QUOTE))
-	{
-		*command = ft_strdup((*tokens)-> content);
-		*args = args_filler((*args), (*tokens)-> content);
-		(*tokens) = (*tokens)-> next;
-	}
-	else if (!(*tokens))
+		return (*command = ft_strdup((*tokens)-> content),
+			*args = args_filler((*args), (*tokens)-> content),
+			(*tokens) = (*tokens)-> next, 0);
+	if (!(*tokens))
 	{
 		*command = ft_strdup("");
 		*args = malloc(sizeof(char *) * 1);
+		if (!*args)
+			return (0);
 		(*args)[0] = NULL;
 	}
+	return (0);
 }
 
 t_command	*command_filler(t_token *tokens, t_command *com, int in, int out)

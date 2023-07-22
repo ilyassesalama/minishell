@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_creator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:24 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/17 05:43:56 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 02:26:57 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_token	*tokens_checker(char *input, t_env *data)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] && input[i] == ' ')
+		if (input[i] && (input[i] == ' ' || input[i] == '\t' || input[i] == '\n'
+				|| input[i] == '\v' || input[i] == '\f' || input[i] == '\r'))
 			tokens = handle_space(input, &i, tokens);
 		else if (input[i] && input[i] == '\'')
 			tokens = handle_singlequote(input, &i, tokens);
