@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/22 01:33:53 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 01:58:38 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,15 @@ void	init_readline(t_env **env_list)
 {
 	int		i;
 	char	*receiver;
+	char	*command;
 
 	i = 0;
+	command = "\001\033[32m\002 minishell:\001\033[0m\002 ";
 	while (true)
 	{
 		signals_handler();
 		g_global.heredoc_eof = 0;
-		receiver = readline("\001\033[32m\002 minishell:\001\033[0m\002 ");
+		receiver = readline(command);
 		if (receiver == NULL)
 			break ;
 		if (ft_strlen(receiver) > 0)
@@ -69,7 +71,7 @@ int	main(int argc, char **argv, char **env)
 	while (env[i] != NULL)
 	{
 		sp = ft_split(env[i], '=');
-		if (!ft_strcmp(sp[0], "HOME"))
+		if (ft_strcmp(sp[0], "HOME") == 0)
 			g_global.home = ft_strdup(sp[1]);
 		ft_lstadd_back(&en_v, ft_envlstnew(ft_strdup(sp[0]), ft_strdup(sp[1])));
 		i++;

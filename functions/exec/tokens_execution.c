@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/22 01:37:44 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 02:19:11 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_function_path(char *content, t_env *env)
 	{
 		working_path = ft_strjoin(exec_paths[i],
 				ft_strjoin("/", content, 0), 0);
-		if (!access(working_path, F_OK))
+		if (access(working_path, F_OK) == 0)
 			return (working_path);
 		free(working_path);
 		i++;
