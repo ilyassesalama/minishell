@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/20 01:33:28 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 01:33:53 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,6 @@ void	scan_input(char *input, t_env **env)
 	if (tokens == NULL)
 		return ;
 	commands = command_creator(tokens, *env);
-	if (ARE_WE_DEBUGGING)
-	{
-		printf("\033[0;34mExecution output:\033[0m\n");
-		printf("------------------------------------\n");
-	}
-	if (ARE_WE_DEBUGGING)
-	{
-		printf("------------------------------------\n");
-		init_debugger(commands, tokens);
-	}
 	ft_t_lstclear(&tokens);
 	tokens_execution(commands, env);
 	ft_c_lstclear(&commands);

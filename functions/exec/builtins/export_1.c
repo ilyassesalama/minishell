@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 00:37:19 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/19 22:51:23 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 00:23:27 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
-
-void	export_new(t_env **env, int index, char *identifier);
 
 bool	is_exportable(char *identifier)
 {
@@ -39,62 +37,6 @@ bool	is_exportable(char *identifier)
 	return (true);
 }
 
-void	export_append(t_env **env, int plus_pos, char *ident)
-{
-	char	*key;
-	char	*new_value;
-	t_env	*env_tmp;
-
-	env_tmp = *env;
-	key = ft_substr(ident, 0, plus_pos);
-	while (env_tmp)
-	{
-		if (ft_strcmp(env_tmp->key, key) == 0 && !env_tmp->is_hidden)
-		{
-			new_value = ft_strjoin(env_tmp->value, ident + plus_pos
-					+ 2, 0);
-			free(env_tmp->value);
-			env_tmp->value = new_value;
-			return (free(key));
-		}
-		env_tmp = env_tmp->next;
-	}
-	if (!ident[plus_pos] || (ident[plus_pos] && !ident[plus_pos + 1]))
-		new_value = ft_strdup("");
-	else
-		new_value = ft_substr(ident, plus_pos + 2,
-				ft_strlen(ident + plus_pos + 2));
-	ft_lstadd_back(env, ft_envlstnew(key, new_value));
-}
-
-void	export_new(t_env **env, int index, char *identifier)
-{
-	char	*key;
-	char	*value;
-	t_env	*tmp_env;
-
-	tmp_env = *env;
-	key = ft_substr(identifier, 0, index);
-	while (tmp_env)
-	{
-		if (ft_strcmp(tmp_env->key, key) == 0 && !tmp_env->is_hidden)
-		{
-			if (!identifier[index] || !identifier[index + 1])
-				value = ft_strdup("");
-			else
-				value = ft_substr(identifier, index + 1,
-						ft_strlen(identifier + index));
-			return (free(tmp_env->value), tmp_env->value = value, free(key));
-		}
-		tmp_env = tmp_env->next;
-	}
-	if (!identifier[index] || (identifier[index] && !identifier[index + 1]))
-		value = ft_strdup("");
-	else
-		value = ft_substr(identifier, index + 1, ft_strlen(identifier + index));
-	ft_lstadd_back(env, ft_envlstnew(key, value));
-}
-
 void	export_to_env(t_env **env, char *identifier)
 {
 	int		index;
@@ -105,8 +47,10 @@ void	export_to_env(t_env **env, char *identifier)
 		index++;
 	if (identifier[index] == '+')
 		export_append(env, index, identifier);
+	else if (identifier[index] == '=')
+		export_new(env, index, identifier, true);
 	else
-		export_new(env, index, identifier);
+		export_new(env, index, identifier, false);
 }
 
 void	lets_export(t_env **env, char **args)

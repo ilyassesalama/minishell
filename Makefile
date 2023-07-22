@@ -6,7 +6,7 @@
 #    By: isalama <isalama@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/22 13:06:26 by isalama           #+#    #+#              #
-#    Updated: 2023/07/17 02:36:07 by isalama          ###   ########.fr        #
+#    Updated: 2023/07/22 01:35:08 by isalama          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBFT = $(wildcard libft/*.c)
 FUNCTIONS = $(wildcard functions/*.c) $(wildcard functions/exec/*.c) \
 $(wildcard functions/parsing/commands/*.c) $(wildcard functions/parsing/tokens/*.c) \
 $(wildcard functions/parsing/expander/*.c) $(wildcard functions/exec/builtins/*.c) \
-$(wildcard functions/parsing/*.c) minishell.c debugger.c
+$(wildcard functions/parsing/*.c) minishell.c
 
 OBJS = $(FUNCTIONS:.c=.o) $(LIBFT:.c=.o)
 

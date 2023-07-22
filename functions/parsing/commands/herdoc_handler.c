@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 22:51:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/20 16:58:21 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/21 23:23:41 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	heredoc_readline(int output, char *limiter, t_env *env, int expand)
 	}
 	if (line && g_global.heredoc_eof == 0)
 		free(line);
-	close(output);
 }
 
 bool	heredoc_expand_checker(t_token **tmp_tokens,
@@ -82,8 +81,7 @@ char	*tmp_file_name(void)
 	return (tmp_file);
 }
 
-int	heredoc_handler(t_token **tmp_tokens, int input,
-			int output, t_env *env)
+void	heredoc_handler(t_token **tmp_tokens, int output, t_env *env)
 {
 	bool	expand;
 	char	*limiter;
@@ -96,8 +94,7 @@ int	heredoc_handler(t_token **tmp_tokens, int input,
 	expand = heredoc_expand_checker(tmp_tokens, expand, &limiter, tmp_file);
 	output = fd_opener(tmp_file, 0);
 	heredoc_readline(output, limiter, env, expand);
-	input = fd_opener(tmp_file, 2);
+	close(output);
 	free(tmp_file);
 	free(limiter);
-	return (input);
 }

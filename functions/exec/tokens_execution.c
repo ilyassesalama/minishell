@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/20 21:13:35 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/22 01:37:44 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ void	loop_through_commands(t_command *commands, t_env **env, int *pipex)
 			exit(0);
 		}
 		dup2(pipex[0], STDIN_FILENO);
-		close(pipex[1]);
-		close(pipex[0]);
+		close_resources(commands, pipex);
 		commands = commands->next;
 	}
 }
@@ -131,4 +130,6 @@ void	tokens_execution(t_command *commands, t_env **env)
 	invalidate_signals();
 	loop_through_commands(commands, env, pipex);
 	handle_exit_status(input, output);
+	close(input);
+	close(output);
 }

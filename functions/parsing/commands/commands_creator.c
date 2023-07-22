@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_creator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/20 22:53:59 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/21 23:13:10 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	here_doc_present(t_token **tokens, t_env *env)
 	while (tmp)
 	{
 		if (tmp -> type == HEREDOC)
-			heredoc_handler(&tmp, 0, 1, env);
+			heredoc_handler(&tmp, 1, env);
 		tmp = tmp -> next;
 	}
 }

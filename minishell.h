@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/20 22:38:55 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/22 01:37:27 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void				token_join_checker(t_token **tmp, t_token *tokens);
 // EXECUTION_FUNCTIONS
 void				tokens_execution(t_command *commands, t_env **env);
 void				builtin_execution(t_command *commands, t_env **env);
+void				close_resources(t_command *commands, int *pipex);
 
 // EXECUTION_FUNCTIONS --> UTILS
 char				**env_to_array(t_env *env);
@@ -189,6 +190,9 @@ void				lets_unset(t_env **env, char **args);
 
 // EXECUTION_FUNCTIONS --> BUILT_INS --> UTILS
 bool				is_builtin(t_command *commands);
+void				export_new(t_env **env, int index, char *identifier,
+						bool is_equal);
+void				export_append(t_env **env, int plus_pos, char *ident);
 
 // EXECUTION_FUNCTIONS --> TESTING
 t_command			*command_lstnew(char *command, char **args, int input,
@@ -219,7 +223,7 @@ void				heredoc_readline(int output, char *limiter,
 						t_env *env, int expand);
 bool				heredoc_expand_checker(t_token **tmp_tokens,
 						bool expand, char **limiter, char *tmp_file);
-int					heredoc_handler(t_token **tmp_tokens, int input,
+void				heredoc_handler(t_token **tmp_tokens,
 						int output, t_env *env);
 void				token_type_handler(t_token **tokens, t_env *env,
 						int *input, int *output);
@@ -242,9 +246,4 @@ char				*get_current_path(t_env *env);
 void				update_env(char *key, char *value, t_env *env);
 char				*get_env_value(char *key, t_env *env);
 
-// DEBUGGING
-void				init_debugger(t_command *commands, t_token *tokens);
-
 #endif
-
-// <f cat <<g ---> should be show no such file or directory
