@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 03:12:07 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/15 03:14:21 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/23 11:56:59 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	is_builtin(t_command *commands)
 	i = 0;
 	while (builtins[i])
 	{
-		if (ft_strcmp(commands->command, builtins[i]) == 0)
+		if (commands->command && ft_strcmp(commands->command, builtins[i]) == 0)
 			return (true);
 		i++;
 	}
