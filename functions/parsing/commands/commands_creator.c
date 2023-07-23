@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_creator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/21 23:13:10 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/23 10:23:00 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 		if (tokens -> type == PIPE)
 			pipe_commander(&t, &tokens);
 		files_checker(&tokens, &t);
+		if (t.input == -1 || t.output == -1)
+			while (tokens && tokens-> type != PIPE)
+				tokens = tokens-> next;
 	}
 	return (command_filler(t.tmp_tokens2, t.commands, t.input, t.output));
 }
