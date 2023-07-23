@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:11:11 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/19 22:03:40 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/23 10:23:23 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,40 @@ char	*get_env_value(char *key, t_env *env)
 	return (NULL);
 }
 
+int	get_env_size(t_env *env)
+{
+	int		i;
+	t_env	*temp;
+
+	temp = env;
+	i = 0;
+	while (temp)
+	{
+		if (!temp->is_hidden)
+			i++;
+		temp = temp->next;
+	}
+	return (i);
+}
+
 char	**env_to_array(t_env *env)
 {
 	int		i;
 	char	**env_variables;
-	t_env	*tmp;
 
 	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	env_variables = (char **)malloc(sizeof(char *) * (i + 1));
+	env_variables = (char **)malloc(sizeof(char *) * (get_env_size(env) + 1));
 	if (!env_variables)
 		return (NULL);
 	i = 0;
 	while (env)
 	{
-		env_variables[i] = ft_strjoin(env->key, "=", 0);
-		env_variables[i] = ft_strjoin(env_variables[i], env->value, 1);
-		i++;
+		if (!env->is_hidden)
+		{
+			env_variables[i] = ft_strjoin(env->key, "=", 0);
+			env_variables[i] = ft_strjoin(env_variables[i], env->value, 1);
+			i++;
+		}
 		env = env->next;
 	}
 	env_variables[i] = NULL;
