@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/22 02:39:30 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/23 09:58:24 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,16 @@ typedef struct s_cmdtls
 \n\001\033[0m\002"
 # define ERROR_MSG_ENV "\001\033[1;31m\002Error: HOME not set. \
 \n\001\033[0m\002"
-# define ERROR_MSG_INV_PATH "\001\033[1;31m\002No such file or directory. \
+# define ERROR_MSG_INV_PATH "\001\033[1;31m\002Error: no such file or directory \
 \n\001\033[0m\002"
 # define ERROR_MSG_SYNTAX "\001\033[1;31m\002Error: syntax error. \
 \n\001\033[0m\002"
 # define ERROR_MSG_IDENTIFIER "\001\033[1;31m\002Error: not a valid identifier. \
 \n\001\033[0m\002"
-# define ERROR_MSG_NOFILE "\001\033[1;31m\002Error: no such file or directory. \
-\n\001\033[0m\002"
 # define ERROR_MSG_CD_ERR "\001\033[1;31m\002Error: cd: error retrieving current directory: getcwd: \
 cannot access parent directories: No such file or directory.\n\001\033[0m\002"
 # define ERROR_MSG_CMD_404 "\001\033[1;31m\002Error: command not found: \
 \001\033[0m\002"
-# define ARE_WE_DEBUGGING 0
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
