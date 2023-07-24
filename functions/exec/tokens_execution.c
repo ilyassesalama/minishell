@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:13:15 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/23 11:57:18 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/24 15:24:15 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,16 @@ void	execute_command(t_command *commands, t_env **env)
 	char	**env_variables;
 
 	env_variables = env_to_array(*env);
-	result = execve(get_function_path(commands->command, *env),
-			commands->args, env_variables);
+	if (commands->command[0] == '/' || commands->command[0] == '.')
+	{
+		result = execve(commands->command,
+				commands->args, env_variables);
+	}
+	else
+	{
+		result = execve(get_function_path(commands->command, *env),
+				commands->args, env_variables);
+	}
 	if (commands->args[0] && result == -1)
 	{
 		ft_putstr_fd(ERROR_MSG_CMD_404, 2);
