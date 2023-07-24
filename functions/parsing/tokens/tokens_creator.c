@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_creator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:24 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/22 02:26:57 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:51:22 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,19 @@ t_token	*tokens_checker(char *input, t_env *data)
 	return (tokens);
 }
 
+void	tokens_empty_remover(t_token **tokens)
+{
+	t_token	*tmp;
+
+	tmp = *tokens;
+	while (tmp)
+	{
+		if (!tmp -> content || tmp -> content[0] == '\0')
+			tmp -> type = NONUSABLE;
+		tmp = tmp -> next;
+	}
+}
+
 t_token	*tokens_creation(char *input, t_env *data)
 {
 	t_token	*tokens;
@@ -76,5 +89,6 @@ t_token	*tokens_creation(char *input, t_env *data)
 	if (!syntax_error(tokens))
 		return (ft_t_lstclear(&tokens), NULL);
 	tokens = tokens_expander(tokens, data);
+	tokens_empty_remover(&tokens);
 	return (tokens);
 }
