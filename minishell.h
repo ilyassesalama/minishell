@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/23 09:58:24 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/24 11:45:54 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ bool				is_builtin(t_command *commands);
 void				export_new(t_env **env, int index, char *identifier,
 						bool is_equal);
 void				export_append(t_env **env, int plus_pos, char *ident);
+bool				is_exportable(char *identifier);
 
 // EXECUTION_FUNCTIONS --> TESTING
 t_command			*command_lstnew(char *command, char **args, int input,

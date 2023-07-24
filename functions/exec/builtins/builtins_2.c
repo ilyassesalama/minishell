@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/23 13:33:22 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/24 11:59:13 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,20 @@ void	lets_unset(t_env **env, char **args)
 	while (args[i])
 	{
 		tmp = *env;
-		while (tmp)
+		if (is_exportable(args[i]))
 		{
-			if (ft_strcmp(tmp->key, args[i]) == 0 && !tmp->is_hidden)
+			while (tmp)
 			{
-				tmp->is_hidden = true;
-				break ;
+				if (ft_strcmp(tmp->key, args[i]) == 0 && !tmp->is_hidden)
+				{
+					tmp->is_hidden = true;
+					break ;
+				}
+				tmp = tmp->next;
 			}
-			tmp = tmp->next;
 		}
+		else if (ft_strlen(args[i]) > 0)
+			ft_putstr_fd(ERROR_MSG_IDENTIFIER, 2);
 		i++;
 	}
 }
