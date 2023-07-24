@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/24 11:45:54 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/24 15:43:40 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void				ft_putnbr_fd(int n, int fd);
 bool				is_alpha(char c);
 bool				is_digit(char c);
 bool				ft_istrdigit(char *str);
+bool				ft_istrnegdigit(char *str);
 int					ft_atoi(char *str);
 char				*ft_itoa(int n);
 
