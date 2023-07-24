@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 02:58:34 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/22 02:28:15 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/24 10:30:41 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ t_token	*handle_word(char *input, int *i, t_token *tokens)
 	{
 		while (input[j] && input[j] != ' ' && input[j] != '\"'
 			&& input[j] != '\'' && input[j] != '$' && input[j] != '|'
-			&& input[j] != '>' && input[j] != '<')
+			&& input[j] != '>' && input[j] != '<' && input[j] != '\t'
+			&& input[j] != '\n' && input[j] != '\v' && input[j] != '\f'
+			&& input[j] != '\r')
 			j++;
 		str = ft_substr(input, *i, j - *i);
 		ft_t_lstadd_back(&tokens, ft_t_lstnew(str, WORD));
