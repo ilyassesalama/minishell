@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/25 18:36:10 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 21:22:14 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	lets_exit_2(t_command *commands)
 	if (ft_istrdigit(commands->args[1])
 		|| (ft_istrnegdigit(commands->args[1]) && commands->args[1][0] == '-'))
 	{
-		if (ft_strlen(commands->args[1]) > 19)
+		if ((commands->args[1][0] == '-' && ft_strlen(commands->args[1]) > 20)
+		|| (commands->args[1][0] != '-' && ft_strlen(commands->args[1]) > 19))
 		{
 			ft_putstr_fd("exit: numeric argument required\n", 2);
 			exit(255);
