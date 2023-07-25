@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/25 10:17:42 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/25 19:28:01 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,29 @@ void	init_readline(t_env **env_list)
 	}
 }
 
+void	init_env(t_env **env_l, char **env)
+{
+	int		i;
+	char	**splitter;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		splitter = ft_split(env[i], '=');
+		if (!splitter)
+			break ;
+		if (ft_strcmp(splitter[0], "HOME") == 0)
+			g_global.home = ft_strdup(splitter[1]);
+		ft_lstadd_back(env_l,
+			ft_envlstnew(ft_strdup(splitter[0]), ft_strdup(splitter[1])));
+		i++;
+		ft_free_array(splitter);
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	int		i;
-	char	**sp;
 	t_env	*en_v;
 
 	en_v = NULL;
@@ -64,17 +83,8 @@ int	main(int argc, char **argv, char **env)
 	signals_handler();
 	rl_catch_signals = 0;
 	g_global.heredoc_eof = 0;
-	(void)argc;
 	(void)argv;
-	while (env[i] != NULL)
-	{
-		sp = ft_split(env[i], '=');
-		if (ft_strcmp(sp[0], "HOME") == 0)
-			g_global.home = ft_strdup(sp[1]);
-		ft_lstadd_back(&en_v, ft_envlstnew(ft_strdup(sp[0]), ft_strdup(sp[1])));
-		i++;
-		ft_free_array(sp);
-	}
+	init_env(&en_v, env);
 	init_readline(&en_v);
 	ft_e_lstclear(&en_v);
 	free(g_global.home);

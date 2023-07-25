@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/24 15:43:40 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 18:29:45 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,10 @@ typedef struct s_cmdtls
 cannot access parent directories: No such file or directory.\n\001\033[0m\002"
 # define ERROR_MSG_CMD_404 "\001\033[1;31m\002Error: command not found: \
 \001\033[0m\002"
+# define ERROR_PIPE "\001\033[1;31m\002Error: minishell: pipe: \
+Resource temporarily unavailable. Also, wtf is this test?\n\001\033[0m\002"
+# define ERROR_FORK "\001\033[1;31m\002Error: minishell: fork: \
+Resource temporarily unavailable. Also, wtf is this test?\n\001\033[0m\002"
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
@@ -176,13 +180,14 @@ void				close_resources(t_command *commands, int *pipex);
 // EXECUTION_FUNCTIONS --> UTILS
 char				**env_to_array(t_env *env);
 bool				is_non_dir(t_command **commands);
+char				*get_function_path(char *content, t_env *env);
 
 // EXECUTION_FUNCTIONS --> BUILT_INS
-void				lets_pwd(t_env *env, int fd);
-void				lets_echo(t_command *commands);
-void				lets_cd(t_command *commands, t_env *env);
+int					lets_pwd(t_env *env, int fd);
+int					lets_echo(t_command *commands);
+int					lets_cd(t_command *commands, t_env *env);
 void				lets_exit(t_command *commands);
-void				lets_env(t_env *env, int fd);
+int					lets_env(t_env *env, int fd);
 void				lets_export(t_env **env, char **args);
 void				lets_unset(t_env **env, char **args);
 
