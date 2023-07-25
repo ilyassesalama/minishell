@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_creator.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:24 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/25 17:16:21 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 21:09:42 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_token	*handle_dollar(char *input, int *i, t_token *tokens)
 	check = ft_strdup(" $\"'+-./:;<=>?@[\\]^`{|}~%#&()*,;=[]");
 	start = *i;
 	(*i)++;
-	if (input[*i] && input[*i] == '?')
+	if (input[*i] && (input[*i] == '?'
+			|| (input[*i] >= '0' && input[*i] <= '9')))
 		(*i)++;
 	else if (input[*i]
 		&& ft_strchr("$+-./:;<=>@[\\]^`{|}~%#&()*,;=[]", input[*i]))
@@ -74,7 +75,6 @@ void	tokens_empty_remover(t_token **tokens)
 	tmp = *tokens;
 	while (tmp)
 	{
-		// TODO: check if this is correct
 		if ((!tmp -> content || tmp -> content[0] == '\0')
 			&& (tmp -> type == DOLLAR || tmp -> type == WORD))
 			tmp -> type = NONUSABLE;

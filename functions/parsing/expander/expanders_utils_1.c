@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanders_utils_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:05:14 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/20 01:42:48 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 21:14:04 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,12 @@ char	*d_quote_expander(char *str, t_env *data)
 		if (str[i] && str[i + 1] && str[i] == '$' && str[i + 1] == '$')
 		{
 			tmp = ft_strjoin(tmp, "$$", 1);
+			i += 2;
+		}
+		else if (str[i] && str[i + 1] && str[i] == '$' && str[i + 1] >= '0'
+			&& str[i + 1] <= '9')
+		{
+			tmp = ft_strjoin(tmp, "", 1);
 			i += 2;
 		}
 		else if (str[i] && str[i + 1] && str[i] == '$'
