@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:53:48 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/19 06:04:02 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 11:54:44 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	ft_free_array(char **array)
 {
 	int	i;
 
+	if (!array || !*array)
+		return ;
 	i = 0;
 	while (array[i])
 		free(array[i++]);
