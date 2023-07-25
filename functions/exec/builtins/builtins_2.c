@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/24 15:42:44 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 17:00:38 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,16 @@ void	lets_env(t_env *env, int fd)
 	env_tmp = env;
 	while (env_tmp)
 	{
-		if (env_tmp->value && ft_strlen(env_tmp->value) > 0
-			&& !env_tmp->is_hidden)
+		if (!env_tmp->is_hidden)
 		{
-			ft_putstr_fd(env_tmp->key, fd);
-			ft_putstr_fd("=", fd);
-			ft_putstr_fd(env_tmp->value, fd);
-			ft_putstr_fd("\n", fd);
+			if (env_tmp->key && env_tmp->value)
+				ft_putstr_fd(env_tmp->key, fd);
+			if (env_tmp->value && ft_strlen(env_tmp->value) >= 0)
+			{
+				ft_putstr_fd("=", fd);
+				ft_putstr_fd(env_tmp->value, fd);
+				ft_putstr_fd("\n", fd);
+			}
 		}
 		env_tmp = env_tmp->next;
 	}
@@ -95,7 +98,7 @@ void	lets_unset(t_env **env, char **args)
 				tmp = tmp->next;
 			}
 		}
-		else if (ft_strlen(args[i]) == 0)
+		else
 			ft_putstr_fd(ERROR_MSG_IDENTIFIER, 2);
 		i++;
 	}
