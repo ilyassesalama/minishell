@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:24 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/24 15:51:22 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 17:16:21 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ void	tokens_empty_remover(t_token **tokens)
 	tmp = *tokens;
 	while (tmp)
 	{
-		if (!tmp -> content || tmp -> content[0] == '\0')
+		// TODO: check if this is correct
+		if ((!tmp -> content || tmp -> content[0] == '\0')
+			&& (tmp -> type == DOLLAR || tmp -> type == WORD))
 			tmp -> type = NONUSABLE;
 		tmp = tmp -> next;
 	}
