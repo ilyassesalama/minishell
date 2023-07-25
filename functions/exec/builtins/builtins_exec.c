@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 03:26:41 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/21 23:46:00 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 18:29:54 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ void	lets_print_export(t_env *env, int output)
 void	builtin_execution(t_command *commands, t_env **env)
 {
 	if (ft_strcmp(commands->command, "cd") == 0)
-		lets_cd(commands, *env);
+		g_global.exit_status = lets_cd(commands, *env);
 	else if (ft_strcmp(commands->command, "pwd") == 0)
-		lets_pwd(*env, commands->output);
+		g_global.exit_status = lets_pwd(*env, commands->output);
 	else if (ft_strcmp(commands->command, "exit") == 0)
 		lets_exit(commands);
 	else if (ft_strcmp(commands->command, "echo") == 0)
-		lets_echo(commands);
+		g_global.exit_status = lets_echo(commands);
 	else if (ft_strcmp(commands->command, "export") == 0 && commands->args[1])
 		lets_export(env, commands->args);
 	else if (ft_strcmp(commands->command, "env") == 0)
-		lets_env(*env, commands->output);
+		g_global.exit_status = lets_env(*env, commands->output);
 	else if (ft_strcmp(commands->command, "export") == 0)
 		lets_print_export(*env, commands->output);
 	else if (ft_strcmp(commands->command, "unset") == 0)

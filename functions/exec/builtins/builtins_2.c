@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/25 17:00:38 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 18:36:10 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	lets_exit(t_command *commands)
 		lets_exit_2(commands);
 }
 
-void	lets_env(t_env *env, int fd)
+int	lets_env(t_env *env, int fd)
 {
 	t_env	*env_tmp;
 
@@ -75,31 +75,40 @@ void	lets_env(t_env *env, int fd)
 		}
 		env_tmp = env_tmp->next;
 	}
+	return (0);
+}
+
+void	lets_unset_rest(t_env **env, char **args, int i)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, args[i]) == 0 && !tmp->is_hidden)
+		{
+			tmp->is_hidden = true;
+			break ;
+		}
+		tmp = tmp->next;
+	}
 }
 
 void	lets_unset(t_env **env, char **args)
 {
 	int		i;
-	t_env	*tmp;
 
 	i = 1;
 	while (args[i])
 	{
-		tmp = *env;
 		if (is_exportable(args[i]))
-		{
-			while (tmp)
-			{
-				if (ft_strcmp(tmp->key, args[i]) == 0 && !tmp->is_hidden)
-				{
-					tmp->is_hidden = true;
-					break ;
-				}
-				tmp = tmp->next;
-			}
-		}
+			lets_unset_rest(env, args, i);
 		else
+		{
 			ft_putstr_fd(ERROR_MSG_IDENTIFIER, 2);
+			g_global.exit_status = 1;
+		}
 		i++;
 	}
+	g_global.exit_status = 0;
 }

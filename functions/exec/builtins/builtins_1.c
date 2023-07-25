@@ -6,13 +6,13 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/22 22:49:18 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 17:56:21 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-void	lets_pwd(t_env *env, int fd)
+int	lets_pwd(t_env *env, int fd)
 {
 	char	path[PATH_MAX];
 
@@ -26,6 +26,7 @@ void	lets_pwd(t_env *env, int fd)
 		ft_putstr_fd(get_env_value("PWD", env), fd);
 		ft_putstr_fd("\n", fd);
 	}
+	return (0);
 }
 
 bool	lets_echo_rest(char **str, int *i, int *j, int *is_n)
@@ -50,7 +51,7 @@ bool	lets_echo_rest(char **str, int *i, int *j, int *is_n)
 	return (true);
 }
 
-void	lets_echo(t_command *commands)
+int	lets_echo(t_command *commands)
 {
 	int	is_n;
 	int	i;
@@ -76,9 +77,10 @@ void	lets_echo(t_command *commands)
 	}
 	if (is_n == 1)
 		ft_putstr_fd("\n", commands->output);
+	return (0);
 }
 
-void	lets_cd(t_command *commands, t_env *env)
+int	lets_cd(t_command *commands, t_env *env)
 {
 	char	*home;
 
@@ -90,14 +92,15 @@ void	lets_cd(t_command *commands, t_env *env)
 				&& ft_strcmp(commands->args[1], "~") == 0))
 			home = g_global.home;
 		if (!home)
-			return (ft_putstr_fd(ERROR_MSG_ENV, 2));
+			return (ft_putstr_fd(ERROR_MSG_ENV, 2), 1);
 		else
 			if (chdir(home) == -1)
-				ft_putstr_fd(ERROR_MSG_INV_PATH, 2);
+				return (ft_putstr_fd(ERROR_MSG_INV_PATH, 2), 1);
 	}
 	else
 		if (chdir(commands->args[1]) == -1)
-			ft_putstr_fd(ERROR_MSG_INV_PATH, 2);
+			return (ft_putstr_fd(ERROR_MSG_INV_PATH, 2), 1);
 	update_env("OLDPWD", ft_strdup(get_env_value("PWD", env)), env);
 	update_env("PWD", get_current_path(env), env);
+	return (0);
 }
