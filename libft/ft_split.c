@@ -94,14 +94,8 @@ static	char	**ft_wrdcrtt(char const *s, char **ptr, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	int		j;
-	int		start;
-	size_t	end;
 	char	**ptr;
 
-	j = 0;
-	start = -1;
-	end = -1;
 	if (!s)
 		return (NULL);
 	ptr = ft_calloc((ft_wrdcnt(s, c) + 1), sizeof(char *));

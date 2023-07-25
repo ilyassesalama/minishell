@@ -14,11 +14,9 @@
 
 void	scan_input(char *input, t_env **env)
 {
-	int			i;
 	t_token		*tokens;
 	t_command	*commands;
 
-	i = 0;
 	if (!handle_quotes(input))
 		return ;
 	tokens = tokens_creation(input, *env);
@@ -34,11 +32,9 @@ void	scan_input(char *input, t_env **env)
 
 void	init_readline(t_env **env_list)
 {
-	int		i;
 	char	*receiver;
 	char	*command;
 
-	i = 0;
 	command = "\001\033[32m\002 minishell:\001\033[0m\002 ";
 	while (true)
 	{
