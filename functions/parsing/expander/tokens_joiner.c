@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:05:03 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/18 07:38:55 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/25 10:44:44 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	dollar_joiner(t_token **tmp, t_token *tokens)
 {
 	if (ft_strlen((*tmp)-> content) == 1)
 	{
-		if ((*tmp)-> content[0] >= '0' && (*tmp)-> content[0] <= '9')
+		if ((*tmp)-> content[0] != '$')
 			(*tmp)-> type = WORD;
 		else
 		{
