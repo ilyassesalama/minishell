@@ -6,11 +6,30 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 00:37:19 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/22 01:35:30 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 17:36:20 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
+
+bool	is_export_has_value(t_env *env, char *key)
+{
+	t_env	*tmp_env;
+
+	tmp_env = env;
+	while (tmp_env)
+	{
+		if (ft_strcmp(tmp_env->key, key) == 0 && !tmp_env->is_hidden)
+		{
+			if (tmp_env->value)
+				return (true);
+			else
+				return (false);
+		}
+		tmp_env = tmp_env->next;
+	}
+	return (false);
+}
 
 void	export_append(t_env **env, int plus_pos, char *ident)
 {
@@ -64,13 +83,13 @@ void	export_new(t_env **env, int index, char *identifier, bool is_equal)
 
 	tmp_env = *env;
 	key = ft_substr(identifier, 0, index);
+	if (is_export_has_value(*env, key) && !is_equal)
+		return (free(key));
 	while (tmp_env)
 	{
 		if (ft_strcmp(tmp_env->key, key) == 0 && !tmp_env->is_hidden)
-		{
-			export_new_rest(identifier, index, is_equal, &value);
-			return (free(tmp_env->value), tmp_env->value = value, free(key));
-		}
+			return (export_new_rest(identifier, index, is_equal, &value),
+				free(tmp_env->value), tmp_env->value = value, free(key));
 		tmp_env = tmp_env->next;
 	}
 	if (!identifier[index] || (identifier[index] && !identifier[index + 1]))

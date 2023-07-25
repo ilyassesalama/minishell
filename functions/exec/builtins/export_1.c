@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 00:37:19 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/22 00:23:27 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/25 17:22:38 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ bool	is_exportable(char *identifier)
 {
 	int	index;
 
-	index = false;
-	if (!(is_alpha(identifier[index]) || identifier[index] == '_'))
+	index = 0;
+	if (!(is_alpha(identifier[index]) || identifier[index] == '_')
+		|| identifier[index] == '\0')
 		return (false);
 	index++;
 	while (identifier[index] && identifier[index] != '+'
