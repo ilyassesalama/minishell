@@ -6,54 +6,62 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/25 21:22:14 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/26 22:41:20 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-void	lets_exit_2(t_command *commands)
+void	lets_exit_2(t_command *commands, int args_size)
 {
-	if (ft_istrdigit(commands->args[1])
-		|| (ft_istrnegdigit(commands->args[1]) && commands->args[1][0] == '-'))
+	if (!ft_istrnegdigit(commands->args[1])
+		&& ft_istrnegdigit(commands->args[args_size - 1]))
 	{
-		if ((commands->args[1][0] == '-' && ft_strlen(commands->args[1]) > 20)
-		|| (commands->args[1][0] != '-' && ft_strlen(commands->args[1]) > 19))
-		{
-			ft_putstr_fd("exit: numeric argument required\n", 2);
-			exit(255);
-		}
-		else
-		{
-			exit(ft_atoi(commands->args[1]));
-		}
+		ft_putstr_fd("exit: numeric argument required\n", 2);
+		exit(255);
 	}
-	else
+	if (args_size > 2)
+	{
+		ft_putstr_fd("exit: too many arguments\n", 2);
+		g_global.exit_status = 1;
+	}
+	else if ((commands->args[1][0] == '-' && ft_strlen(commands->args[1]) > 20)
+			|| (commands->args[1][0] != '-'
+			&& ft_strlen(commands->args[1]) > 19))
+	{
+		ft_putstr_fd("exit: numeric argument required\n", 2);
+		exit(255);
+	}
+	if (commands->args[1][0] == '-')
 		exit((ft_atoi(commands->args[1])) + 256);
+	exit(ft_atoi(commands->args[1]));
 }
 
 void	lets_exit(t_command *commands)
 {
+	int	args_size;
+
+	args_size = ft_arrsize(commands->args);
 	ft_putstr_fd("exit\n", 2);
-	if (!commands->args[1])
+	if (args_size <= 1)
 		exit(0);
-	else if (commands->args[1][0] == '\0')
+	if (commands->args[1][0] == '\0')
 	{
-		ft_putstr_fd("exit: fd: numeric argument required\n", 2);
+		ft_putstr_fd("exit: numeric argument required\n", 2);
 		exit(255);
 	}
-	else if (commands->args[2])
+	if (!ft_istrnegdigit(commands->args[1]))
 	{
-		if (!ft_istrdigit(commands->args[1]))
-		{
-			ft_putstr_fd("exit: fd: numeric argument required\n", 2);
-			exit(255);
-		}
-		ft_putstr_fd("exit: too many arguments\n", 2);
-		g_global.exit_status = 1;
+		ft_putstr_fd("exit: numeric argument required\n", 2);
+		exit(255);
 	}
-	else
-		lets_exit_2(commands);
+	if (!ft_istrnegdigit(commands->args[1])
+		&& !ft_istrnegdigit(commands->args[args_size - 1]))
+	{
+		ft_putstr_fd("exit: numeric argument required\n", 2);
+		exit(255);
+	}
+	lets_exit_2(commands, args_size);
 }
 
 int	lets_env(t_env *env, int fd)

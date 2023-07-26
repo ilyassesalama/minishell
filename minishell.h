@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/25 18:29:45 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/26 21:40:33 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ bool				ft_istrdigit(char *str);
 bool				ft_istrnegdigit(char *str);
 int					ft_atoi(char *str);
 char				*ft_itoa(int n);
+int					ft_arrsize(char **arr);
 
 // ENVIRONMENT_UTILS
 t_env				*ft_envlstnew(char *key, char *value);
