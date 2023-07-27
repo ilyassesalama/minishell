@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/27 16:54:23 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/27 17:49:22 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	init_readline(t_env **env_list)
 		if (ft_strlen(receiver) > 0)
 			add_history(receiver);
 		scan_input(receiver, env_list);
-		signals_handler();
 		free(receiver);
 	}
 }
@@ -81,7 +80,6 @@ int	main(int argc, char **argv, char **env)
 	en_v = NULL;
 	if (argc != 1)
 		return (1);
-	signals_handler();
 	rl_catch_signals = 0;
 	g_global.heredoc_eof = 0;
 	(void)argv;
