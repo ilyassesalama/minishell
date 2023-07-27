@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 22:51:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/21 23:23:41 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:29:31 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*tmp_file_name(void)
 	int		i;
 
 	i = 1;
-	fixed_file = ft_strdup("/tmp/tmp_file");
+	fixed_file = ft_strdup("/tmp/.tmp_file");
 	tmp_file = ft_strdup(fixed_file);
 	while (access(tmp_file, F_OK) == 0)
 	{

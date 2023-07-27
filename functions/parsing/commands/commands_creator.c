@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 04:43:28 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/23 10:23:00 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/27 13:28:33 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ void	here_doc_present(t_token **tokens, t_env *env)
 void	pipe_commander(t_cmdtls *t, t_token **tokens)
 {
 	if (t->no_file == 1)
-		t->input = -1;
-	if (t->no_file == 2)
+	{
 		t->output = -1;
+		t->input = -1;
+	}
 	t->commands = command_filler(t->tmp_tokens2, t->commands,
 			t->input, t->output);
 	t->input = 0;
@@ -60,10 +61,10 @@ t_command	*command_creator(t_token *tokens, t_env *env)
 	here_doc_present(&tokens, env);
 	while (tokens)
 	{
-		if (t.input == -1)
+		if (g_global.heredoc_eof == 1)
+			return (NULL);
+		if (t.input == -1 || t.output == -1)
 			t.no_file = 1;
-		if (t.output == -1)
-			t.no_file = 2;
 		if (t.flag == 1)
 		{
 			t.tmp_tokens2 = tokens;
