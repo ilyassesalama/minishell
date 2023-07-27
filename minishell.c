@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/26 17:48:36 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:54:23 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	init_readline(t_env **env_list)
 		g_global.heredoc_eof = 0;
 		receiver = readline(command);
 		if (receiver == NULL)
+		{
+			ft_putstr_fd("exit\n", 2);
 			break ;
+		}
 		if (ft_strlen(receiver) > 0)
 			add_history(receiver);
 		scan_input(receiver, env_list);
