@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 16:15:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/26 21:40:33 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/28 11:42:15 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ cannot access parent directories: No such file or directory.\n\001\033[0m\002"
 # define ERROR_MSG_CMD_404 "\001\033[1;31m\002Error: command not found: \
 \001\033[0m\002"
 # define ERROR_PIPE "\001\033[1;31m\002Error: minishell: pipe: \
-Resource temporarily unavailable. Also, wtf is this test?\n\001\033[0m\002"
+Resource temporarily unavailable.\n\001\033[0m\002"
 # define ERROR_FORK "\001\033[1;31m\002Error: minishell: fork: \
-Resource temporarily unavailable. Also, wtf is this test?\n\001\033[0m\002"
+Resource temporarily unavailable.\n\001\033[0m\002"
 
 // LIBFT
 void				ft_putstr_fd(char *s, int fd);
