@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:30:34 by isalama           #+#    #+#             */
-/*   Updated: 2023/05/20 05:06:25 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/28 10:58:34 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*ft_strchr(char *s, int c)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	while (s[i])
 	{
 		if (s[i + 1] && s[i] == (char) c)
