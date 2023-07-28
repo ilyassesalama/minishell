@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/28 10:26:54 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/28 11:02:23 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	scan_input(char *input, t_env **env)
 	if (commands == NULL)
 	{
 		ft_t_lstclear(&tokens);
-		ft_c_lstclear(&commands);
 		return ;
 	}
 	ft_t_lstclear(&tokens);
