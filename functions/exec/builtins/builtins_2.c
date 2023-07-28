@@ -6,7 +6,7 @@
 /*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:37:18 by isalama           #+#    #+#             */
-/*   Updated: 2023/07/26 22:41:20 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/28 16:23:48 by isalama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	lets_exit_2(t_command *commands, int args_size)
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);
 		g_global.exit_status = 1;
+		return ;
 	}
 	else if ((commands->args[1][0] == '-' && ft_strlen(commands->args[1]) > 20)
 			|| (commands->args[1][0] != '-'
