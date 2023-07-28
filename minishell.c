@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isalama <isalama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 12:04:45 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/27 17:49:22 by isalama          ###   ########.fr       */
+/*   Updated: 2023/07/28 10:26:54 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ void	scan_input(char *input, t_env **env)
 		return ;
 	commands = command_creator(tokens, *env);
 	if (commands == NULL)
+	{
+		ft_t_lstclear(&tokens);
+		ft_c_lstclear(&commands);
 		return ;
+	}
 	ft_t_lstclear(&tokens);
 	tokens_execution(commands, env);
 	ft_c_lstclear(&commands);
@@ -43,7 +47,7 @@ void	init_readline(t_env **env_list)
 		receiver = readline(command);
 		if (receiver == NULL)
 		{
-			ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("\n", 2);
 			break ;
 		}
 		if (ft_strlen(receiver) > 0)

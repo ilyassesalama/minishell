@@ -6,7 +6,7 @@
 /*   By: tajjid <tajjid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 22:51:22 by tajjid            #+#    #+#             */
-/*   Updated: 2023/07/27 13:29:31 by tajjid           ###   ########.fr       */
+/*   Updated: 2023/07/28 10:35:55 by tajjid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	heredoc_readline(int output, char *limiter, t_env *env, int expand)
 		write(output, "\n", 1);
 		free(line);
 	}
-	if (line && g_global.heredoc_eof == 0)
+	if (line)
 		free(line);
 }
 
